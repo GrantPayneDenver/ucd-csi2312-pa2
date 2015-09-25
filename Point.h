@@ -1,0 +1,42 @@
+// A multi-dimensional point class!
+// Number of dimensions is user input
+// Coordinates are floating point double
+#include <iostream>
+#ifndef __point_h
+#define __point_h
+
+//namespace Clustering {
+
+    class Point {
+
+    private:
+        int dim;                               // dim will be used to initialize the dynamic array
+        double *coor;                          // coor (short for coordinates) will be used to point to the dynamic array
+                                                // of dimensions
+
+    public:
+        // Constructors
+
+        Point(int);                              // one argument constructor
+
+        // Big 3, overloaded=, dstr, copy
+        Point &operator=(const Point &);         // overloaded assignment operator
+        ~Point();                                // destructor
+        Point(const Point &);                    // copy constructor
+
+
+        // distanceTo
+        double distanceTo(const Point &);
+
+        //int getDim();
+        friend bool operator==(const Point &a, const Point &b);
+
+        friend bool operator!=(const Point &a, const Point &b);
+
+        friend bool operator<(const Point &a, const Point &b);
+
+    };
+
+#endif //  __point_h
+
+//}//clustering
