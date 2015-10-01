@@ -28,12 +28,21 @@
         // distanceTo
         double distanceTo(const Point &);
 
-        //int getDim();
+        // get Dimensions
+        int getDim();
+
+        // get coordinate
+        double getCoor(int i) {return coor[i];}
+
         friend bool operator==(const Point &a, const Point &b);
 
         friend bool operator!=(const Point &a, const Point &b);
 
         friend bool operator<(const Point &a, const Point &b);
+
+        friend bool operator>(const Point &a, const Point &b);
+
+        friend std::ostream &operator<<(std::ostream &, const Point &);
 
     };
 

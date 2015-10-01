@@ -21,26 +21,28 @@ namespace Clustering {
 
     class Cluster {
         int size;
-        LNodePtr points;        // head, head is the first index of an array of LNodes
+        LNodePtr points;        // head, head is the start of a linked list of LNodes, not a Node its self
+                                // it is a LNodePtr, a pointer to nodes.
 
     public:
         Cluster() : size(0), points(nullptr) {};
-        void add(const PointPtr &);
-///*
+       ///*
         // The big three: cpy ctor, overloaded operator=, dtor
         Cluster(const Cluster &);
-/*        Cluster &operator=(const Cluster &);
-        ~Cluster();
+
+        friend std::ostream &operator<<(std::ostream &, const Cluster &);
+//         Cluster &operator=(const Cluster &);
+//        ~Cluster();
 /*
         // Set functions: They allow calling c1.add(c2.remove(p));
         // take point out of c2 and give to c1
-       //void add(const PointPtr &);
-        // const PointPtr &remove(const PointPtr &);
+        */void add(const PointPtr &pnt);/*
 
+        // const PointPtr &remove(const PointPtr &);
         // Overloaded operators
 
         // IO
-        friend std::ostream &operator<<(std::ostream &, const Cluster &);
+        friend std::ostream &operator<<(std::ostream &, const Cluster &);/*
         friend std::istream &operator>>(std::istream &, Cluster &);
 
         // Set-preserving operators (do not duplicate points in the space)

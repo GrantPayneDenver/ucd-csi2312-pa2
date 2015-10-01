@@ -1,6 +1,7 @@
 #include "Point.h"
-//#include <iostream>
+#include <iostream>
 #include <cmath>
+#include <cstdlib>
 //using namespace Clustering;
 
 // Constructor
@@ -13,8 +14,9 @@ Point::Point(int num) {
     for (int i = 0; i < dim; i++)
     {
         double input;
-        std::cout << "Enter coordinate for dimension " << i << std::endl;
-        std::cin >> input;
+        //std::cout << "Enter coordinate for dimension " << i << std::endl;
+        //std::cin >> input;
+        input = rand() % 10;
         coor[i] = input;
     }
 }
@@ -59,9 +61,12 @@ Point::Point(const Point &copied)
 
 // Accessing
 
-//int Point::getDim(){
-//    return dim;
-//}
+int Point::getDim()
+{
+   return dim;
+} // end getDim
+
+
 
 double Point::distanceTo(const Point& pointIn){
     double distance;          // the end distance to be returned
@@ -134,5 +139,27 @@ bool operator<(const Point &a, const Point &b) // if p1 < p2 means if a(,,,) < b
     return less;
 }
 
+bool operator>(const Point &a, const Point &b)
+{
+    bool greater = false;
+    for (int i = 0; i < a.dim; i ++)
+    {
+        if (a.coor[i] > b.coor[i])
+            greater = true;
+        break;
+    }
+
+    return greater;
+
+}
+
+std::ostream &operator<<(std::ostream &out, const Point &p)
+{
+    for (int i = 0; i < p.dim; i++)
+    {
+        out << "Dimension " << i << ": "  << p.coor[i] << std::endl; // if i don't end line with <<std::end; nothing prints
+    }
+
+} // end <<
 //********************************************************
 //End overloaded operators
