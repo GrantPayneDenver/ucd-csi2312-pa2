@@ -4,6 +4,7 @@
 #include <cstdlib>
 //using namespace Clustering;
 
+
 // Constructor
 // takes in dim, creates dynamic array size of dim, coor then points to it
 Point::Point(int num) {
@@ -19,6 +20,16 @@ Point::Point(int num) {
         input = rand() % 10;
         coor[i] = input;
     }
+}
+
+// custom points constructor
+Point::Point(int num, double a, double b, double c)
+{
+    dim = num;
+    coor = new double[dim];
+    coor[0] = a;
+    coor[1] = b;
+    coor[2] = c;
 }
 
 // assignment operator overloaded
@@ -139,16 +150,20 @@ bool operator<(const Point &a, const Point &b) // if p1 < p2 means if a(,,,) < b
     return less;
 }
 
-bool operator>(const Point &a, const Point &b)
+bool operator>(const Point &a, const Point &b) // greater than operator
 {
-    bool greater = false;
-    for (int i = 0; i < a.dim; i ++)
+    std::cout << " > operator accessed " << std::endl;
+
+    int x = a.dim;
+
+    bool greater = true;                 // a is larger until proven otherwise
+    for (int i = 0; i < 3; i ++)
     {
-        if (a.coor[i] > b.coor[i])
-            greater = true;
+        std::cout << "hey" << std::endl;
+        if (b.coor[i] > a.coor[i])       // if any b coor is larger then we have a false situation
+            greater = false;
         break;
     }
-
     return greater;
 
 }

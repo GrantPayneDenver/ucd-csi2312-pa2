@@ -1,0 +1,106 @@
+Sept 29
+Don't want multiple nodes in one cluster to point to same point
+google k-means clusters
+professor makes a point array called universe
+10 points, 10 dims
+uses a function to randomly allocate numbers
+
+
+TEMPLATES
+
+PA3 will have no extensions
+
+
+<< and >> should be symmetric
+points should come out as lines of doubles
+
+add a node constructor to ensure valid nodes
+
+can be third line in struct LNode
+LNode(PointPtr pt, LNodePtr n) : p(pt), next(n) {}
+
++= and + should be set preserving
+say we have 4 4d points allocated on heap. Two empty Clusters with only LNodePtr points. At one time, c1 adds one of the four points
+to its self, then maybe another and links them. Say you wish to make c2 a copy of c1. What you do is have the LNodePointers point to same
+point objects, but you're never duplicating points. Pointers are the set.
+
+Were you to add both those clusters together, and since they have the same points, then the result would be a union  and the new cluster would basically be
+a carbon copy of both.
+In the case of += no changes would be make.
+In the case of + no changes would be made but the temp c3 could be returned and assigned to another cluster or something.
+
+Need to learn about sets, and understand specs on sets.
+
+Need to learn about aliasing as well.
+
+preprocessor - gets all cpp files
+
+compiler - compiles, instantiates new types, when encountering templates or things. Adds an invisible cpp file to handle them
+handles all templates, then determines their types while going through main. By that times the templates are full
+fledged Types.
+
+linker - works with all files
+
+
+should make accessor functions const, like get dims and get coor
+
+every member function has an invisible, implicit argument. The 'this' pointer.
+
+STACK
+-------
+this
+-------
+arg 0
+------
+arg1
+---------
+locals
+-------
+return
+
+friend funtions do not have the 'this' pointer passed in, because they're not member functions.
+
+overloaded friend functions should be declared inline, not outside the class definition. Reason being because with
+templates, int instantiations of the template could use the double instantiations of the template, and visa versa.
+This is not desirable as it can introduce openings for trojans.
+
+
+Exceptions are a mechanism that are used to define and constrain behavior of your types. Say with points, you wish
+to rule out Points with zero dimensions. Or points with different dimensions.
+
+Exception
+-------------
+detect + throw
+
+and
+
+catch + handle
+
+try
+{
+
+    throw 8; // after throw nothing is executed
+
+} catch(const int i)
+{
+    cout << i << endl;
+}
+
+
+try{
+ throw string("division by 0 not allowed"); // throwing a char*
+
+}catch(const string msg) {
+cout << msg;
+}
+catch(...){
+// catch all clause
+// goes at end. after you rule out handling for cases you can
+// do something about
+}
+
+prints out 8
+
+
+
+try, means we'll be handling exceptions and we wish to handle them gracefully. If we put these in a try we can catch them.

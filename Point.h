@@ -5,6 +5,7 @@
 #ifndef __point_h
 #define __point_h
 
+
 //namespace Clustering {
 
     class Point {
@@ -17,7 +18,8 @@
     public:
         // Constructors
 
-        Point(int);                              // one argument constructor
+        Point(int);                                         // one argument constructor
+        Point(int, double, double, double); // 4 argument for custom coordinates
 
         // Big 3, overloaded=, dstr, copy
         Point &operator=(const Point &);         // overloaded assignment operator
