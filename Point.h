@@ -44,6 +44,8 @@
 
         friend bool operator>(const Point &a, const Point &b);
 
+
+
         friend std::ostream &operator<<(std::ostream &, const Point &);
 
     };

@@ -14,6 +14,7 @@ namespace Clustering {
     Cluster::Cluster(const Cluster &rhs) {
         std::cout << "copy constructor entered" << std::endl;
 
+
         this->size = rhs.size;
 
         // need a conditional block to handle an empty cluster
@@ -57,7 +58,9 @@ namespace Clustering {
 
 
 */
-    void Cluster::add(const PointPtr &pnt)
+
+
+    void Cluster::add(const PointPtr &pnt)  //to do: check for duplicate point additions, can't have duplicate points.
     {
         LNodePtr newNode = new LNode;
         newNode->p = pnt;
@@ -74,34 +77,42 @@ namespace Clustering {
         {
             LNodePtr curr = this->points;                // curr points to first node
             LNodePtr prev = curr;                        // prev points to curr
-            bool placed = true;
+            bool looking = true;
             int count = 1;
 
-            while( curr != NULL && placed)
+            while( curr != NULL && looking)
             {
             std::cout << "entered list, comparing new node to current nodes" << std::endl;
-//            for (int i = 0; i < newNode->p->getDim(); i++)
-//            {
-//                if (newNode->p->getCoor(i) > curr->p->getCoor(i) && count == 1) // > operator DIDNT WORKKKKKKKKKKK
-                if(newNode->p > curr->p && count == 1)
+            for (int i = 0; i < newNode->p->getDim(); i++)
+            {
+                if (newNode->p->getCoor(i) > curr->p->getCoor(i) && count == 1) // > operator DIDNT WORKKKKKKKKKKK
+//                if(newNode->p > curr->p && count == 1)
                 {
-                    newNode->next = curr;      // this line works
+                    newNode->next = curr;      // this line works                                                     // first
                     //prev = newNode;
                     this->points = newNode;
                     this->size++;
-                    placed = false;
+                    looking = false;
                     break;
                 }
-//                else if (newNode->p->getCoor(i) > curr->p->getCoor(i)) {
-                  else if (newNode->p > curr->p) {
+                else if (newNode->p->getCoor(i) > curr->p->getCoor(i)) {
+//                  else if (newNode->p > curr->p) {                                                                  // not first
                     newNode->next = curr;
                     prev->next = newNode;
                     this->size++;
-                    placed = false;
+                    looking = false;
                     break;
                 } //else if
-                //else if () // we reach end of list and find no placement
-//            } // for
+                else if (curr->next == nullptr) // we reach end of list and find no placement                         // reached end of list
+                {
+                    std::cout << "reached end of list" << std::endl;
+                    newNode->next = nullptr;
+                    curr->next = newNode;
+                    this->size++;
+                    looking = false;
+                    break;
+                }// last else if
+ } // for                                                                                                             // end for
             prev = curr;
             curr = curr->next;
             count++;

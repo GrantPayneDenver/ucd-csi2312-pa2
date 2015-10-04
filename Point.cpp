@@ -102,17 +102,14 @@ double Point::distanceTo(const Point& pointIn){
 //*********************************
 bool operator==(const Point &a, const Point &b)
 {
-    bool equal = true;
-    if (a.dim != b.dim)
-    {
-        equal = false;
-    }
+    bool equal = true;                 // equal is true until proven otherwise
+
     for (int i = 0; i < a.dim; i++)
     {
         if (a.coor[i] != b.coor[i])
         {
-            equal = false;
-            break;
+            equal = false;             // found a coor pair that isn't the same
+            break;                     // false
         }
     }
     return equal;
@@ -120,52 +117,53 @@ bool operator==(const Point &a, const Point &b)
 
 bool operator!=(const Point &a, const Point &b)
 {
-    bool different = false;
-    if (a.dim != b.dim)
-    {
-        different = true;
-    }
-    for (int i = 0; i < a.dim; i++)
-    {
-        if (a.coor[i] != b.coor[i])
-        {
-            different = true;
-            break;
+    bool different = false;         // different is false until proven otherwise
+
+
+        for (int i = 0; i < a.dim; i++) {
+            if (a.coor[i] != b.coor[i]) {      // if any coor pair is found different
+                different = true;
+                break;
+            }
         }
-    }
+
     return different;
 }
 
 bool operator<(const Point &a, const Point &b) // if p1 < p2 means if a(,,,) < b(,,,)
 {
-    bool less = false;
+    bool less = true;                         // a point is less than until proven otherwise
 
     for (int i = 0; i < a.dim; i ++)
     {
-        if (a.coor[i] < b.coor[i])
-            less = true;
-        break;
+        if (a.coor[i] > b.coor[i])            // if any a point > any b point
+        {
+            less = false;                     // less is false, break
+            break;
+        }
     }
 
     return less;
 }
 
-bool operator>(const Point &a, const Point &b) // greater than operator
+bool operator>(const Point &a, const Point &b)          // greater than operator
 {
     std::cout << " > operator accessed " << std::endl;
 
-    int x = a.dim;
-
-    bool greater = true;                 // a is larger until proven otherwise
-    for (int i = 0; i < 3; i ++)
+    bool greater = true;
+                                                        // a is larger until proven otherwise
+    for (int i = 0; i < 3; i++)
     {
-        std::cout << "hey" << std::endl;
-        if (b.coor[i] > a.coor[i])       // if any b coor is larger then we have a false situation
-            greater = false;
-        break;
-    }
-    return greater;
 
+        if (b.coor[i] > a.coor[i]) {                   // if any b coor is larger then any a coor we have a false situation
+            greater = false;
+            break;
+        }
+    }
+
+    std::cout << greater << "status reached" << std::endl;
+
+    return greater;
 }
 
 std::ostream &operator<<(std::ostream &out, const Point &p)
@@ -173,8 +171,15 @@ std::ostream &operator<<(std::ostream &out, const Point &p)
     for (int i = 0; i < p.dim; i++)
     {
         out << "Dimension " << i << ": "  << p.coor[i] << std::endl; // if i don't end line with <<std::end; nothing prints
-    }
+    }   // out is a ostream built up during this loop, it's returned after the loop concludes as one whole package
+
+    return out;
 
 } // end <<
+
+
+
+
+
 //********************************************************
 //End overloaded operators
