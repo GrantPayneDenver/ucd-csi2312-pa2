@@ -5,7 +5,7 @@
 using namespace std;
 using namespace Clustering;
 
-int DIMS = 3;
+int DIMS = 3; // default dimensions for program is 3
 
 int main()
 {
@@ -27,6 +27,8 @@ int main()
      *
      *
      */
+    cout << "what number of dimensions woukd you like your points to have?" << endl;
+    cin >> DIMS;
 
     Point p1(DIMS, 1, 2, 3);
     Point p2(DIMS, 4, 5, 6);
