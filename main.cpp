@@ -9,7 +9,10 @@ int DIMS = 3;
 
 int main()
 {
-    /*
+    /*10/5
+     * don't kno how to implement clustor dtr
+     * get weird runtime errors when I do += and -= for point class, -= cauese segfault
+     *
      *
      * need to rethink > and < for points
      * for is a > b
@@ -36,15 +39,14 @@ int main()
     //Point p5(DIMS, 9, 10, 8);
     //Point p6(DIMS, 9, 9, 10);
 
-    if (p1 > p2)
-      cout << "true" << endl;  // false
-
-    if (p3 > p1)
-        cout << "trye" << endl; // false
-
-    cout << p1 << endl;
+       cout << p1 << endl;
     cout << p2 << endl;
 
+//    p1-=p3
+//    p1+=p3;
+    Point p6 = p3 + p2;
+
+    p5 = p3 + p4;
 
     Cluster c1;
 
@@ -62,6 +64,17 @@ int main()
 
     ptr = &p5;
     c1.add(ptr);
+
+
+    int i = 0;
+    if (i == 0)
+    {
+        Cluster c2(c1);
+
+    }
+
+
+    cout << c1;
 
    // cout << p1 << endl;
    // cout << p2 << endl;

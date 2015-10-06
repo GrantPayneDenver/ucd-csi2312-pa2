@@ -4,6 +4,7 @@
 #include <cstdlib>
 //using namespace Clustering;
 
+const int DIMS = 3;
 
 // Constructor
 // takes in dim, creates dynamic array size of dim, coor then points to it
@@ -32,6 +33,19 @@ Point::Point(int num, double a, double b, double c)
     coor[2] = c;
 }
 
+// flesh out point's dimensions,
+//
+Point::Point(double points[], int len)
+{
+    dim = len;
+    coor = new double[dim];        // will this case a mem leak?
+
+    for (int i = 0; i < len; i++)
+    {
+        this->coor[i] = points[i];
+    }
+}
+
 // assignment operator overloaded
 // this pointer used for left hand side, calling obj. rhs is right hand side, copied from, object
 // p1 = p2.
@@ -55,6 +69,7 @@ Point& Point::operator=(const Point &rhs)
 
 // Destructor
 Point::~Point() {
+
     delete[] coor;
 }
 
@@ -148,7 +163,7 @@ bool operator<(const Point &a, const Point &b) // if p1 < p2 means if a(,,,) < b
 
 bool operator>(const Point &a, const Point &b)          // greater than operator
 {
-    std::cout << " > operator accessed " << std::endl;
+//    std::cout << " > operator accessed " << std::endl;
 
     bool greater = true;
                                                         // a is larger until proven otherwise
@@ -161,7 +176,7 @@ bool operator>(const Point &a, const Point &b)          // greater than operator
         }
     }
 
-    std::cout << greater << "status reached" << std::endl;
+//    std::cout << greater << "status reached" << std::endl;
 
     return greater;
 }
@@ -177,6 +192,65 @@ std::ostream &operator<<(std::ostream &out, const Point &p)
 
 } // end <<
 
+//+= operator
+Point operator+=(Point &lhs, const Point &rhs)
+{
+    lhs = rhs + lhs;
+    //return rhs;
+
+}//end +=
+
+// + operator
+const Point operator+(const Point &a, const Point &b)
+{
+    // create a point from arguemnt point information
+
+    int dims = a.dim;                   // get point dimenstions
+    double *darray = new double[dims];  // create array to hold them
+                                        // this will 'seed' new point
+    // get information
+    double sum = 0;
+    for (int i = 0; i < dims; i ++)
+    {
+        sum = a.coor[i] + b.coor[i];
+        darray[i] = sum;
+    }
+
+
+    Point p(darray, dims);                    // use a Point constructor that takes in a
+                                              // double array.
+    return p;
+
+}
+
+//-= operator                                            // this function ends up calling the dtr
+Point operator-=(Point &lhs, const Point &rhs)           // again after it reaches its end, but += doesn't..
+{                                                        // no idea why. Causes a segfault.
+    lhs = lhs - rhs;  // a-b
+}
+
+// operator -
+const Point operator-(const Point &a, const Point &b)
+{
+    // create a point from arguemnt point information
+
+    int dims = a.dim;                   // get point dimenstions
+    double *darray = new double[dims];               // create array to hold them
+    // this will 'seed' new point
+
+    // get information
+    double dif = 0;
+    for (int i = 0; i < dims; i ++)
+    {
+        dif = a.coor[i] - b.coor[i];   // pairwise dimension subtraction
+        darray[i] = dif;
+    }
+
+    Point p(darray, dims);
+
+    return p;
+}
+// end - operator
 
 
 

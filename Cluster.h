@@ -32,7 +32,7 @@ namespace Clustering {
 
         friend std::ostream &operator<<(std::ostream &, const Cluster &);
 //         Cluster &operator=(const Cluster &);
-//        ~Cluster();
+        ~Cluster();
 /*
         // Set functions: They allow calling c1.add(c2.remove(p));
         // take point out of c2 and give to c1

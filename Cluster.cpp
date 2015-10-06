@@ -45,23 +45,28 @@ namespace Clustering {
     }
 
 // dtor
-/*
-~Cluster() {
-    if (points != nullptr) {
-        for (int i = 0; i < size; i ++)
-            delete points[i];
-        delete [] points;
-    }
+
+Cluster::~Cluster() {
+    // delete PointPtrs and nodes
+
+    LNodePtr del = points;
+    LNodePtr nextDel;
+
+    while(del != nullptr)
+    {
+        nextDel = del->next;  // nextDel pointer saves next node
+        delete del->p;        // delete the point pointer
+        delete del;           // delete the node
+        del = nextDel;        // set del to next node
+    }   // shouldn't affect the actual Point object
+
     points = nullptr;
 }
 
 
-
-*/
-
-
-    void Cluster::add(const PointPtr &pnt)  //to do: check for duplicate point additions, can't have duplicate points.
-    {
+    void Cluster::add(const PointPtr &pnt)  // to do: check for duplicate point additions, can't have duplicate points.
+    {                                       // this is not to say when the point has the same coordinates
+                                            // but when is the same point literally, and memory location is one spot
         LNodePtr newNode = new LNode;
         newNode->p = pnt;
 
@@ -80,23 +85,21 @@ namespace Clustering {
             bool looking = true;
             int count = 1;
 
-            while( curr != NULL && looking)
+            while(curr != NULL && looking)
             {
             std::cout << "entered list, comparing new node to current nodes" << std::endl;
-            for (int i = 0; i < newNode->p->getDim(); i++)
-            {
-                if (newNode->p->getCoor(i) > curr->p->getCoor(i) && count == 1) // > operator DIDNT WORKKKKKKKKKKK
-//                if(newNode->p > curr->p && count == 1)
+
+               if(*newNode->p > *curr->p && count == 1)
                 {
-                    newNode->next = curr;      // this line works                                                     // first
+                    newNode->next = curr;      // this line works
                     //prev = newNode;
                     this->points = newNode;
                     this->size++;
                     looking = false;
                     break;
                 }
-                else if (newNode->p->getCoor(i) > curr->p->getCoor(i)) {
-//                  else if (newNode->p > curr->p) {                                                                  // not first
+
+                 else if (*newNode->p > *curr->p) {                                                                  // not first
                     newNode->next = curr;
                     prev->next = newNode;
                     this->size++;
@@ -112,7 +115,7 @@ namespace Clustering {
                     looking = false;
                     break;
                 }// last else if
- } // for                                                                                                             // end for
+
             prev = curr;
             curr = curr->next;
             count++;
@@ -136,10 +139,13 @@ namespace Clustering {
         if (c.points != NULL)
         {
             LNodePtr iterate;
-            for (iterate = c.points->next; iterate != NULL; iterate = iterate->next)
+
+            int i = 1;
+
+            for (iterate = c.points; iterate != NULL; iterate = iterate->next)
             {
-                for (int i = 0; i < iterate->p->getDim(); i++)
-                    out << iterate->p->getCoor(i) << std::endl;
+                out << "Point " << i << std::endl << *iterate->p << std::endl;
+                i++;
             }
         }
 
