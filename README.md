@@ -94,6 +94,12 @@ The member data is points, the head of the list, and size, the size of list.
         // Set-destructive operators (duplicate points in the space)
         // - Friends
         friend const Cluster operator+(const Cluster &lhs, const Cluster &rhs);
+        
+        compares one cluster's nodes to another's. If any of the points are not the same, 
+        ie same memory address, then the addition will be done and added to the new cluster.
+        take all the points in one cluster and see the new cluster with them. Then compare the addend
+        cluster to those points and add in what's not already there. 
+        
         friend const Cluster operator-(const Cluster &lhs, const Cluster &rhs);
 
         friend const Cluster operator+(const Cluster &lhs, const PointPtr &rhs);

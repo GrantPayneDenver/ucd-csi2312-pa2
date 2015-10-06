@@ -14,18 +14,6 @@ int main()
      * get weird runtime errors when I do += and -= for point class, -= cauese segfault
      *
      *
-     * need to rethink > and < for points
-     * for is a > b
-     * need to determine if any single coordinate of equal dimension of b is larger than a
-     * in that case a > b is false
-     * need to run through overloaded class looking for any single instance of this
-     * and return false if I find it
-     *
-     * the way I was going doesn't work
-     *
-     * can't get cluster class to use point class overloaded functions...
-     *
-     *
      */
     cout << "what number of dimensions woukd you like your points to have?" << endl;
     cin >> DIMS;
