@@ -49,32 +49,50 @@ namespace Clustering {
 Cluster::~Cluster() {
     // delete PointPtrs and nodes
 
-    LNodePtr del = points;
-    LNodePtr nextDel;
+    /*
+     * use two pointers, but one is head, so only need to create one pointer
+     * this pointer will continually be a step ahead of head
+     * head is the pointer through which deletions happen
+     *  delete head->p   // deletes the pointPtr
+     *  delete head      // deletes the node
+     *  then you set head to next pointer, and move pointer up the chain
+     *  need to account for a situation where cluster is empty or only has one node
+     *  use the size member to help.
+     */
 
-    while(del != nullptr)
+    LNodePtr next = points->next;
+    if(points != nullptr)                       // do work if cluster isn't empty
     {
-        nextDel = del->next;  // nextDel pointer saves next node
-        delete del->p;        // delete the point pointer
-        delete del;           // delete the node
-        del = nextDel;        // set del to next node
-    }   // shouldn't affect the actual Point object
+        if (size == 1)
+        {
+             delete points;
+        }
+        else
+        {
+            for(int i = 0; i < size -1; i++)   // delete nodes up until you have one left
+            {
+                delete points;
+                points = next;
+                next = next->next;
+            }
+            delete points;                      // delete last node
+        }
+    }
 
-    points = nullptr;
-}
+} // end ~Cluster
 
 
     void Cluster::add(const PointPtr &pnt)  // to do: check for duplicate point additions, can't have duplicate points.
     {                                       // this is not to say when the point has the same coordinates
                                             // but when is the same point literally, and memory location is one spot
-        LNodePtr newNode = new LNode;
+        LNodePtr newNode = new LNode();     // Why is LNodePtr newNode = new LNode() different than LNodePtr newNode = new LNode
         newNode->p = pnt;
 
-        if (this->points == NULL)
+        if (this->points == nullptr)
         {
-            std::cout << "points was null, in c.add" << std::endl;
+            std::cout << "points was null in c.add" << std::endl;
 
-            newNode->next = NULL;
+            newNode->next = nullptr;
             this->points = newNode;
             this->size++;
         }
@@ -128,6 +146,11 @@ Cluster::~Cluster() {
 
 // +++++++++++++++++++++++ OVERLOADEDS ++++++++++++++++++++++++++++++++++ \\
 
+
+
+
+
+
 // parameters: const Cluster reference obj, ostream obj, (i think)
 // precondition: Cluster obj isn;t empty
 // postcondition: Print out of all of cluster's Linked List, to display each point and it's coordinates
@@ -152,8 +175,29 @@ Cluster::~Cluster() {
         return out;
     } // end overloaded <<
 
-//*/
+/*    const Cluster Clustering::operator+(const Cluster &lhs, const Cluster &rhs)
+    {
+        // get union, or proper set of both clusters
+        // store one cluster in a new cluster, cluster stored is lhs
+        Cluster c(lhs);
+
+        LNodePtr next = rhs.points;
+        while(next!= nullptr)
+        {
+            c.add(next->p);          // add each node of rhs to c. add function should determine whether it
+                                     // should really be added or not.
+                                     // if two nodes are literally same, ie same mem address, then don't add
+            next = next->next;
+        }
+
+        // loop thru rhs and add its points using add function, which will
+        // only add if the point being added is unique
+
+        return c;
+    }
+*/
 
 // +++++++++++++++++++++++ END OVERLOADEDS +++++++++++++++++++++++++++++++++ \\
+
 
 } // clustering

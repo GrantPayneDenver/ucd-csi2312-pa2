@@ -51,24 +51,18 @@ Point::Point(double points[], int len)
 // p1 = p2.
 Point& Point::operator=(const Point &rhs)
 {
-
-    if (dim != rhs.dim)
-    {
-        delete [] coor;
-        coor = new double [rhs.dim];
-
-    }
-
     for (int i = 0; i < dim; i++)
     {
         coor[i] = rhs.coor[i];
     }
     return *this;
 } // end overloaded assignment operator
-
+// calls dtr first time
 
 // Destructor
 Point::~Point() {
+
+    std::cout << "Point dtr" << std::endl;
 
     delete[] coor;
 }
@@ -87,12 +81,22 @@ Point::Point(const Point &copied)
 
 // Accessing
 
-int Point::getDim()
+int Point::getDims()
 {
    return dim;
 } // end getDim
 
+void Point::setValue(int index, double value)
+{
+    coor[index] = value;
+}
 
+double Point::getValue(int index) const
+{
+    return coor[index];
+}
+
+//functions
 
 double Point::distanceTo(const Point& pointIn){
     double distance;          // the end distance to be returned
@@ -111,7 +115,15 @@ double Point::distanceTo(const Point& pointIn){
     return distance;
 } // end distanceTo
 
-
+//MEMBERS
+Point& Point::operator*=(double num)
+{
+    for (int i = 0; i < dim; i ++)
+    {
+        coor[i] *= num;
+    }
+    return *this;
+}
 
 // Overloaded operators
 //*********************************
@@ -195,58 +207,53 @@ std::ostream &operator<<(std::ostream &out, const Point &p)
 //+= operator
 Point operator+=(Point &lhs, const Point &rhs)
 {
-    lhs = rhs + lhs;
+    // overload += first, have
+    Point temp(lhs + rhs);
+    lhs = temp;
+
+    // or could rewrite machinery used in +
     //return rhs;
 
 }//end +=
+//calls dtr after =
 
 // + operator
 const Point operator+(const Point &a, const Point &b)
 {
-    // create a point from arguemnt point information
+    // create a point from argument point information
+    // get point dimensions
+    Point p(a.dim);
 
-    int dims = a.dim;                   // get point dimenstions
-    double *darray = new double[dims];  // create array to hold them
-                                        // this will 'seed' new point
     // get information
     double sum = 0;
-    for (int i = 0; i < dims; i ++)
+    for (int i = 0; i < a.dim; i ++)
     {
         sum = a.coor[i] + b.coor[i];
-        darray[i] = sum;
+        p.coor[i] = sum;
     }
 
+    return p;                                           // returns p, exits function, goes to = op
+}// end + operator
 
-    Point p(darray, dims);                    // use a Point constructor that takes in a
-                                              // double array.
-    return p;
-
-}
-
-//-= operator                                            // this function ends up calling the dtr
-Point operator-=(Point &lhs, const Point &rhs)           // again after it reaches its end, but += doesn't..
-{                                                        // no idea why. Causes a segfault.
-    lhs = lhs - rhs;  // a-b
+//-= operator
+Point operator-=(Point &lhs, const Point &rhs)
+{
+    Point temp(lhs - rhs);
+    lhs = temp;
 }
 
 // operator -
-const Point operator-(const Point &a, const Point &b)
+const Point operator-(const Point &a, const Point &b) // just make sure its like + op
 {
     // create a point from arguemnt point information
+    Point p(a.dim);
 
-    int dims = a.dim;                   // get point dimenstions
-    double *darray = new double[dims];               // create array to hold them
-    // this will 'seed' new point
-
-    // get information
     double dif = 0;
-    for (int i = 0; i < dims; i ++)
+    for (int i = 0; i < a.dim; i ++)
     {
         dif = a.coor[i] - b.coor[i];   // pairwise dimension subtraction
-        darray[i] = dif;
+        p.coor[i] = dif;
     }
-
-    Point p(darray, dims);
 
     return p;
 }

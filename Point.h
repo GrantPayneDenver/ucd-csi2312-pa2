@@ -32,7 +32,22 @@
         double distanceTo(const Point &);
 
         // get Dimensions
-        int getDim();
+        int getDims();
+        void setValue(int, double);
+        double getValue(int) const;
+
+        double &operator[](int index) { return coor[index - 1]; }
+
+
+        // Members
+        Point &operator*=(double);
+        /*
+
+        Point &operator/=(double);
+        const Point operator*(double) const; // prevent (p1*2) = p2;
+        const Point operator/(double) const;
+         *
+         */
 
         // get coordinate
         double getCoor(int i) {return coor[i];}
@@ -45,12 +60,16 @@
 
         friend bool operator>(const Point &a, const Point &b);
 
+        /*
+        friend bool operator<=(const Point &, const Point &);
+        friend bool operator>=(const Point &, const Point &);
+         */
+
         friend const Point operator+(const Point &, const Point &);
         friend Point operator+=(Point &, const Point &);
 
         friend const Point operator-(const Point&, const Point &);
         friend Point operator-=(Point &, const Point &);
-
 
         friend std::ostream &operator<<(std::ostream &, const Point &);
 

@@ -104,3 +104,74 @@ prints out 8
 
 
 try, means we'll be handling exceptions and we wish to handle them gracefully. If we put these in a try we can catch them.
+
+October 6th
+
+PA3
+
+overload >> operator from point and cluster
+
+count the commas in the file so the program know dimensionality
+
+Centroid, private member of cluster
+it is a point
+
+
+loop over p:cluster
+
+cen+= p
+
+cent/= size// size of cluster
+
+get overall mean of all points in cluster
+
+
+to avoid overflow
+add a bunch, calculate a mean, add a bunch, calculate a mean
+sum the means
+
+iterative
+start with a bad guess, get better every time
+
+non deterministic
+get a different result depending on where you start
+for our purposes we just pick 3 points
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

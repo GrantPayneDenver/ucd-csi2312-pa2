@@ -30,7 +30,7 @@ namespace Clustering {
         // The big three: cpy ctor, overloaded operator=, dtor
         Cluster(const Cluster &);
 
-        friend std::ostream &operator<<(std::ostream &, const Cluster &);
+
 //         Cluster &operator=(const Cluster &);
         ~Cluster();
 /*
@@ -42,7 +42,8 @@ namespace Clustering {
         // Overloaded operators
 
         // IO
-        friend std::ostream &operator<<(std::ostream &, const Cluster &);/*
+        */friend std::ostream &operator<<(std::ostream &, const Cluster &);/*
+        friend std::ostream &operator<<(std::ostream &, const Cluster &);
         friend std::istream &operator>>(std::istream &, Cluster &);
 
         // Set-preserving operators (do not duplicate points in the space)
@@ -58,7 +59,7 @@ namespace Clustering {
 
         // Set-destructive operators (duplicate points in the space)
         // - Friends
-        friend const Cluster operator+(const Cluster &lhs, const Cluster &rhs);
+        */friend const Cluster operator+(const Cluster &lhs, const Cluster &rhs);/*
         friend const Cluster operator-(const Cluster &lhs, const Cluster &rhs);
 
         friend const Cluster operator+(const Cluster &lhs, const PointPtr &rhs);
