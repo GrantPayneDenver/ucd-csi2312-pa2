@@ -125,6 +125,40 @@ Point& Point::operator*=(double num)
     return *this;
 }
 
+Point& Point::operator/=(double num)
+{
+    for (int i = 0; i < dim; i ++)
+    {
+        coor[i] /= num;
+    }
+    return *this;
+}
+
+const Point Point::operator*(double num) const
+{
+    Point p(dim);
+
+    for (int i = 0; i < dim; i++)
+    {
+        p.coor[i] = coor[i] * num;
+    }
+
+    return p;
+    // p2 = p3 * 5;
+}
+
+const Point Point::operator/(double num) const
+{
+    Point p(dim);
+
+    for (int i = 0; i < dim; i++)
+    {
+        p.coor[i] = coor[i] / num;
+    }
+
+    return p;
+}
+
 // Overloaded operators
 //*********************************
 bool operator==(const Point &a, const Point &b)
@@ -144,7 +178,7 @@ bool operator==(const Point &a, const Point &b)
 
 bool operator!=(const Point &a, const Point &b)
 {
-    bool different = false;         // different is false until proven otherwise
+    bool different = false;                    // different is false until proven otherwise
 
 
         for (int i = 0; i < a.dim; i++) {
@@ -173,6 +207,21 @@ bool operator<(const Point &a, const Point &b) // if p1 < p2 means if a(,,,) < b
     return less;
 }
 
+bool operator<=(const Point &a, const Point &b)
+{
+    bool lessOrEqual = true;                         // a point is <= than until proven otherwise
+
+    for (int i = 0; i < a.dim; i ++)
+    {
+        if (a.coor[i] > b.coor[i])            // if any a point > any b point
+        {
+            lessOrEqual = false;                     // less is false, break
+            break;
+        }
+    }
+    return lessOrEqual;
+}
+
 bool operator>(const Point &a, const Point &b)          // greater than operator
 {
 //    std::cout << " > operator accessed " << std::endl;
@@ -188,9 +237,22 @@ bool operator>(const Point &a, const Point &b)          // greater than operator
         }
     }
 
-//    std::cout << greater << "status reached" << std::endl;
-
     return greater;
+}
+
+bool operator>=(const Point &a, const Point &b)
+{
+    bool greaterOrEqual = true;
+    // a is greater or equal until proven otherwise
+    for (int i = 0; i < 3; i++)
+    {
+        if (b.coor[i] > a.coor[i]) {                   // if any b coor is larger then any a coor we have a false situation
+            greaterOrEqual = false;
+            break;
+        }
+    }
+
+    return greaterOrEqual;
 }
 
 std::ostream &operator<<(std::ostream &out, const Point &p)
@@ -213,6 +275,7 @@ Point operator+=(Point &lhs, const Point &rhs)
 
     // or could rewrite machinery used in +
     //return rhs;
+    return lhs;
 
 }//end +=
 //calls dtr after =
@@ -260,7 +323,10 @@ const Point operator-(const Point &a, const Point &b) // just make sure its like
 // end - operator
 
 
+friend std::string& operator>>(std::istream&)
+{
 
+}
 
 //********************************************************
 //End overloaded operators

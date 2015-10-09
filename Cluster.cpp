@@ -141,7 +141,18 @@ Cluster::~Cluster() {
 
         } // else
 
+
     }//+++++ end add
+
+//++++++++++++++++++++++++ MEMBERS +++++++++++++++++++++++++++++++++++++\\\
+
+    Cluster& Cluster::operator+=(const Point &rhs)
+    {
+        this->add(new Point(rhs));
+
+        return *this;
+    } // end += for points
+
 
 
 // +++++++++++++++++++++++ OVERLOADEDS ++++++++++++++++++++++++++++++++++ \\

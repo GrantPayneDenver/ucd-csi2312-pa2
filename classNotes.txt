@@ -137,7 +137,10 @@ non deterministic
 get a different result depending on where you start
 for our purposes we just pick 3 points
 
+string line
 
+for (i = 0; i < line.size; i++)
+if(line[i] == 'thing'
 
 
 
