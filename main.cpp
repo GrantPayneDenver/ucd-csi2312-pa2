@@ -1,11 +1,10 @@
 #include <iostream>
 #include "Point.h"
 #include "Cluster.h"
-using std::ifstream;
+#include <fstream>
+#include <sstream>
+#include <string>
 
-// sstream
-using std::stringstream;
-using std::string;
 
 using namespace std;
 
@@ -24,33 +23,10 @@ int main()
      * must finish point >> operator
      * and finish cluster class
      *
-     *  ifstream csv("points.txt");
-
-    if (csv.is_open()) {
-
-        while (getline(csv,line)) {
-
-            cout << "Line: " << line << endl;
-
-            stringstream lineStream(line);
-            string value;
-            double d;
-            Point p(5);
-
-            int i = 1;
-            while (getline(lineStream, value, ',')) {
-                d = stod(value);
-
-                cout << "Value: " << d << endl;
-
-                p.setValue(i++, d);
-            }
-            cout << "Point: " << p << endl;
-        }
-    }
-    csv.close();
-     */
-
+     *
+     * retest point = operator.
+     *
+    */
 
     Point p1(DIMS, 1, 2, 3);
     Point p2(DIMS, 4, 5, 6);
@@ -60,7 +36,14 @@ int main()
     Point z (DIMS, 3, 3, 3);
     Point z2(DIMS, 3, 3, 3);
 
+    /*
+
+    Point p;// call default
+    p = p1;
+
     z += p1;
+
+    z-=p2;                // error again!!!
 
     z *= 5;
     cout << z << endl;
@@ -73,20 +56,19 @@ int main()
     if (z > p3){cout << "true" << endl;}
     if (z >= p2) {cout << "trye " << endl;}
     if (z >= p3) {cout << "trye " << endl;}
-    //z+=p1;                 // error
+    z+=p1;                 // error
     cout << z<< endl;
     p5 = z + 3;
     cout << z << endl;
-    if (z == z2) {cout << "trye" << endl;}
-    if (z != p4) {cout << "trye " << endl;}
+    if (z == z2) {cout << "true" << endl;}
+    if (z != p4) {cout << "true " << endl;}
     if (z < p4)  {cout << "true" << endl;}
     if (z <= p4) {cout << "true" << endl;}
-    //z-=p2;                // error again!!!
     cout << z << endl;
     p2 = z - 1;           // this may not work, need ot override -= function for doubles too.
     cout << z << endl;
 
-
+    */
 
 
     // p4, p2, p1, p3, p5
@@ -96,22 +78,26 @@ int main()
 
     Cluster c1;
 
-    PointPtr ptr = &p1;
-    c1.add(ptr);
+    PointPtr ptr2 = &p1;
 
-    ptr = &p2;
-    c1.add(ptr);
+    c1.add(ptr2);
+    ptr2 = &p3;
+    c1.add(ptr2);
+    ptr2 = &p4;
+    c1.add(ptr2);
 
-    ptr = &p3;
-    c1.add(ptr);
+    ptr2 = &p2;
 
-    ptr = &p4;
-    c1.add(ptr);
 
-    cout << "mark" << endl;
+    c1 += p2;    // has p2 only after this
+    c1 -= p2;
+    c1.remove(ptr2);
 
-    ptr = &z;
-    c1.add(ptr);
+    c1.calcCent();
+
+    cout << c1;
+
+
 
 
 /*

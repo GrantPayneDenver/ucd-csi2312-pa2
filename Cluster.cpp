@@ -144,6 +144,63 @@ Cluster::~Cluster() {
 
     }//+++++ end add
 
+    // Remove()
+    const PointPtr& Cluster::remove(const PointPtr &pd)
+    {
+        //during debugging, if you click pd, it say in red "attempt to take address
+        // of value not located in memory"
+        // pd is const PointPtr passed by reference.
+        // it seems that it MUST be passed by reference. (at least in this program. Due to the dynamic data in Points?)
+        // It makes intuitive sense
+        // what is a pointer if not a reference? What good would passing a pointer
+        // by value do? You make a copy of it, but it STILL must point to something
+        // thus it is still referencing.
+
+
+        if(!points)
+            return pd;             // just return the point to be deleted, the list was empty....
+
+        LNodePtr remove  = new LNode();  // so, if you want to really instantiate a LNodePtr, you
+                                         // you must do all that, rather than just LNodePtr remove;
+                                         // remove->p = pd causes an error. I don't understand why.
+        remove->p = pd;            // pointer node with point info to be deleted
+
+        LNodePtr curr;             // traverse nodes
+        LNodePtr prev;
+
+        if(points->p == pd) // if first node is the one to be removed
+        {
+            curr = points->next;   // save the second node
+            delete points;         // delete first node
+            points = curr;         // set head to second node.
+        }
+
+        else
+        {
+            curr = points;         // set curr to start traversing thru list
+
+            // iterate thru list until a value is found that matches the value pd
+
+            while(curr != nullptr && *curr->p != *pd )
+            {
+                prev = curr;            // save curr with prev
+                curr = curr->next;      // have curr go on to next node
+
+                // loop will terminate once end of list reached or we find the value being saught
+            }// end while
+
+            if(curr) // if curr found the desired node, and didn't reach the end of the list
+            {
+                prev->next = curr->next;// save linkage between previous node and node after curr
+                delete curr;
+            }
+        }
+
+
+
+
+    }// end remove
+
 //++++++++++++++++++++++++ MEMBERS +++++++++++++++++++++++++++++++++++++\\\
 
     Cluster& Cluster::operator+=(const Point &rhs)
@@ -154,6 +211,12 @@ Cluster::~Cluster() {
     } // end += for points
 
 
+    Cluster& Cluster::operator-=(const Point &rhs)
+    {
+        this->remove(new Point(rhs));
+
+        return *this;
+    }//end -= for points
 
 // +++++++++++++++++++++++ OVERLOADEDS ++++++++++++++++++++++++++++++++++ \\
 
@@ -181,6 +244,11 @@ Cluster::~Cluster() {
                 out << "Point " << i << std::endl << *iterate->p << std::endl;
                 i++;
             }
+
+
+            out << "Centroid" << std::endl << c.centroid << std::endl;
+
+
         }
 
         return out;
@@ -211,4 +279,34 @@ Cluster::~Cluster() {
 // +++++++++++++++++++++++ END OVERLOADEDS +++++++++++++++++++++++++++++++++ \\
 
 
+// CENTRIOD
+
+void Cluster::calcCent()
+{
+    if (points) // if linked list not empty.
+    {
+       if (size == 1)
+       {
+           centroid = *points->p;
+       }
+       else
+       {
+           centroid = *points->p;
+
+           // p1/3 + p2/3 + p3/3, 3 = size of linked list, or size member of cluster
+
+           centroid = *points->p / size;             // hp = p1 / 3, if there are 3 nodes
+           LNodePtr curr = points->next;             // access p2
+           while (curr != nullptr) {
+               centroid += *curr->p / size;          // hp = p2 /3
+
+               curr = curr->next;                    // iterate to next node
+           }//while
+       } //else
+    }// if (points)
+
+} // calcCent
+
+
 } // clustering
+

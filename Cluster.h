@@ -20,9 +20,28 @@ namespace Clustering {
     };
 
     class Cluster {
+
+    private:
+        Point centroid;
         int size;
-        LNodePtr points;        // head, head is the start of a linked list of LNodes, not a Node its self
-                                // it is a LNodePtr, a pointer to nodes.
+        LNodePtr points;            // head, head is the start of a linked list of LNodes, not a Node its self
+                                    // it is a LNodePtr, a pointer to nodes.
+
+    private:
+        class Centroid
+        {
+        private:
+            int num = 3;               // gotta remove later
+            Point centroid;            //
+                                       // will need to calc mean of points on its own or get it from something else...
+
+        public:
+            void calcCent( );                   // send in one Point
+            Point& getCent(LNodePtr &);        // return cent information
+            void setCent(Point &);
+        };
+
+
 
     public:
         Cluster() : size(0), points(nullptr) {};
@@ -38,7 +57,7 @@ namespace Clustering {
         // take point out of c2 and give to c1
         void add(const PointPtr &pnt);
 
-         const PointPtr &remove(const PointPtr &);
+        const PointPtr &remove(const PointPtr &);                                  //// done
         // Overloaded operators
 
         // IO
@@ -53,8 +72,8 @@ namespace Clustering {
         //friend Point &operator+=(Point &, const Point &); // union
         Cluster &operator-=(const Cluster &rhs); // (asymmetric) difference
         Cluster &operator+=(const Cluster &rhs); // union
-        Cluster &operator+=(const Point &rhs); // add point */
-        Cluster &operator-=(const Point &rhs); // remove point
+        Cluster &operator+=(const Point &rhs); // add point */                      // done
+        Cluster &operator-=(const Point &rhs); // remove point                      // done
 
         // Set-destructive operators (duplicate points in the space)
         // - Friends
@@ -63,6 +82,17 @@ namespace Clustering {
 
         friend const Cluster operator+(const Cluster &lhs, const PointPtr &rhs);
         friend const Cluster operator-(const Cluster &lhs, const PointPtr &rhs);
+
+        /*
+         * need a void pickPoints func
+         *
+         * also think about private moves class
+         */
+
+
+        //CENTROID
+
+        void calcCent();
 
     };
 

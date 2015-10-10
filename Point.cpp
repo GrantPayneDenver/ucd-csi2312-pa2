@@ -2,9 +2,27 @@
 #include <iostream>
 #include <cmath>
 #include <cstdlib>
-//using namespace Clustering;
+#include <string>
+#include <fstream>
+#include <sstream>
+
+
 
 const int DIMS = 3;
+
+//Dfault Constructor
+// implemented at start of p3 so that Cluster can have a Point called Centroid.
+Point::Point()
+{
+    // initialize Point to size 3, all dimensions are 0
+
+    dim = 3;
+    coor = new double[dim];
+    for(int i =0; i < 3; i++)
+    {
+        coor[i] = 0;
+    }
+}
 
 // Constructor
 // takes in dim, creates dynamic array size of dim, coor then points to it
@@ -51,6 +69,10 @@ Point::Point(double points[], int len)
 // p1 = p2.
 Point& Point::operator=(const Point &rhs)
 {
+    delete []coor;  // delete current array
+
+    coor = new double[rhs.dim];
+
     for (int i = 0; i < dim; i++)
     {
         coor[i] = rhs.coor[i];
@@ -303,6 +325,8 @@ Point operator-=(Point &lhs, const Point &rhs)
 {
     Point temp(lhs - rhs);
     lhs = temp;
+
+    return lhs;
 }
 
 // operator -
@@ -322,11 +346,38 @@ const Point operator-(const Point &a, const Point &b) // just make sure its like
 }
 // end - operator
 
-
-friend std::string& operator>>(std::istream&)
+/*
+std::istream& operator>>(std::istream&, Point &p)
 {
 
-}
+    ifstream csv("C:\\Users\\Folio\\Deskto\\School\\intPA2\\ucd-csi2312-pa2\\csv.txt");
 
+    string line;
+
+    if (csv.is_open()) {
+
+        while (getline(csv,line)) {
+
+            std::cout << "Line: " << line << std::endl;
+
+            stringstream lineStream(line);
+            string value;
+            double d;
+            Point p(5);
+
+            int i = 1;
+            while (getline(lineStream, value, ',')) {
+                d = strtod(value);
+
+                std::cout << "Value: " << d << std::endl;
+
+                p.setValue(i++, d);
+            }
+            std::cout << "Point: " << p << std::endl;
+        }
+    }
+    csv.close();
+}
+*/
 //********************************************************
 //End overloaded operators

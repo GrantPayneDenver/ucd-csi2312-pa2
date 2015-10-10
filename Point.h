@@ -3,6 +3,9 @@
 // Coordinates are floating point double
 #include <iostream>
 #include <string>
+#include <fstream>
+#include <sstream>
+
 #ifndef __point_h
 #define __point_h
 
@@ -19,9 +22,10 @@
     public:
         // Constructors
 
-        Point(int);                                         // one argument constructor
+        Point();                            // default
+        Point(int);                         // one argument constructor
         Point(int, double, double, double); // 4 argument for custom coordinates
-        Point(double [], int);
+        Point(double [], int);              //
 
         // Big 3, overloaded=, dstr, copy
         Point &operator=(const Point &);         // overloaded assignment operator
@@ -32,7 +36,6 @@
         // distanceTo
         double distanceTo(const Point &);
 
-        // get Dimensions
         int getDims();
         void setValue(int, double);
         double getValue(int) const;
@@ -66,6 +69,7 @@
 
         friend std::ostream &operator<<(std::ostream &, const Point &);
         friend std::istream &operator>>(std::istream &, Point &);
+
     };
 
 #endif //  __point_h
