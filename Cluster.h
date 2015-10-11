@@ -22,7 +22,7 @@ namespace Clustering {
     class Cluster {
 
     private:
-        Point centroid;
+        PointPtr centroid;
         int size;
         LNodePtr points;            // head, head is the start of a linked list of LNodes, not a Node its self
                                     // it is a LNodePtr, a pointer to nodes.
@@ -44,7 +44,7 @@ namespace Clustering {
 
 
     public:
-        Cluster() : size(0), points(nullptr) {};
+        Cluster() : size(0), points(nullptr), centroid(nullptr) {};
        ///*
         // The big three: cpy ctor, overloaded operator=, dtor
         Cluster(const Cluster &);
@@ -62,15 +62,15 @@ namespace Clustering {
 
         // IO
         friend std::ostream &operator<<(std::ostream &, const Cluster &);
-        friend std::istream &operator>>(std::istream &, Cluster &);
+        friend std::istream &operator>>(std::istream &, Cluster &);               /// worry about last
 
         // Set-preserving operators (do not duplicate points in the space)
         // - Friends
-        friend bool operator==(const Cluster &lhs, const Cluster &rhs);
+        friend bool operator==(const Cluster &lhs, const Cluster &rhs);          // done
 
         // - Members
         //friend Point &operator+=(Point &, const Point &); // union
-        Cluster &operator-=(const Cluster &rhs); // (asymmetric) difference
+        Cluster &operator-=(const Cluster &rhs); // (asymmetric) difference     // next
         Cluster &operator+=(const Cluster &rhs); // union
         Cluster &operator+=(const Point &rhs); // add point */                      // done
         Cluster &operator-=(const Point &rhs); // remove point                      // done

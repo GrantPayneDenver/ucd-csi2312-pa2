@@ -10,20 +10,6 @@
 
 const int DIMS = 3;
 
-//Dfault Constructor
-// implemented at start of p3 so that Cluster can have a Point called Centroid.
-Point::Point()
-{
-    // initialize Point to size 3, all dimensions are 0
-
-    dim = 3;
-    coor = new double[dim];
-    for(int i =0; i < 3; i++)
-    {
-        coor[i] = 0;
-    }
-}
-
 // Constructor
 // takes in dim, creates dynamic array size of dim, coor then points to it
 Point::Point(int num) {
@@ -69,9 +55,11 @@ Point::Point(double points[], int len)
 // p1 = p2.
 Point& Point::operator=(const Point &rhs)
 {
-    delete []coor;  // delete current array
+    //delete []coor;  // delete current array      incase dims isn't equal??? shouldn't happen tho.
 
-    coor = new double[rhs.dim];
+    //coor = new double[rhs.dim];
+
+    dim = rhs.dim;
 
     for (int i = 0; i < dim; i++)
     {

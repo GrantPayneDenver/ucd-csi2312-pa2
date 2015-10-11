@@ -8,7 +8,6 @@ int DIM = 3;
 namespace Clustering {
 
 // Cluster.cpp
-// Note: not all methods shown
 
 // copy ctor
     Cluster::Cluster(const Cluster &rhs) {
@@ -193,6 +192,7 @@ Cluster::~Cluster() {
             {
                 prev->next = curr->next;// save linkage between previous node and node after curr
                 delete curr;
+                --size;
             }
         }
 
@@ -245,14 +245,111 @@ Cluster::~Cluster() {
                 i++;
             }
 
-
-            out << "Centroid" << std::endl << c.centroid << std::endl;
-
-
+            out << "Centroid" << std::endl << *c.centroid << std::endl;
         }
-
         return out;
     } // end overloaded <<
+
+//Set Preserving Operators
+    //friends
+    bool operator==(const Cluster &lhs, const Cluster &rhs)
+    {
+        bool same = true;       // clusters same until proven otherwise
+
+        // if clusters are empty then they're the same
+
+        if (lhs.points == nullptr && rhs.points == nullptr)
+            return same;
+
+        // if clusters are differnt size then not same
+        if (lhs.size != rhs.size)
+        {
+            same = false;
+            return same;
+        }
+        // if clusters are more than size one, go through linked list and compare
+        // using overloaded == operator of Points.
+
+        LNodePtr leftPtr = lhs.points;
+        LNodePtr rightPtr= rhs.points;
+
+        while(leftPtr != nullptr)
+        {
+            if(*leftPtr->p != *rightPtr->p)
+            {
+                same = false;
+                return same;
+            }
+
+            leftPtr = leftPtr->next;
+            rightPtr = rightPtr->next;
+
+        }// while
+
+        return same;
+
+    }// end == operator
+
+//SET DESTRUCTIVE OPERATORS
+    //Duplicate points in the space
+    /*
+     * Overload operator+ to represent the UNION of two Cluster-s.
+     * Example: C1 + C2. Hint: The union of two sets contains all the distinct elements that are in one, the other, or both sets. For example,
+     * (p1, p3, p4) + (p4, p5, p8) is (p1, p3, p4, p5, p8).
+     */
+
+    //+ operator
+    const Cluster operator+(const Cluster &lhs, const Cluster &rhs)
+    {
+        // take two const clust refs
+        // return the union of them, all distinct elements, in a clust
+
+        // check for clusters being empty, just return an empty cluster
+
+        Cluster c;                                // new cluster
+
+        if(lhs.size == 0 && rhs.size == 0)
+        {
+            return c;
+        }
+
+        c = lhs;                                  // assign cluster c to lhs cluster, SOMEHOW CENTROIDS ARE SAME...weird..
+        LNodePtr nextNode = c.points;             // node to travel through lhs's nodes, that are in c
+        LNodePtr addInNode = rhs.points;          // travels through rhs, assigns nodes into c if need be
+
+        //outer loop, run through rhs' points
+        // inner loop, run through c's points
+
+        while(addInNode != nullptr)
+        {
+            //bool add, true, meaning we assume that each node of rhs is distinct and should go into c
+            //until discovered otherwise
+            bool add = true;
+
+            while(nextNode != nullptr)     // step through c
+            {
+
+                if(*addInNode->p == *nextNode->p)
+                {
+                    add = false;
+                    break;
+                }
+
+                nextNode = nextNode->next;
+            } //while
+            // if add wasn't made false, add addInNode to c
+
+            if(add)
+            {
+                c.add(addInNode->p);        // c.add with a pointPtr argument.
+                c.size++;
+            }
+
+            addInNode = addInNode->next;    // on to next node in rhs
+        } // while
+
+        return c;
+    }// end overloaded + operator
 
 /*    const Cluster Clustering::operator+(const Cluster &lhs, const Cluster &rhs)
     {
@@ -285,20 +382,23 @@ void Cluster::calcCent()
 {
     if (points) // if linked list not empty.
     {
-       if (size == 1)
+
+       if (size == 1)                                             // centroid has a dynamic point
        {
-           centroid = *points->p;
+           centroid = new Point(points->p->getDims());
+           *centroid = *points->p;                                  // centroid PointPtr = LNodePtr's LNode's PointPtr
+
        }
        else
        {
-           centroid = *points->p;
-
            // p1/3 + p2/3 + p3/3, 3 = size of linked list, or size member of cluster
 
-           centroid = *points->p / size;             // hp = p1 / 3, if there are 3 nodes
+           centroid = new Point(points->p->getDims());
+
+           *centroid = *points->p / size;            // hp = p1 / 3, if there are 3 nodes
            LNodePtr curr = points->next;             // access p2
            while (curr != nullptr) {
-               centroid += *curr->p / size;          // hp = p2 /3
+               *centroid += *curr->p / size;         // hp = p2 /3
 
                curr = curr->next;                    // iterate to next node
            }//while

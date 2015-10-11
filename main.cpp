@@ -15,10 +15,6 @@ int DIMS = 3; // default dimensions for program is 3
 int main()
 {
     /*10/5
-     * don't kno how to implement clustor dtr
-     * get weird runtime errors when I do += and -= for point class, -= cause segABRT
-     *
-     * 10/8 seem to have dtr and +- and +=
      *
      * must finish point >> operator
      * and finish cluster class
@@ -26,6 +22,15 @@ int main()
      *
      * retest point = operator.
      *
+     * Cluster member CENTROID should be a PointPtr, re configure program accordingly.  // do this first
+     * can't have a no argument point constructor >.<
+     *dothis first, getting weird error from
+     *centroid constructor, I think.
+     *
+     *retest centroid calc func            calc cent  works i think.. changed overloaded point = operator.
+     *retest cluster << for centroid member
+     *test cluster + operator
+
     */
 
     Point p1(DIMS, 1, 2, 3);
@@ -76,27 +81,37 @@ int main()
     //Point p5(DIMS, 9, 10, 8);
     //Point p6(DIMS, 9, 9, 10);
 
-    Cluster c1;
-
-    PointPtr ptr2 = &p1;
-
-    c1.add(ptr2);
-    ptr2 = &p3;
-    c1.add(ptr2);
-    ptr2 = &p4;
-    c1.add(ptr2);
-
-    ptr2 = &p2;
 
 
-    c1 += p2;    // has p2 only after this
-    c1 -= p2;
-    c1.remove(ptr2);
+   Cluster c1;
+
+    c1+=p1;
+    c1+=p2;
+    c1+=p3;
+
+    Cluster c2;
+    c2+= p1;
+    c2+= p2;
+    c2+= p3;
 
     c1.calcCent();
 
     cout << c1;
+    cout << c2;
 
+    if (c1 == c2)
+    {
+        cout <<"c1 == c2" << endl;
+    }
+
+    c2+=p4;
+
+    Cluster c3;
+
+    c3 = c1 + c2;
+
+
+    cout <<"Cluser 3, union of c2 and c1" << c3 << endl;
 
 
 
