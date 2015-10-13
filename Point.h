@@ -68,7 +68,7 @@
         friend Point operator-=(Point &, const Point &);
 
         friend std::ostream &operator<<(std::ostream &, const Point &);
-        friend std::istream &operator>>(std::istream &, Point &);
+        friend std::istream &operator>>(std::istream &, Point &);                // have yet to do
 
     };
 
