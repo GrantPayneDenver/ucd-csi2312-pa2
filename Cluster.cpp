@@ -9,42 +9,109 @@ namespace Clustering {
 
 // Cluster.cpp
 
+    Cluster &Cluster::operator=(const Cluster &rhs)
+    {
+
+        // FIRST, clear out calling cluster if need be.
+        // assign size of calling obj to parameter obj
+        // handle parameter obj being 0 or 1 in size first
+
+        if(points != nullptr)                       // do work if cluster isn't empty
+        {
+            if (size == 1)
+            {
+                delete points;
+            }
+            else
+            {
+                LNodePtr next = points->next;      // get node after points node
+
+                for(int i = 0; i < size -1; i++)   // delete nodes up until you have one left
+                {
+                    delete points;
+                    points = next;
+                    next = next->next;
+                }
+                delete points;                      // delete last node
+            }
+        }
+
+        this->size = rhs.size;                // copy size of rhs into calling obj
+
+        if(this->size == 0)                   // if it turns out that calling obj was empty return this.
+        {
+            return *this;
+        }
+        if(this->size == 1)
+        {
+            LNodePtr onlyNode = new LNode();  // take care of first and only node;
+            onlyNode->p = rhs.points->p;      // copy the one point
+            this->points = onlyNode;          // link head to onlyNode
+            return *this;
+        }
+
+        LNodePtr copy = rhs.points;
+
+        LNodePtr firstNode = new LNode();  // take care of first node;
+        firstNode->p = copy->p;
+        this->points = firstNode;
+        LNodePtr prev = firstNode;
+        copy = copy->next;
+
+        while(copy)//should work even if size is zero
+        {
+            LNodePtr newNode = new LNode();
+            newNode->p = copy->p;
+            prev->next = newNode;
+            prev = newNode;
+            copy = copy->next;
+        }
+
+      return *this;
+    }// end = operator
+
 // copy ctor
-    Cluster::Cluster(const Cluster &rhs) {
+    Cluster::Cluster(const Cluster &rhs)
+    {
         std::cout << "copy constructor entered" << std::endl;
 
 
         this->size = rhs.size;
 
-        // need a conditional block to handle an empty cluster
+        if(this->size > 1) {
 
-        // take care of first case, linking head to first node
-        //create new node
-        //assign new head to it
-        //now go through
+            LNodePtr firstNode = new LNode();
+            this->points = firstNode;      // link the new c's head to first node
+            LNodePtr prevNode = firstNode; // set prevNode to first for a linking mechanism
+            LNodePtr iterate = rhs.points; // points to first node of copied c
+            firstNode->p = iterate->p;     // copies point information
+            iterate = iterate->next;       // set iterate to next node of copied c to 'prime' the for loop
 
-        LNodePtr firstNode = new LNode();
-        this->points = firstNode;      // link the new c's head to first node
-        LNodePtr prevNode = firstNode; // set prevNode to first for a linking mechanism
-        LNodePtr iterate = rhs.points; // points to first node of copied c
-        firstNode->p = iterate->p;     // copies point information
-        iterate = iterate->next;       // set iterate to next node of copied c to 'prime' the for loop
+            for (; iterate != NULL; iterate = iterate->next) {
+                // for each node of copied c
+                // create a new node
+                // set prev node point to new node
+                // copy c's node's p pointer
+                std::cout << "copy test" << std::endl;
+                LNodePtr newNode = new LNode();            // create new node
+                prevNode->next = newNode;                  // link the new node to new list
+                prevNode = newNode;                        // set prevNode to new node
+                newNode->p = iterate->p;                   // copy data from old point to new point
+            }
+        }// if size > 1
 
-        for (; iterate != NULL; iterate = iterate->next) {
-            // for each node of copied c
-            // create a new node
-            // set prev node point to new node
-            // copy c's node's p pointer
-            std::cout << "copy test" << std::endl;
-            LNodePtr newNode = new LNode();            // create new node
-            prevNode->next = newNode;                  // link the new node to new list
-            prevNode = newNode;                        // set prevNode to new node
-            newNode->p = iterate->p;                   // copy data from old point to new point
+        if(this->size == 1)
+        {
+            LNodePtr onlyNode = new LNode();
+            onlyNode->p = rhs.points->p;
+            this->points = onlyNode;
         }
-    }
+
+        //if size is 0, then nothing will happen
+
+    } //cpy ctr
 
 // dtor
-
 Cluster::~Cluster() {
     // delete PointPtrs and nodes
 
@@ -59,7 +126,7 @@ Cluster::~Cluster() {
      *  use the size member to help.
      */
 
-    LNodePtr next = points->next;
+
     if(points != nullptr)                       // do work if cluster isn't empty
     {
         if (size == 1)
@@ -68,6 +135,8 @@ Cluster::~Cluster() {
         }
         else
         {
+            LNodePtr next = points->next;      // get node after points node
+
             for(int i = 0; i < size -1; i++)   // delete nodes up until you have one left
             {
                 delete points;
@@ -167,11 +236,12 @@ Cluster::~Cluster() {
         LNodePtr curr;             // traverse nodes
         LNodePtr prev;
 
-        if(points->p == pd) // if first node is the one to be removed
+        if(*points->p == *remove->p) // if first node is the one to be removed
         {
             curr = points->next;   // save the second node
             delete points;         // delete first node
             points = curr;         // set head to second node.
+            --size;
         }
 
         else
@@ -193,15 +263,28 @@ Cluster::~Cluster() {
                 prev->next = curr->next;// save linkage between previous node and node after curr
                 delete curr;
                 --size;
+                if(size == 0)
+                points = nullptr;
             }
         }
-
-
-
 
     }// end remove
 
 //++++++++++++++++++++++++ MEMBERS +++++++++++++++++++++++++++++++++++++\\\
+
+    Cluster& Cluster::operator+=(const Cluster &rhs)
+    {
+        Cluster c = *this;
+        *this = c + rhs;
+        return *this;
+    }// end += for clusters
+
+    Cluster& Cluster::operator-=(const Cluster &rhs)
+    {
+        Cluster c = *this;
+        *this = c - rhs;
+        return *this;
+    }// end -= for clusters
 
     Cluster& Cluster::operator+=(const Point &rhs)
     {
@@ -217,12 +300,6 @@ Cluster::~Cluster() {
 
         return *this;
     }//end -= for points
-
-// +++++++++++++++++++++++ OVERLOADEDS ++++++++++++++++++++++++++++++++++ \\
-
-
-
-
 
 
 // parameters: const Cluster reference obj, ostream obj, (i think)
@@ -245,50 +322,19 @@ Cluster::~Cluster() {
                 i++;
             }
 
+            if(c.centroid)
             out << "Centroid" << std::endl << *c.centroid << std::endl;
+            else{
+                out << "Centroid not yet calculated" << std::endl;
+            }
+        }
+
+        else{
+            out << "Cluster is empty. " << std::endl;
         }
         return out;
     } // end overloaded <<
 
-//Set Preserving Operators
-    //friends
-    bool operator==(const Cluster &lhs, const Cluster &rhs)
-    {
-        bool same = true;       // clusters same until proven otherwise
-
-        // if clusters are empty then they're the same
-
-        if (lhs.points == nullptr && rhs.points == nullptr)
-            return same;
-
-        // if clusters are differnt size then not same
-        if (lhs.size != rhs.size)
-        {
-            same = false;
-            return same;
-        }
-        // if clusters are more than size one, go through linked list and compare
-        // using overloaded == operator of Points.
-
-        LNodePtr leftPtr = lhs.points;
-        LNodePtr rightPtr= rhs.points;
-
-        while(leftPtr != nullptr)
-        {
-            if(*leftPtr->p != *rightPtr->p)
-            {
-                same = false;
-                return same;
-            }
-
-            leftPtr = leftPtr->next;
-            rightPtr = rightPtr->next;
-
-        }// while
-
-        return same;
-
-    }// end == operator
 
 //SET DESTRUCTIVE OPERATORS
     //Duplicate points in the space
@@ -296,13 +342,16 @@ Cluster::~Cluster() {
      * Overload operator+ to represent the UNION of two Cluster-s.
      * Example: C1 + C2. Hint: The union of two sets contains all the distinct elements that are in one, the other, or both sets. For example,
      * (p1, p3, p4) + (p4, p5, p8) is (p1, p3, p4, p5, p8).
+     *
+     * set destructive, so I need to make new Points???
+     * would there be a call to =operator then???
      */
 
     //+ operator
     const Cluster operator+(const Cluster &lhs, const Cluster &rhs)
     {
         // take two const clust refs
-        // return the union of them, all distinct elements, in a clust
+        // return the the points in lhs that are distinct from rhs
 
         // check for clusters being empty, just return an empty cluster
 
@@ -341,37 +390,78 @@ Cluster::~Cluster() {
 
             if(add)
             {
-                c.add(addInNode->p);        // c.add with a pointPtr argument.
-                c.size++;
+                //PointPtr p = new Point(*addInNode->p);       // now we have dynamic point, whereas all others are static..hmm
+
+                Point p(*addInNode->p);
+
+                //c.add(p);        // c.add with a pointPtr argument.
+
+                c+=p;              // p should go out of scope, but might be okay...
             }
 
             addInNode = addInNode->next;    // on to next node in rhs
+            nextNode = c.points;            // set nextNode back to start of c list.
         } // while
 
         return c;
     }// end overloaded + operator
 
-/*    const Cluster Clustering::operator+(const Cluster &lhs, const Cluster &rhs)
-    {
-        // get union, or proper set of both clusters
-        // store one cluster in a new cluster, cluster stored is lhs
-        Cluster c(lhs);
 
-        LNodePtr next = rhs.points;
-        while(next!= nullptr)
+                      // !!! //
+
+
+    //overloaded - operator
+    const Cluster operator-(const Cluster &lhs, const Cluster &rhs)
+    {
+        // take two const clust refs
+        // return the the points in lhs that are distinct from rhs
+
+        // check for clusters being empty, just return an empty cluster
+
+        Cluster c;                                // new cluster
+
+        if(lhs.size == 0 && rhs.size == 0)
         {
-            c.add(next->p);          // add each node of rhs to c. add function should determine whether it
-                                     // should really be added or not.
-                                     // if two nodes are literally same, ie same mem address, then don't add
-            next = next->next;
+            return c;
         }
 
-        // loop thru rhs and add its points using add function, which will
-        // only add if the point being added is unique
+        c = lhs;                                  // assign cluster c to lhs cluster, SOMEHOW CENTROIDS ARE SAME...weird..
+        LNodePtr nextNode = c.points;             // node to travel through lhs's nodes, that are in c
+        LNodePtr addInNode = rhs.points;          // travels through rhs, assigns nodes into c if need be
 
-        return c;
-    }
-*/
+        //outer loop, run through rhs' points
+        // inner loop, run through c's points
+
+        while(addInNode != nullptr)                // while running thru rhs
+        {
+                                                   //bool out, false, meaning assume that we'll not be trimming a node from c upon inspecting rhs
+            bool out = false;
+
+            while(nextNode != nullptr)             // step through c
+            {
+
+                if(*addInNode->p == *nextNode->p)  // found a node in rhs that matches a node in c
+                {
+                    out = true;
+                    break;
+                }
+
+                nextNode = nextNode->next;
+            } // inner while
+                                                   // if break, get out of searching thru c
+            if(out)                                // found a node to remove from c
+            {
+                Point p(*addInNode->p);
+
+                c-=p;                       // error caused here.. does remove actually work?
+            }
+
+            addInNode = addInNode->next;    // on to next node in rhs
+            nextNode = c.points;            // set nextNode back to start of c list.
+        } // outer while
+
+    return c;
+}// end overloaded -
 
 // +++++++++++++++++++++++ END OVERLOADEDS +++++++++++++++++++++++++++++++++ \\
 
@@ -380,6 +470,9 @@ Cluster::~Cluster() {
 
 void Cluster::calcCent()
 {
+    if(size == 0)
+        points = nullptr;
+
     if (points) // if linked list not empty.
     {
 
@@ -407,6 +500,65 @@ void Cluster::calcCent()
 
 } // calcCent
 
+
+//FRIENDS
+
+    // ======
+    bool operator==(const Cluster &lhs, const Cluster &rhs)
+    {
+        bool same = true;       // clusters same until proven otherwise
+
+        // if clusters are empty then they're the same
+
+        if (lhs.points == nullptr && rhs.points == nullptr)
+            return same;
+
+        // if clusters are differnt size then not same
+        if (lhs.size != rhs.size)
+        {
+            same = false;
+            return same;
+        }
+        // if clusters are more than size one, go through linked list and compare
+        // using overloaded == operator of Points.
+
+        LNodePtr leftPtr = lhs.points;
+        LNodePtr rightPtr= rhs.points;
+
+        while(leftPtr != nullptr)
+        {
+            if(*leftPtr->p != *rightPtr->p)
+            {
+                same = false;
+                return same;
+            }
+
+            leftPtr = leftPtr->next;
+            rightPtr = rightPtr->next;
+
+        }// while
+
+        return same;
+
+    }// end == operator
+
+    // friend +
+    const Cluster operator+(const Cluster &lhs, const PointPtr &rhs)    // c2 = c1 + p1
+    {
+        Cluster c(lhs);
+        c.add(rhs);
+        return c;
+    }// end friend +
+
+    // friend -
+    const Cluster operator-(const Cluster &lhs, const PointPtr &rhs)    // c2 = c1 - p1
+    {
+        Cluster c(lhs);
+        c.remove(rhs);
+        return c;
+    }// end friend -
+
+// end FRIENDS
 
 } // clustering
 

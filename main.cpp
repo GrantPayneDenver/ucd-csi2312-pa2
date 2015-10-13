@@ -21,15 +21,13 @@ int main()
      *
      *
      * retest point = operator.
-     *
-     * Cluster member CENTROID should be a PointPtr, re configure program accordingly.  // do this first
-     * can't have a no argument point constructor >.<
-     *dothis first, getting weird error from
-     *centroid constructor, I think.
-     *
-     *retest centroid calc func            calc cent  works i think.. changed overloaded point = operator.
-     *retest cluster << for centroid member
+
      *test cluster + operator
+     * do - and + operator work with clusters that are only one node?
+
+     need to handle empty rhs clusters in = and cpy ctr for cluster
+
+
 
     */
 
@@ -41,10 +39,9 @@ int main()
     Point z (DIMS, 3, 3, 3);
     Point z2(DIMS, 3, 3, 3);
 
-    /*
 
-    Point p;// call default
-    p = p1;
+
+/*
 
     z += p1;
 
@@ -73,7 +70,7 @@ int main()
     p2 = z - 1;           // this may not work, need ot override -= function for doubles too.
     cout << z << endl;
 
-    */
+*/
 
 
     // p4, p2, p1, p3, p5
@@ -91,55 +88,19 @@ int main()
 
     Cluster c2;
     c2+= p1;
-    c2+= p2;
-    c2+= p3;
-
-    c1.calcCent();
-
-    cout << c1;
-    cout << c2;
-
-    if (c1 == c2)
-    {
-        cout <<"c1 == c2" << endl;
-    }
-
+    c2 +=p2;
+    c2 +=p3;
     c2+=p4;
 
-    Cluster c3;
+    c1-=c2;
+    c1.calcCent();
 
-    c3 = c1 + c2;
+    PointPtr ptr = &p4;
 
+    c1 = c2 - ptr;
 
-    cout <<"Cluser 3, union of c2 and c1" << c3 << endl;
+    cout << c1 << endl;
 
-
-
-/*
-   PointPtr pt = &z;
-
-    int i = 0;
-    if (i == 0)
-    {
-        Cluster c2;
-        c2.add(pt); /// this may have called destructor
-
-
-        cout << "!!!" << endl;
-    } // cluster goes out  of scope
-
-*/
-//3    cout << c1;
-
-   // cout << p1 << endl;
-   // cout << p2 << endl;
-   // cout << p3;
-
-   // cout << c1;
-    //cout << p2;
-
-    // make
-    //cout << c2;
 
     return 0;
 }

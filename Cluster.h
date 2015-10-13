@@ -47,15 +47,15 @@ namespace Clustering {
         Cluster() : size(0), points(nullptr), centroid(nullptr) {};
        ///*
         // The big three: cpy ctor, overloaded operator=, dtor
-        Cluster(const Cluster &);
+        Cluster(const Cluster &);                                                  // done
 
 
-//         Cluster &operator=(const Cluster &);
+        Cluster &operator=(const Cluster &);                                       // implement
         ~Cluster();
 
         // Set functions: They allow calling c1.add(c2.remove(p));
         // take point out of c2 and give to c1
-        void add(const PointPtr &pnt);
+        void add(const PointPtr &pnt);                                             //done
 
         const PointPtr &remove(const PointPtr &);                                  //// done
         // Overloaded operators
@@ -69,19 +69,19 @@ namespace Clustering {
         friend bool operator==(const Cluster &lhs, const Cluster &rhs);          // done
 
         // - Members
-        //friend Point &operator+=(Point &, const Point &); // union
-        Cluster &operator-=(const Cluster &rhs); // (asymmetric) difference     // next
-        Cluster &operator+=(const Cluster &rhs); // union
-        Cluster &operator+=(const Point &rhs); // add point */                      // done
-        Cluster &operator-=(const Point &rhs); // remove point                      // done
+
+        Cluster &operator-=(const Cluster &rhs); // (asymmetric) difference     // done
+        Cluster &operator+=(const Cluster &rhs); // union                       // done
+        Cluster &operator+=(const Point &rhs);   // add point */                // done
+        Cluster &operator-=(const Point &rhs);   // remove point                // done
 
         // Set-destructive operators (duplicate points in the space)
         // - Friends
-        friend const Cluster operator+(const Cluster &lhs, const Cluster &rhs);
-        friend const Cluster operator-(const Cluster &lhs, const Cluster &rhs);
+        friend const Cluster operator+(const Cluster &lhs, const Cluster &rhs);     //done
+        friend const Cluster operator-(const Cluster &lhs, const Cluster &rhs);     // will have same issue I'm sure..
 
-        friend const Cluster operator+(const Cluster &lhs, const PointPtr &rhs);
-        friend const Cluster operator-(const Cluster &lhs, const PointPtr &rhs);
+        friend const Cluster operator+(const Cluster &lhs, const PointPtr &rhs);    // c2 = c1 + p1 // done
+        friend const Cluster operator-(const Cluster &lhs, const PointPtr &rhs);    // c2 = c1 - p1 // done
 
         /*
          * need a void pickPoints func
