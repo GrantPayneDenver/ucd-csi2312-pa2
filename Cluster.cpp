@@ -242,6 +242,7 @@ Cluster::~Cluster() {
             delete points;         // delete first node
             points = curr;         // set head to second node.
             --size;
+            return pd;
         }
 
         else
@@ -265,6 +266,7 @@ Cluster::~Cluster() {
                 --size;
                 if(size == 0)
                 points = nullptr;
+                return pd;
             }
         }
 
@@ -559,6 +561,20 @@ void Cluster::calcCent()
     }// end friend -
 
 // end FRIENDS
+
+
+//=========================== MOVE =======================================\\
+
+    void Cluster::Move::perform(const PointPtr &pt, Cluster *to, Cluster *from)
+    {
+
+        to->add(from->remove(pt));
+
+    }// end perfomr
+
+
+
+
 
 } // clustering
 

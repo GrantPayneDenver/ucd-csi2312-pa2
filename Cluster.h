@@ -31,7 +31,7 @@ namespace Clustering {
         class Centroid
         {
         private:
-            int num = 3;               // gotta remove later
+
             Point centroid;            //
                                        // will need to calc mean of points on its own or get it from something else...
 
@@ -41,6 +41,22 @@ namespace Clustering {
             void setCent(Point &);
         };
 
+    public:
+        class Move
+        {
+            /*
+             * Public inner class Move to represent the motion of a point from one cluster to another.
+             * This is not overkill but tight encapsulation of two operations, add() and remove(),that have to be kept together. Functionality:
+Constructor taking const PointPtr &ptr, Cluster *from, Cluster *to. Note 1: The arguments are Cluster pointers.
+             Since Move is an inner class for Cluster, the type Cluster is not defined yet at the time of the declaration of class Move.
+             Note 2: The cluster arguments are non-constant since the operations on them will change them.
+Method perform() which invokes to->add(from->remove(ptr));
+Invalidates the centroids of both cluster from and to.
+             */
+        public:
+            void perform(const PointPtr &, Cluster *, Cluster *);
+
+        };
 
 
     public:

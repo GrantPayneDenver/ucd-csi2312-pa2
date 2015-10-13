@@ -25,7 +25,8 @@ int main()
      *test cluster + operator
      * do - and + operator work with clusters that are only one node?
 
-     need to handle empty rhs clusters in = and cpy ctr for cluster
+     // MAKE SURE THAT ALL MUTATOR FUNCS THAT CHANGE A CLUSTER INVALIDATE THE CENTROID
+     //
 
 
 
@@ -92,14 +93,21 @@ int main()
     c2 +=p3;
     c2+=p4;
 
-    c1-=c2;
+    //c1-=c2;
     c1.calcCent();
 
     PointPtr ptr = &p4;
 
-    c1 = c2 - ptr;
+    //c1 = c2 - ptr;
 
     cout << c1 << endl;
+
+    Cluster::Move m;
+
+    Cluster *pc1 = &c1;
+    Cluster *pc2 = &c2;
+
+    m.perform(ptr, pc1, pc2);
 
 
     return 0;
