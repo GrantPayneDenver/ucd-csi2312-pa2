@@ -563,7 +563,7 @@ void Cluster::calcCent()
 // end FRIENDS
 
 
-//=========================== MOVE =======================================\\
+//=========================== MOVE CLASS ===================================\\
 
     void Cluster::Move::perform(const PointPtr &pt, Cluster *to, Cluster *from)
     {
@@ -571,10 +571,7 @@ void Cluster::calcCent()
         to->add(from->remove(pt));
 
     }// end perfomr
-
-
-
-
-
 } // clustering
+
+
 

@@ -142,7 +142,73 @@ string line
 for (i = 0; i < line.size; i++)
 if(line[i] == 'thing'
 
+inititailiztion
 
+"
+load up all points into one cluster, call it points space. we just need  a place to put all the points initially
+say k = 5
+
+make k - 1 empty clusters
+
+
+pick k centroids from the one cluster, just peruse the points in your points space
+
+
+distribute the centroids to empty clusters
+!Don't confuse setting these first centroids with adding!
+You give the centroids a point to define themselves, but this point is NOT part of the cluster.
+
+The first PointsSpace cluster ends up being it's own cluster too (shrinks down while the empty ones grow), that's why you do k-1 empty clusters.
+
+If you have the bug where a point is in two or more clusters, when that shouldn't happen,
+this will show its self when you double delete a point.
+
+delete ptr
+
+delete ptr - this one will be a SIGABRT "pointer deleted that wasn't initialized or assigned"
+
+"
+Create a cluster point_space (the rest OPTIONAL) with __release_points set to true
+Open data file and read in points into point_space
+Pick k points to serve as initial centroids
+Create k-1 empty clusters (the rest OPTIONAL) with __release_points set to false
+Set the centroids of the the k clusters to the k points that were picked
+Create double score, double scoreDiff
+Set scoreDiff = CHANGE_THRESHOLD + 1
+
+iterations
+"
+must look at all points of all clusters
+use const pointers when looking points, probably..
+Accessing the points.. could use [] operator. // but that has issues.
+
+move class could actually do more than just perform
+could also maybe figure out point removal and such, with comparing two clusters to see
+if they need aa perform.
+
+avoid overflow with static casting when you compute centroid
+
+"
+
+
+    loop until scoreDiff < CHANGE_THRESHOLD
+        loop through all clusters
+            loop through all points                    // find point that's closest to centroid?
+                find the min distance(point, centroid) /// ?so min dist says hey, if this point is not within this distance to the cent, then it's gotta go
+                if centroid not of current cluster
+                    perform move(point, current, other)
+        loop through all clusters
+            if centroid invalid
+                compute and set valid to true
+        compute new clustering score
+        compute absolute difference and set scoreDiff
+
+
+teardown
+
+write out the clustering results to a file
+(OPTIONAL) move all points back to point_space by setting all other centroids to infinity
+delete all clusters
 
 
 
