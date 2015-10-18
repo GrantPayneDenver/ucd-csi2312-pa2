@@ -5,8 +5,9 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 
-
+using namespace std;
 
 const int DIMS = 3;
 
@@ -238,12 +239,18 @@ bool operator>(const Point &a, const Point &b)          // greater than operator
 
     bool greater = true;
                                                         // a is larger until proven otherwise
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < a.dim; i++)
     {
 
-        if (b.coor[i] > a.coor[i]) {                   // if any b coor is larger then any a coor we have a false situation
+        if (b.coor[i] > a.coor[i])                      // if any b coor is larger then any a coor we have a false situation
+        {
             greater = false;
-            break;
+            return greater;
+        }
+        if(a.coor[i] > b.coor[i])
+        {
+            greater = true;
+            return greater;
         }
     }
 
@@ -254,7 +261,7 @@ bool operator>=(const Point &a, const Point &b)
 {
     bool greaterOrEqual = true;
     // a is greater or equal until proven otherwise
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < a.dim; i++)
     {
         if (b.coor[i] > a.coor[i]) {                   // if any b coor is larger then any a coor we have a false situation
             greaterOrEqual = false;
@@ -267,10 +274,12 @@ bool operator>=(const Point &a, const Point &b)
 
 std::ostream &operator<<(std::ostream &out, const Point &p)
 {
+    cout<< std::fixed << std::setprecision(1);
+
     for (int i = 0; i < p.dim; i++)
     {
-        out << "Dimension " << i << ": "  << p.coor[i] << std::endl; // if i don't end line with <<std::end; nothing prints
-    }   // out is a ostream built up during this loop, it's returned after the loop concludes as one whole package
+        out << p.coor[i] << ", ";
+    }
 
     return out;
 
@@ -334,38 +343,34 @@ const Point operator-(const Point &a, const Point &b) // just make sure its like
 }
 // end - operator
 
-/*
-std::istream& operator>>(std::istream&, Point &p)
+
+std::istream& operator>>(std::istream& lineStream, Point &p)
 {
+    int i = 0;
+    double d;
+    string value;
 
-    ifstream csv("C:\\Users\\Folio\\Deskto\\School\\intPA2\\ucd-csi2312-pa2\\csv.txt");
+    //point>>
 
-    string line;
+    while (getline(lineStream, value, ','))
+    {
+        string text = value;
 
-    if (csv.is_open()) {
+        double num;
 
-        while (getline(csv,line)) {
+        std::stringstream thing(text);
 
-            std::cout << "Line: " << line << std::endl;
+        if(!(thing >> num)) // if this doesn't work, num = 0;
+            num = 0;
 
-            stringstream lineStream(line);
-            string value;
-            double d;
-            Point p(5);
+        d = num;
 
-            int i = 1;
-            while (getline(lineStream, value, ',')) {
-                d = strtod(value);
+        std::cout << "Value: " << d << std::endl;
 
-                std::cout << "Value: " << d << std::endl;
-
-                p.setValue(i++, d);
-            }
-            std::cout << "Point: " << p << std::endl;
-        }
+        p.setValue(i++, d);
     }
-    csv.close();
+
 }
-*/
+
 //********************************************************
 //End overloaded operators

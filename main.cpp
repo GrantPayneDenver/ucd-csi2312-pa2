@@ -1,10 +1,7 @@
 #include <iostream>
 #include "Point.h"
 #include "Cluster.h"
-#include <fstream>
-#include <sstream>
-#include <string>
-
+#include <cstdlib>
 
 using namespace std;
 
@@ -12,8 +9,75 @@ using namespace Clustering;
 
 int DIMS = 3; // default dimensions for program is 3
 
-int main()
+
+int GenerateID()
 {
+    static int s_nID = 0;
+    return s_nID++;
+}
+
+int main()
+
+{
+
+        std::cout << GenerateID() << std::endl;
+        std::cout << GenerateID() << std::endl;
+        std::cout << GenerateID() << std::endl;
+
+    std::fstream seed;
+
+    seed.open("C:\\Users\\Folio\\Desktop\\School\\intPA2\\ucd-csi2312-pa2\\numbers.csv");
+
+    seed.clear();
+
+    for(int i = 0; i < 10; i++)
+    {
+        double num = rand() % 100;
+        seed << num;
+        seed << ",";
+
+        num = rand() % 100;
+        seed << num;
+        seed << ",";
+
+        num = rand() % 100;
+        seed << num;
+        seed << ",";
+
+        num = rand() % 100;
+        seed << num;
+        seed << ",";
+
+        num = rand() % 100;
+        seed << num;
+        seed << std::endl;
+    }
+
+    seed.close();
+
+    Cluster universe;
+
+    std::ifstream csv;
+
+    csv.open("C:\\Users\\Folio\\Desktop\\School\\intPA2\\ucd-csi2312-pa2\\numbers.csv", std::ifstream::in);
+
+    csv >> universe; // call overloaded cluster extraction operator
+
+
+    csv.close();
+
+
+    cout << universe;
+
+    Cluster c1;
+
+    Cluster c2;
+
+    Cluster c3(universe);
+
+
+    double icd = universe.intraClusterDistance();
+
     /*10/5
      *
      * must finish point >> operator
@@ -28,10 +92,8 @@ int main()
      // MAKE SURE THAT ALL MUTATOR FUNCS THAT CHANGE A CLUSTER INVALIDATE THE CENTROID
      //
 
-
-
     */
-
+    /*
     Point p1(DIMS, 1, 2, 3);
     Point p2(DIMS, 4, 5, 6);
     Point p3(DIMS, 1, 1, 1);
@@ -39,9 +101,6 @@ int main()
     Point p5(DIMS, 0, 0, 0);
     Point z (DIMS, 3, 3, 3);
     Point z2(DIMS, 3, 3, 3);
-
-
-
 /*
 
     z += p1;
@@ -80,7 +139,7 @@ int main()
     //Point p6(DIMS, 9, 9, 10);
 
 
-
+/*
    Cluster c1;
 
     c1+=p1;
@@ -109,6 +168,7 @@ int main()
 
     m.perform(ptr, pc1, pc2);
 
+*/
 
     return 0;
 }

@@ -2,12 +2,19 @@
 #include "Cluster.h"
 #include "Point.h"
 #include <iostream>
+#include <cstdlib>
+#include <string>
+#include <fstream>
+#include <sstream>
 
 int DIM = 3;
+
+using namespace std;
 
 namespace Clustering {
 
 // Cluster.cpp
+
 
     Cluster &Cluster::operator=(const Cluster &rhs)
     {
@@ -75,6 +82,7 @@ namespace Clustering {
     {
         std::cout << "copy constructor entered" << std::endl;
 
+        ID = GenerateID();
 
         this->size = rhs.size;
 
@@ -291,7 +299,6 @@ Cluster::~Cluster() {
     Cluster& Cluster::operator+=(const Point &rhs)
     {
         this->add(new Point(rhs));
-
         return *this;
     } // end += for points
 
@@ -299,10 +306,42 @@ Cluster::~Cluster() {
     Cluster& Cluster::operator-=(const Point &rhs)
     {
         this->remove(new Point(rhs));
-
         return *this;
     }//end -= for points
 
+    double Cluster::intraClusterDistance()
+    {
+        double sum = 0;
+        LNodePtr firstNode = points;
+        LNodePtr thruNode = points;
+
+        while(firstNode)
+        {
+            while(thruNode)
+            {
+                sum+= (*firstNode->p).distanceTo(*thruNode->p);
+
+                thruNode = thruNode->next;
+            }
+            firstNode = firstNode->next;
+        }
+
+        return sum / 2;
+    }
+
+/*
+    void Cluster::pickPoints()
+    {
+        array = new Point[size];
+        LNodePtr curr = points;
+        int k = 0;
+        while(curr && k < size)
+        {
+            array[k] = *curr->p;
+            curr = curr->next;
+        }
+    }
+*/
 
 // parameters: const Cluster reference obj, ostream obj, (i think)
 // precondition: Cluster obj isn;t empty
@@ -314,14 +353,14 @@ Cluster::~Cluster() {
 
         if (c.points != NULL)
         {
+           // out << "Cluster ID: " << c.ID << std::endl;
+
             LNodePtr iterate;
 
-            int i = 1;
 
             for (iterate = c.points; iterate != NULL; iterate = iterate->next)
             {
-                out << "Point " << i << std::endl << *iterate->p << std::endl;
-                i++;
+                out << *iterate->p << " : " << c.ID <<  std::endl;
             }
 
             if(c.centroid)
@@ -340,14 +379,6 @@ Cluster::~Cluster() {
 
 //SET DESTRUCTIVE OPERATORS
     //Duplicate points in the space
-    /*
-     * Overload operator+ to represent the UNION of two Cluster-s.
-     * Example: C1 + C2. Hint: The union of two sets contains all the distinct elements that are in one, the other, or both sets. For example,
-     * (p1, p3, p4) + (p4, p5, p8) is (p1, p3, p4, p5, p8).
-     *
-     * set destructive, so I need to make new Points???
-     * would there be a call to =operator then???
-     */
 
     //+ operator
     const Cluster operator+(const Cluster &lhs, const Cluster &rhs)
@@ -478,7 +509,7 @@ void Cluster::calcCent()
     if (points) // if linked list not empty.
     {
 
-       if (size == 1)                                             // centroid has a dynamic point
+       if (size == 1)                                               // centroid has a dynamic point
        {
            centroid = new Point(points->p->getDims());
            *centroid = *points->p;                                  // centroid PointPtr = LNodePtr's LNode's PointPtr
@@ -503,7 +534,7 @@ void Cluster::calcCent()
 } // calcCent
 
 
-//FRIENDS
+//FRIENDS, set preserving
 
     // ======
     bool operator==(const Cluster &lhs, const Cluster &rhs)
@@ -544,6 +575,31 @@ void Cluster::calcCent()
 
     }// end == operator
 
+
+    double interClusterDistance(const Cluster &lhs, const Cluster &rhs)
+    {
+        double sum = 0;
+        LNodePtr firstNode = lhs.points;
+        LNodePtr thruNode = rhs.points;
+
+        while(firstNode)
+        {
+            while(thruNode)
+            {
+                sum+= (*firstNode->p).distanceTo(*thruNode->p);
+
+                thruNode = thruNode->next;
+            }
+            firstNode = firstNode->next;
+        }
+
+        return sum;
+
+    }
+
+// end set preserving
+
+
     // friend +
     const Cluster operator+(const Cluster &lhs, const PointPtr &rhs)    // c2 = c1 + p1
     {
@@ -560,6 +616,33 @@ void Cluster::calcCent()
         return c;
     }// end friend -
 
+    //friend >>
+    std::istream &operator>>(std::ifstream &csv, Cluster &c)
+    {
+        // dimensionality known to user, it's 5
+
+        std::string line;
+
+        if (csv.is_open())
+        {
+            while (getline(csv, line))
+            {
+                std::cout << "Line: " << line << std::endl;
+                std::stringstream lineStream(line);
+                Point p(5);
+
+                // point created with dimensionality five, from here
+                // can use point >> operator and read in dims, then can
+                // come back here and add point to cluster
+
+                lineStream >> p;
+
+                c+=p;
+            }
+        }
+
+    }// end >>
+
 // end FRIENDS
 
 
@@ -567,11 +650,6 @@ void Cluster::calcCent()
 
     void Cluster::Move::perform(const PointPtr &pt, Cluster *to, Cluster *from)
     {
-
         to->add(from->remove(pt));
-
-    }// end perfomr
+    }// end perform
 } // clustering
-
-
-

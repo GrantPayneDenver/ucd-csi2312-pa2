@@ -214,7 +214,19 @@ delete all clusters
 
 
 
+for kmeans class to access points
+since linked list is private, could overload [] of cluster
 
+c[12]
+basetype & op [] (int i); basetyoe = pointPtr
+
+pointPtrs are implicit ID tags for points, with this implementation
+
+Exceptions are part of RAII principle
+basically, errors that you don't want to terminate program on, and continue on.
+
+exceptions, syntax that allows break of regular execution flow. A way to handle anomalous input
+from user.
 
 
 
