@@ -23,7 +23,7 @@ Point::Point(int num) {
         double input;
         //std::cout << "Enter coordinate for dimension " << i << std::endl;
         //std::cin >> input;
-        input = rand() % 10;
+        input = rand() % 20;
         coor[i] = input;
     }
 }
@@ -274,7 +274,7 @@ bool operator>=(const Point &a, const Point &b)
 
 std::ostream &operator<<(std::ostream &out, const Point &p)
 {
-    cout<< std::fixed << std::setprecision(1);
+    cout<< std::fixed <<std::setw(2) << std::setprecision(1);
 
     for (int i = 0; i < p.dim; i++)
     {

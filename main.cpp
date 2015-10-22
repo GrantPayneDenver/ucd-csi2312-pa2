@@ -1,28 +1,42 @@
 #include <iostream>
 #include "Point.h"
 #include "Cluster.h"
+#include "KMeans.h"
 #include <cstdlib>
+
+
 
 using namespace std;
 
 using namespace Clustering;
+/*
+ * update the point <, <=, >=
+ *
+ * retest all cluster funcs, now that I've changed the constructor and initialization
+ *
+ * change all cluster funcs to handle points, not point ptr
+ *
+ * MAKE SURE THAT ALL MUTATOR FUNCS THAT CHANGE A CLUSTER INVALIDATE THE CENTROID
 
-int DIMS = 3; // default dimensions for program is 3
+   - and + functions create a new cluster, which increments the cluster ID generator...
 
+   assignment and copy ctr need to handle centroids. Can't simply have
+   pointPtrs point to same point. That'll be a quick path to segfault.
 
-int GenerateID()
-{
-    static int s_nID = 0;
-    return s_nID++;
-}
+ */
 
 int main()
 
 {
 
-        std::cout << GenerateID() << std::endl;
-        std::cout << GenerateID() << std::endl;
-        std::cout << GenerateID() << std::endl;
+
+   // Cluster* cPtr;
+   // cPtr = new Cluster(5);
+
+    //Point pointArray[10];
+    //int foo[3];
+    //Cluster cList[10];
+
 
     std::fstream seed;
 
@@ -55,7 +69,17 @@ int main()
 
     seed.close();
 
-    Cluster universe;
+//    std::ifstream csv;
+
+//    csv.open("C:\\Users\\Folio\\Desktop\\School\\intPA2\\ucd-csi2312-pa2\\numbers.csv", std::ifstream::in);
+
+    KMeans kOne(3, 5);
+
+//    one.setK(5);
+//    one.createClusters(csv, 5);
+
+///*
+    Cluster universe(5);
 
     std::ifstream csv;
 
@@ -63,36 +87,17 @@ int main()
 
     csv >> universe; // call overloaded cluster extraction operator
 
-
     csv.close();
-
 
     cout << universe;
 
-    Cluster c1;
+    //double icd = universe.intraClusterDistance();
+//*/
 
-    Cluster c2;
+// !!!!!!!!!!!!
+//    PointPtr pointArray[universe.getSize()]; // could fill this thing with universe's size
 
-    Cluster c3(universe);
 
-
-    double icd = universe.intraClusterDistance();
-
-    /*10/5
-     *
-     * must finish point >> operator
-     * and finish cluster class
-     *
-     *
-     * retest point = operator.
-
-     *test cluster + operator
-     * do - and + operator work with clusters that are only one node?
-
-     // MAKE SURE THAT ALL MUTATOR FUNCS THAT CHANGE A CLUSTER INVALIDATE THE CENTROID
-     //
-
-    */
     /*
     Point p1(DIMS, 1, 2, 3);
     Point p2(DIMS, 4, 5, 6);
@@ -139,20 +144,31 @@ int main()
     //Point p6(DIMS, 9, 9, 10);
 
 
-/*
-   Cluster c1;
+///*
+    int DIMS = 5;
+
+    Point p1(DIMS);
+    Point p2(DIMS);
+    Point p3(DIMS);
+    Point p4(DIMS);
+    Point p5(DIMS);
+    Point z (DIMS);
+    Point z2(DIMS);
+
+
+   Cluster c1(5);
 
     c1+=p1;
     c1+=p2;
     c1+=p3;
 
-    Cluster c2;
+    Cluster c2(5);
     c2+= p1;
     c2 +=p2;
     c2 +=p3;
     c2+=p4;
 
-    //c1-=c2;
+    c1-=c2;
     c1.calcCent();
 
     PointPtr ptr = &p4;
@@ -168,7 +184,12 @@ int main()
 
     m.perform(ptr, pc1, pc2);
 
-*/
+    universe += c1;
+    universe += c2;
+    universe += c1;
+//*/
+    cout << universe;
 
+    cout <<"end";
     return 0;
 }

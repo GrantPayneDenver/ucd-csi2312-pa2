@@ -22,14 +22,14 @@ namespace Clustering {
     class Cluster {
 
     private:
-        PointPtr array;
-        unsigned int ID;
-        PointPtr centroid;
-        int size;
+        unsigned dimensionality;    // dimensionality of the points that cluster holds
+        unsigned int ID;            // static int that increments when each new C made
+        PointPtr centroid;          // Pointer to a dynamic point, centroid.
+        int size;                   // length of linked list
         LNodePtr points;            // head, head is the start of a linked list of LNodes, not a Node its self
                                     // it is a LNodePtr, a pointer to nodes.
 
-    private:
+    public:
         class Move
         {
         public:
@@ -37,12 +37,15 @@ namespace Clustering {
         };
 
     public:
-        Cluster() : size(0), points(nullptr), centroid(nullptr){ID = GenerateID();};
-       ///*
+        Cluster():dimensionality(0), size(0), points(nullptr), centroid(nullptr){ID = GenerateID();};          // default
+        Cluster(unsigned d) : dimensionality(d), size(0), points(nullptr), centroid(nullptr){ID = GenerateID();};
         // The big three: cpy ctor, overloaded operator=, dtor
         Cluster(const Cluster &);                                                  // done
         Cluster &operator=(const Cluster &);                                       // implement
         ~Cluster();
+
+        int getSize(){return size;}
+        void setDimensionality(unsigned d) {dimensionality = d;};
 
         static unsigned int GenerateID()
         {
@@ -72,7 +75,7 @@ namespace Clustering {
         Cluster &operator+=(const Point &rhs);   // add point */                // done
         Cluster &operator-=(const Point &rhs);   // remove point                // done
         double intraClusterDistance();
-        void pickPoints();
+        void pickPoints(int &, PointPtr& );
 
         // Set-destructive operators (duplicate points in the space)
         // - Friends

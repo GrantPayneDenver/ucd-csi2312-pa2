@@ -7,7 +7,6 @@
 #include <fstream>
 #include <sstream>
 
-int DIM = 3;
 
 using namespace std;
 
@@ -82,6 +81,8 @@ namespace Clustering {
     {
         std::cout << "copy constructor entered" << std::endl;
 
+        this->dimensionality = rhs.dimensionality;
+
         ID = GenerateID();
 
         this->size = rhs.size;
@@ -152,8 +153,13 @@ Cluster::~Cluster() {
                 next = next->next;
             }
             delete points;                      // delete last node
+
+
         }
     }
+
+        if(centroid != nullptr)
+            delete centroid;
 
 } // end ~Cluster
 
@@ -284,15 +290,17 @@ Cluster::~Cluster() {
 
     Cluster& Cluster::operator+=(const Cluster &rhs)
     {
-        Cluster c = *this;
+        Cluster c = *this;             // calls cpy ctr
         *this = c + rhs;
+        c.centroid = nullptr;          // for some reason c has a centroid pointing to something, so set to nullptr
         return *this;
     }// end += for clusters
 
     Cluster& Cluster::operator-=(const Cluster &rhs)
     {
-        Cluster c = *this;
+        Cluster c = *this;              // calls cpy ctr
         *this = c - rhs;
+        c.centroid = nullptr;
         return *this;
     }// end -= for clusters
 
@@ -329,19 +337,16 @@ Cluster::~Cluster() {
         return sum / 2;
     }
 
-/*
-    void Cluster::pickPoints()
+
+    void Cluster::pickPoints(int &k, PointPtr &pointArray)
     {
-        array = new Point[size];
-        LNodePtr curr = points;
-        int k = 0;
-        while(curr && k < size)
-        {
-            array[k] = *curr->p;
-            curr = curr->next;
-        }
+        // have a linked list, size is from lines in file
+        // pick last point, pick first
+        // fill pointArray with k points or k clusters, whichever runs out first
+
+        // k and dims should be known to user
     }
-*/
+
 
 // parameters: const Cluster reference obj, ostream obj, (i think)
 // precondition: Cluster obj isn;t empty
@@ -388,7 +393,7 @@ Cluster::~Cluster() {
 
         // check for clusters being empty, just return an empty cluster
 
-        Cluster c;                                // new cluster
+        Cluster c(lhs.dimensionality);                                // new cluster
 
         if(lhs.size == 0 && rhs.size == 0)
         {
@@ -451,7 +456,7 @@ Cluster::~Cluster() {
 
         // check for clusters being empty, just return an empty cluster
 
-        Cluster c;                                // new cluster
+        Cluster c(lhs.dimensionality);                                // new cluster
 
         if(lhs.size == 0 && rhs.size == 0)
         {
@@ -629,7 +634,7 @@ void Cluster::calcCent()
             {
                 std::cout << "Line: " << line << std::endl;
                 std::stringstream lineStream(line);
-                Point p(5);
+                Point p(c.dimensionality);
 
                 // point created with dimensionality five, from here
                 // can use point >> operator and read in dims, then can

@@ -2,7 +2,6 @@
 // Number of dimensions is user input
 // Coordinates are floating point double
 #include <iostream>
-#include <string>
 #include <fstream>
 #include <sstream>
 
