@@ -21,7 +21,7 @@
     public:
         // Constructors
 
-        Point();                            // default
+        Point(): dim(0), coor(nullptr){};   // default
         Point(int);                         // one argument constructor
         Point(int, double, double, double); // 4 argument for custom coordinates
         Point(double [], int);              //
@@ -34,7 +34,8 @@
 
         // distanceTo
         double distanceTo(const Point &);
-
+        void setDim(unsigned dimFromKmeans){dim = dimFromKmeans;};
+        void setCoor(int num){coor = new double[num];};
         int getDims();
         void setValue(int, double);
         double getValue(int) const;
@@ -67,7 +68,7 @@
         friend Point operator-=(Point &, const Point &);
 
         friend std::ostream &operator<<(std::ostream &, const Point &);
-        friend std::istream &operator>>(std::istream &, Point &);                // have yet to do
+        friend std::istream &operator>>(std::istream &, Point &);
 
     };
 

@@ -49,33 +49,64 @@ void KMeans::setK(int num)
 }
 
 ///*
-void KMeans::createClusters(std::ifstream & file, unsigned d)
-{
-    Clustering::Cluster points_space(d);
+void KMeans::createClusters(std::ifstream & file) {
+
+    Clustering::Cluster points_space(dimensions);
 
     file >> points_space;
 
     cList = new Cluster[k];                              // need a Cluster constructor that default builds Clusters...
 
+    //Cluster* list[k];
 
+    //cList[k];
 
-    for(int h = 0; h < k; h++)
-    {
-        cList[h].setDimensionality(d);                   //make sure all the clusters have the right dimensionality
+//    PointPtr poinz[19];
+
+//    for (int h = 0; h < k; h++) {
+//        cList[h].setDimensionality(dimensions);          // make sure all the clusters have the right dimensionality
+//    }
+
+    for (int i = 0; i < k - 1; i++) {
+        //Clustering::Cluster C(dimensions);               // should this C be dynamic???
+        cList[i] = Cluster(dimensions);
     }
 
-
-    for(int i = 0; i < k - 1; i++)
-    {
-        Clustering::Cluster C(dimensions);               // should this C be dynamic???
-        cList[i] = C;
-    }
-
-    cList[k-1] = points_space;
+    cList[k - 1] = points_space;
 
     std::cout << points_space;
 
+    Point* pointsArray;                                    // can't create an array of Points bc no default constructor. I BET
+                                                           // undefined reference to `Point::Point()' when trying to make point[]
+    pointsArray = new Point[k];
 
-}
+    for (int j = 0; j < k; j++)
+    {
+        pointsArray[j].setDim(dimensions);
+        pointsArray[j].setCoor(dimensions);
+    }
 
-//*/
+    points_space.pickPoints(k, pointsArray);
+
+    std::cout << "points array made" << std::endl;
+/*
+    Cluster::Move m;
+
+    Cluster c(5);
+
+    Point p(dimensions);
+
+    c+=p;
+
+    PointPtr ptr = &p;
+
+    Cluster *c1 = &points_space;
+    Cluster *c2 = &c;
+
+    m.perform(ptr, c1, c2);
+
+    m.perfrom(point*&, to, from)
+*/
+
+
+}// end createClusters

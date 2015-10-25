@@ -69,16 +69,16 @@ int main()
 
     seed.close();
 
-//    std::ifstream csv;
+    std::ifstream csv;
 
-//    csv.open("C:\\Users\\Folio\\Desktop\\School\\intPA2\\ucd-csi2312-pa2\\numbers.csv", std::ifstream::in);
+    csv.open("C:\\Users\\Folio\\Desktop\\School\\intPA2\\ucd-csi2312-pa2\\numbers.csv", std::ifstream::in);
 
-    KMeans kOne(3, 5);
+    KMeans kOne(10, 5);  // 3 clusters, dimensionality of 5, as of now file has 10 points
 
-//    one.setK(5);
-//    one.createClusters(csv, 5);
+//    kOne.setK(5);
+    kOne.createClusters(csv);
 
-///*
+/*
     Cluster universe(5);
 
     std::ifstream csv;
@@ -144,7 +144,7 @@ int main()
     //Point p6(DIMS, 9, 9, 10);
 
 
-///*
+/*
     int DIMS = 5;
 
     Point p1(DIMS);
@@ -187,9 +187,11 @@ int main()
     universe += c1;
     universe += c2;
     universe += c1;
-//*/
+
     cout << universe;
 
     cout <<"end";
+
+*/
     return 0;
 }

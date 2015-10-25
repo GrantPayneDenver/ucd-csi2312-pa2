@@ -14,9 +14,9 @@
 class KMeans
 {
 private:
-    //std::vector<Clustering::Cluster> cList;
-    int k;
-    unsigned dimensions;
+
+    int k;                          // clusters in program
+    unsigned dimensions;            // dimensionality of the points of the clusters
 
     Clustering::Cluster* cList;
 
@@ -26,7 +26,7 @@ public:
 
    void setK(int);
 
-   void createClusters(std::ifstream &, unsigned dimensionality);
+   void createClusters(std::ifstream &);
 
 
 };

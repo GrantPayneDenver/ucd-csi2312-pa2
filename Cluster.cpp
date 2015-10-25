@@ -340,12 +340,35 @@ Cluster::~Cluster() {
 
     void Cluster::pickPoints(int &k, PointPtr &pointArray)
     {
-        // have a linked list, size is from lines in file
-        // pick last point, pick first
-        // fill pointArray with k points or k clusters, whichever runs out first
+        // length of cluster linked list / k assigned to an int
+        // the int is size of the interval between linked list elements we
+        // give the point array
 
-        // k and dims should be known to user
-    }
+
+        // if k <= size
+        int interval = size / k;
+
+        // if k < points
+
+        LNodePtr traverse = points;
+        int counter = 0;
+        pointArray[counter] = *points->p;
+
+        for (int i = 0; i < k-1; i++)      // divide linked list by intervals, // maybe just - 1 iterval.
+        {
+            for(int y = 0; y < interval; y++)
+            {
+
+                traverse = traverse->next;           // move thru linked list interval times
+            }
+            counter++;
+            pointArray[counter] = *traverse->p;
+        }
+
+
+
+
+    }// pick points end
 
 
 // parameters: const Cluster reference obj, ostream obj, (i think)
@@ -528,7 +551,8 @@ void Cluster::calcCent()
 
            *centroid = *points->p / size;            // hp = p1 / 3, if there are 3 nodes
            LNodePtr curr = points->next;             // access p2
-           while (curr != nullptr) {
+           while (curr != nullptr)
+           {
                *centroid += *curr->p / size;         // hp = p2 /3
 
                curr = curr->next;                    // iterate to next node
@@ -565,6 +589,7 @@ void Cluster::calcCent()
 
         while(leftPtr != nullptr)
         {
+
             if(*leftPtr->p != *rightPtr->p)
             {
                 same = false;

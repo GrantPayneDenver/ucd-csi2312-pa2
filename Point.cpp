@@ -13,6 +13,8 @@ const int DIMS = 3;
 
 // Constructor
 // takes in dim, creates dynamic array size of dim, coor then points to it
+
+
 Point::Point(int num) {
 
     dim = num;
