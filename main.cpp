@@ -14,7 +14,6 @@ using namespace Clustering;
  *
  * retest all cluster funcs, now that I've changed the constructor and initialization
  *
- * change all cluster funcs to handle points, not point ptr
  *
  * MAKE SURE THAT ALL MUTATOR FUNCS THAT CHANGE A CLUSTER INVALIDATE THE CENTROID
 
@@ -23,6 +22,9 @@ using namespace Clustering;
    assignment and copy ctr need to handle centroids. Can't simply have
    pointPtrs point to same point. That'll be a quick path to segfault.
 
+
+    make sure move:Invalidates the centroids of both cluster from and to.
+   //////// probably better done with just lines in add and remove that invalidate the centroid.
  */
 
 int main()
@@ -73,7 +75,7 @@ int main()
 
     csv.open("C:\\Users\\Folio\\Desktop\\School\\intPA2\\ucd-csi2312-pa2\\numbers.csv", std::ifstream::in);
 
-    KMeans kOne(100, 5);  // 3 clusters, dimensionality of 5, as of now file has 10 points
+    KMeans kOne(.05, 5, 5);  // 3 clusters, dimensionality of 5, as of now file has 10 points
 
 //    kOne.setK(5);
     kOne.createClusters(csv);

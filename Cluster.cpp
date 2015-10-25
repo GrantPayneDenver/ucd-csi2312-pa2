@@ -355,22 +355,33 @@ Cluster::~Cluster() {
         int counter = 0;
         pointArray[counter] = *points->p;
 
-        for (int i = 0; i < k-1; i++)      // divide linked list by intervals, // maybe just - 1 iterval.
+        while (counter < size +1)
         {
-            for(int y = 0; y < interval; y++)
+
+            for (int i = 0; i < k - 1; i++)                  // divide linked list by intervals, // maybe just - 1 iterval.
             {
-                if(traverse != nullptr)
-                traverse = traverse->next;           // move thru linked list interval times
+                for (int y = 0; y < interval; y++) {
+                    if (traverse != nullptr)
+                        traverse = traverse->next;           // move thru linked list interval times
+                }
+                counter++;
+                if (traverse != nullptr)
+                    pointArray[counter] = *traverse->p;
             }
-            counter++;
-            if(traverse != nullptr)
-            pointArray[counter] = *traverse->p;
+
         }
 
 
-
-
     }// pick points end
+
+    double Cluster::getClusterEdges()
+    {
+        double edges;
+        edges = ((size -1 ) * size)/2;
+        return edges;
+    }
+
+    //get edges end
 
 
 // parameters: const Cluster reference obj, ostream obj, (i think)
@@ -564,6 +575,15 @@ void Cluster::calcCent()
 
 } // calcCent
 
+    void Cluster::setCent(Point &p)
+    {
+        if(centroid)                 // clear centroid if need be
+            delete centroid;
+
+        centroid = &p;               // have centroid point to Point sent in by reference.
+
+    }
+
 
 //FRIENDS, set preserving
 
@@ -648,6 +668,15 @@ void Cluster::calcCent()
         return c;
     }// end friend -
 
+    double interClusterEdges(const Cluster &lhs, const Cluster &rhs)
+    {
+        double edges;
+        edges = ((lhs.size - 1) * (lhs.size)) / 2;
+        edges += ((rhs.size - 1) * (rhs.size)) / 2;
+        return edges;
+    }//end interClusterEdges
+
+
     //friend >>
     std::istream &operator>>(std::ifstream &csv, Cluster &c)
     {
@@ -683,5 +712,7 @@ void Cluster::calcCent()
     void Cluster::Move::perform(const PointPtr &pt, Cluster *to, Cluster *from)
     {
         to->add(from->remove(pt));
+        //Invalidates the centroids of both cluster from and to.
     }// end perform
+
 } // clustering

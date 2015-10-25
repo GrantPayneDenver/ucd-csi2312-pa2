@@ -74,16 +74,19 @@ namespace Clustering {
         Cluster &operator+=(const Cluster &rhs); // union                       // done
         Cluster &operator+=(const Point &rhs);   // add point */                // done
         Cluster &operator-=(const Point &rhs);   // remove point                // done
-        double intraClusterDistance();
-        void pickPoints(int &, PointPtr& );
+        double intraClusterDistance();           // inner distance of a single cluster
+        void pickPoints(int &, PointPtr& );      // selects points from point_space cluster
+        double getClusterEdges();                // cluster edges of one cluster, the calling obj
+
 
         // Set-destructive operators (duplicate points in the space)
         // - Friends
         friend const Cluster operator+(const Cluster &lhs, const Cluster &rhs);     //done
         friend const Cluster operator-(const Cluster &lhs, const Cluster &rhs);     // will have same issue I'm sure..
-
         friend const Cluster operator+(const Cluster &lhs, const PointPtr &rhs);    // c2 = c1 + p1 // done
         friend const Cluster operator-(const Cluster &lhs, const PointPtr &rhs);    // c2 = c1 - p1 // done
+        friend double interClusterEdges(const Cluster &, const Cluster &);
+
 
         /*
          * need a void pickPoints func
@@ -94,6 +97,7 @@ namespace Clustering {
         //CENTROID
 
         void calcCent();
+        void setCent(Point &);
 
     };
 }// clustering
