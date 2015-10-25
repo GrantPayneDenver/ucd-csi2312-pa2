@@ -348,7 +348,8 @@ Cluster::~Cluster() {
         // if k <= size
         int interval = size / k;
 
-        // if k < points
+        if (interval == 0)
+            interval = 1;
 
         LNodePtr traverse = points;
         int counter = 0;
@@ -358,10 +359,11 @@ Cluster::~Cluster() {
         {
             for(int y = 0; y < interval; y++)
             {
-
+                if(traverse != nullptr)
                 traverse = traverse->next;           // move thru linked list interval times
             }
             counter++;
+            if(traverse != nullptr)
             pointArray[counter] = *traverse->p;
         }
 
