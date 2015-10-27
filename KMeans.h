@@ -15,15 +15,16 @@ class KMeans
 {
 private:
 
-    int k;                          // clusters in program
-    unsigned dimensions;            // dimensionality of the points of the clusters
-    Point* pointsArray;             // array of points
-    double SCORE_DIFF_THRESHOLD;    // score differential threshold that determines the stopping point of the clustering process
+    int k;                                // clusters in program
+    unsigned dimensions;                  // dimensionality of the points of the clusters
+    Point* pointsArray;                   // array of points
+
+    double SCORE_DIFF_THRESHOLD = .0005;          // score differential threshold that determines the stopping point of the clustering process
     Clustering::Cluster* cList;
 
 public:
 
-   KMeans(double scoreDiff, int kay, unsigned d) : SCORE_DIFF_THRESHOLD(scoreDiff), dimensions(d), k(kay), cList(nullptr){}; // and also threshold value too later on
+   KMeans( int kay, unsigned d) : dimensions(d), k(kay), cList(nullptr) { };
 
    void setK(int);
 

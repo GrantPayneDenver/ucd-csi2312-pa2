@@ -27,7 +27,7 @@ namespace Clustering {
         PointPtr centroid;          // Pointer to a dynamic point, centroid.
         int size;                   // length of linked list
         LNodePtr points;            // head, head is the start of a linked list of LNodes, not a Node its self
-                                    // it is a LNodePtr, a pointer to nodes.
+        bool centValid;
 
     public:
         class Move
@@ -44,6 +44,9 @@ namespace Clustering {
         Cluster &operator=(const Cluster &);                                       // implement
         ~Cluster();
 
+        //getters, setters
+        PointPtr getCentroid(){return centroid;};
+        LNodePtr getPoints(){return points;};
         int getSize(){return size;}
         void setDimensionality(unsigned d) {dimensionality = d;};
 

@@ -10,6 +10,8 @@ using namespace std;
 
 using namespace Clustering;
 /*
+ * make sure compute clustering score works, debug it
+ *
  * update the point <, <=, >=
  *
  * retest all cluster funcs, now that I've changed the constructor and initialization
@@ -75,10 +77,19 @@ int main()
 
     csv.open("C:\\Users\\Folio\\Desktop\\School\\intPA2\\ucd-csi2312-pa2\\numbers.csv", std::ifstream::in);
 
-    KMeans kOne(.05, 5, 5);  // 3 clusters, dimensionality of 5, as of now file has 10 points
+    KMeans kOne(5, 5);  // 3 clusters, dimensionality of 5, as of now file has 10 points
 
-//    kOne.setK(5);
+
     kOne.createClusters(csv);
+
+    double trbl = kOne.computeClusteringScore() + 1;
+
+    kOne.clusterizeData();
+
+    cout << "yeah";
+
+    csv.close();
+
 
 /*
     Cluster universe(5);

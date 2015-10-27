@@ -177,6 +177,7 @@ Cluster::~Cluster() {
             newNode->next = nullptr;
             this->points = newNode;
             this->size++;
+            centValid = false;
         }
         else
         {
@@ -195,6 +196,7 @@ Cluster::~Cluster() {
                     //prev = newNode;
                     this->points = newNode;
                     this->size++;
+                    centValid = false;
                     looking = false;
                     break;
                 }
@@ -203,6 +205,7 @@ Cluster::~Cluster() {
                     newNode->next = curr;
                     prev->next = newNode;
                     this->size++;
+                    centValid = false;
                     looking = false;
                     break;
                 } //else if
@@ -212,6 +215,7 @@ Cluster::~Cluster() {
                     newNode->next = nullptr;
                     curr->next = newNode;
                     this->size++;
+                    centValid = false;
                     looking = false;
                     break;
                 }// last else if
@@ -256,6 +260,7 @@ Cluster::~Cluster() {
             delete points;         // delete first node
             points = curr;         // set head to second node.
             --size;
+            centValid = false;
             return pd;
         }
 
@@ -278,6 +283,7 @@ Cluster::~Cluster() {
                 prev->next = curr->next;// save linkage between previous node and node after curr
                 delete curr;
                 --size;
+                centValid = false;
                 if(size == 0)
                 points = nullptr;
                 return pd;
@@ -573,6 +579,8 @@ void Cluster::calcCent()
        } //else
     }// if (points)
 
+    centValid = true;
+
 } // calcCent
 
     void Cluster::setCent(Point &p)
@@ -581,7 +589,7 @@ void Cluster::calcCent()
             delete centroid;
 
         centroid = &p;               // have centroid point to Point sent in by reference.
-
+        centValid = true;
     }
 
 
