@@ -10,4 +10,24 @@ Working on inner Cluster 0
 Working on inner Cluster 1
 Working on inner Cluster 2
 Working on inner Cluster 3
+Moving point 63, 1, 10, 36, 76,  from outer cluster 0 to inner cluster 3
+Working on outer Cluster's Point 51, 27, 90, 24, 35, at count 2
+Working on inner Cluster 0
+Working on inner Cluster 1
+Moving point 51, 27, 90, 24, 35,  from outer cluster 0 to inner cluster 1
+OUTER CYCLE*****Working on outer Cluster 1
+Working on outer Cluster's Point 51, 27, 90, 24, 35, at count 0
+Working on inner Cluster 0
+Working on inner Cluster 1
+Working on inner Cluster 2
+Working on inner Cluster 3
 Working on inner Cluster 4
+OUTER CYCLE*****Working on outer Cluster 2
+OUTER CYCLE*****Working on outer Cluster 3
+Working on outer Cluster's Point 51, 27, 90, 24, 35, at count 0
+Working on inner Cluster 0
+Moving point 51, 27, 90, 24, 35,  from outer cluster 3 to inner cluster 0
+OUTER CYCLE*****Working on outer Cluster 4
+OUTER CYCLE*****Working on outer Cluster 0
+Working on outer Cluster's Point 93, 30, 66, 69, 32, at count 0
+Working on inner Cluster 0

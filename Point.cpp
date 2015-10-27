@@ -213,7 +213,12 @@ bool operator<(const Point &a, const Point &b) // if p1 < p2 means if a(,,,) < b
         if (a.coor[i] > b.coor[i])            // if any a point > any b point
         {
             less = false;                     // less is false, break
-            break;
+            return less;
+        }
+        if(a.coor[i] < b.coor[i])
+        {
+            less = true;
+            return less;
         }
     }
 

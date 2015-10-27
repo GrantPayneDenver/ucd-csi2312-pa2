@@ -23,6 +23,11 @@ void kmeansLogOuterP(std::fstream &file, int count, Point& p)
     file <<"Working on outer Cluster's Point " << p << "at count " << count << std::endl;
 }
 
+void kmeansLogMovePerform(std::fstream &file, Point &p, int outer, int inner)
+{
+    file <<"Moving point " << p << " from outer cluster " << outer << " to inner cluster " << inner << std::endl;
+
+}
 
 
 void KMeans::setK(int num)
@@ -180,9 +185,16 @@ void KMeans::clusterizeData()
                         if (iteratePoint.distanceTo(innerCent) < iteratePoint.distanceTo(outerCent)) {
                             //move iteratePoint from outerCluster to innerCluster
                             //void Cluster::Move::perform(const PointPtr &pt, Cluster *to, Cluster *from)
-                            Cluster::Move m;
+                            //***void kmeansLogMovePerform(std::fstream &file, Point &p, int outer, int inner)
+
                             PointPtr ptr = &iteratePoint;
+
+                            kmeansLogMovePerform(Klog, *ptr, outerCluster, innerCluster);
+                            Cluster::Move m;
+
                             m.perform(ptr, &cList[innerCluster], &cList[outerCluster]);
+
+                            break;
                         }
 //                    }
 
@@ -204,9 +216,14 @@ void KMeans::clusterizeData()
 
         scoreDiff -= .05;
 
+        // recalc centroids
+        // adjust scoreDiff, if  this is first go round then scoreDiff
+        // is a very large val - first computeClusteringScore
+        // else scoreDiff = scoreDiff-  difference of previous and current computeClusteringScores.
+
     } // while scoreDiff > threshold
 
-    std::cout << "dkdkdkdkd" << std::endl;
+   // std::cout << "dkdkdkdkd" << std::endl;
 
 
 
