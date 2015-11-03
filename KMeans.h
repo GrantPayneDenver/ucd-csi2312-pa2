@@ -34,6 +34,8 @@ public:
 
    void clusterizeData();
 
+   void printClusters();
+
 
 };
 

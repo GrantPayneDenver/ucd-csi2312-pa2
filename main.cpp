@@ -48,7 +48,7 @@ int main()
 
     seed.clear();
 
-    for(int i = 0; i < 10; i++)
+    for(int i = 0; i < 100; i++)
     {
         double num = rand() % 100;
         seed << num;
@@ -82,11 +82,9 @@ int main()
 
     kOne.createClusters(csv);
 
-    double trbl = kOne.computeClusteringScore() + 1;
-
     kOne.clusterizeData();
 
-    cout << "yeah";
+    kOne.printClusters();
 
     csv.close();
 

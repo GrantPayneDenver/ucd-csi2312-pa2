@@ -48,6 +48,7 @@ namespace Clustering {
         PointPtr getCentroid(){return centroid;};
         LNodePtr getPoints(){return points;};
         int getSize(){return size;}
+        bool getCentValid(){return centValid;};
         void setDimensionality(unsigned d) {dimensionality = d;};
 
         static unsigned int GenerateID()
@@ -60,6 +61,7 @@ namespace Clustering {
         // take point out of c2 and give to c1
         void add(const PointPtr &pnt);                                             // done
         const PointPtr &remove(const PointPtr &);                                  // done
+        LNodePtr operator[](int);
         // Overloaded operators
 
         // IO
@@ -70,6 +72,7 @@ namespace Clustering {
         // - Friends
         friend bool operator==(const Cluster &lhs, const Cluster &rhs);          // done
         friend double interClusterDistance(const Cluster &lhs, const Cluster &rhs);
+
 
         // - Members
 

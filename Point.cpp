@@ -75,7 +75,7 @@ Point& Point::operator=(const Point &rhs)
 // Destructor
 Point::~Point() {
 
-    std::cout << "Point dtr" << std::endl;
+    //std::cout << "Point dtr" << std::endl;
 
     delete[] coor;
 }

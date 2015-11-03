@@ -6,6 +6,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <cassert>
 
 
 using namespace std;
@@ -164,10 +165,12 @@ Cluster::~Cluster() {
 } // end ~Cluster
 
 
-    void Cluster::add(const PointPtr &pnt)  // to do: check for duplicate point additions, can't have duplicate points.
-    {                                       // this is not to say when the point has the same coordinates
-                                            // but when is the same point literally, and memory location is one spot
-        LNodePtr newNode = new LNode();     // Why is LNodePtr newNode = new LNode() different than LNodePtr newNode = new LNode
+    void Cluster::add(const PointPtr &pnt)
+    {
+        //if (pnt == nullptr)
+        //    return;
+        // assert(pnt);
+        LNodePtr newNode = new LNode();
         newNode->p = pnt;
 
         if (this->points == nullptr)
@@ -291,6 +294,23 @@ Cluster::~Cluster() {
         }
 
     }// end remove
+
+
+    LNodePtr Cluster::operator[](int index)
+    {
+        if(index < this->size)
+        {
+            //send in 4, return the 5th
+            // 0,1,2,3,4
+            LNodePtr ptr = this->points;//starts at 0
+            int count = 0;
+            for (; count < index; count++)
+            {
+                ptr = ptr->next;
+            }
+           return ptr;
+        }
+    }
 
 //++++++++++++++++++++++++ MEMBERS +++++++++++++++++++++++++++++++++++++\\\
 
