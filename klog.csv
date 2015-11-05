@@ -508,102 +508,120 @@
 508:Working on inner Cluster 3
 509:Working on inner Cluster 4
 510:OUTER CYCLE*****Working on outer Cluster 4
-69, 4.74303e-322, at count 0
-496:Working on inner Cluster 0
-497:Working on inner Cluster 1
-498:Working on inner Cluster 2
-499:Working on inner Cluster 3
-500:Working on inner Cluster 4
-501:Working on outer Cluster's Point 3.18455e-314, 3.18455e-314, 66, 69, 4.74303e-322, at count 1
-502:Working on inner Cluster 0
-503:Working on inner Cluster 1
-504:Working on inner Cluster 2
-505:Working on inner Cluster 3
-506:Working on inner Cluster 4
-507:Working on outer Cluster's Point 3.18455e-314, 3.18455e-314, 66, 69, 4.74303e-322, at count 2
-508:Working on inner Cluster 0
-509:Working on inner Cluster 1
-510:Working on inner Cluster 2
-511:Working on inner Cluster 3
-512:Working on inner Cluster 4
-513:Working on outer Cluster's Point 3.18455e-314, 3.18455e-314, 66, 69, 4.74303e-322, at count 3
-514:Working on inner Cluster 0
-515:Working on inner Cluster 1
-516:Working on inner Cluster 2
-517:Working on inner Cluster 3
-518:Working on inner Cluster 4
-519:Working on outer Cluster's Point 3.18455e-314, 3.18455e-314, 66, 69, 4.74303e-322, at count 4
-520:Working on inner Cluster 0
-521:Working on inner Cluster 1
-522:Working on inner Cluster 2
-523:Working on inner Cluster 3
-524:Working on inner Cluster 4
-525:Working on outer Cluster's Point 3.18455e-314, 3.18455e-314, 66, 69, 4.74303e-322, at count 5
-526:Working on inner Cluster 0
-527:Working on inner Cluster 1
-528:Working on inner Cluster 2
-529:Working on inner Cluster 3
-530:Working on inner Cluster 4
-531:Working on outer Cluster's Point 3.18455e-314, 3.18455e-314, 66, 69, 4.74303e-322, at count 6
-532:Working on inner Cluster 0
-533:Working on inner Cluster 1
-534:Working on inner Cluster 2
-535:Working on inner Cluster 3
-536:Working on inner Cluster 4
-537:Working on outer Cluster's Point 3.18455e-314, 3.18455e-314, 66, 69, 4.74303e-322, at count 7
-538:Working on inner Cluster 0
-539:Working on inner Cluster 1
-540:Working on inner Cluster 2
-541:Working on inner Cluster 3
-542:Working on inner Cluster 4
-543:Working on outer Cluster's Point 3.18455e-314, 3.18455e-314, 66, 69, 4.74303e-322, at count 8
-544:Working on inner Cluster 0
-545:Working on inner Cluster 1
-546:Working on inner Cluster 2
-547:Working on inner Cluster 3
-548:Working on inner Cluster 4
-549:OUTER CYCLE*****Working on outer Cluster 2
-550:OUTER CYCLE*****Working on outer Cluster 3
-551:OUTER CYCLE*****Working on outer Cluster 4
-552:OUTER CYCLE*****Working on outer Cluster 0
-553:Working on outer Cluster's Point 93, 30, 66, 69, 32, at count 0
-554:Working on inner Cluster 0
-555:Working on inner Cluster 1
-556:Working on inner Cluster 2
-557:Working on inner Cluster 3
-558:Working on inner Cluster 4
-559:OUTER CYCLE*****Working on outer Cluster 1
-560:Working on outer Cluster's Point 3.18455e-314, 3.18455e-314, 66, 69, 4.74303e-322, at count 0
-561:Working on inner Cluster 0
-562:Working on inner Cluster 1
-563:Working on inner Cluster 2
-564:Working on inner Cluster 3
-565:Working on inner Cluster 4
-566:Working on outer Cluster's Point 3.18455e-314, 3.18455e-314, 66, 69, 4.74303e-322, at count 1
-567:Working on inner Cluster 0
-568:Working on inner Cluster 1
-569:Working on inner Cluster 2
-570:Working on inner Cluster 3
-571:Working on inner Cluster 4
-572:Working on outer Cluster's Point 3.18455e-314, 3.18455e-314, 66, 69, 4.74303e-322, at count 2
-573:Working on inner Cluster 0
-574:Working on inner Cluster 1
-575:Working on inner Cluster 2
-576:Working on inner Cluster 3
-577:Working on inner Cluster 4
-578:Working on outer Cluster's Point 3.18455e-314, 3.18455e-314, 66, 69, 4.74303e-322, at count 3
-579:Working on inner Cluster 0
-580:Working on inner Cluster 1
-581:Working on inner Cluster 2
-582:Working on inner Cluster 3
-583:Working on inner Cluster 4
-584:Working on outer Cluster's Point 3.18455e-314, 3.18455e-314, 66, 69, 4.74303e-322, at count 4
-585:Working on inner Cluster 0
-586:Working on inner Cluster 1
-587:Working on inner Cluster 2
-588:Working on inner Cluster 3
-589:Working on inner Cluster 4
-590:Working on outer Cluster's Point 3.18455e-314, 3.18455e-314, 66, 69, 4.74303e-322, at count 5
+CLUSTER REPORT
+98, 96, 51, 7, 67,  : 1
+97, 88, 32, 17, 4,  : 1
+97, 78, 50, 9, 30,  : 1
+95, 10, 73, 55, 30,  : 1
+93, 88, 20, 11, 46,  : 1
+92, 88, 4, 33, 58,  : 1
+90, 44, 34, 25, 29,  : 1
+88, 54, 43, 1, 71,  : 1
+86, 57, 77, 82, 54,  : 1
+83, 38, 1, 90, 30,  : 1
+80, 4, 86, 59, 7,  : 1
+74, 94, 93, 65, 49,  : 1
+73, 47, 21, 30, 40,  : 1
+71, 11, 79, 96, 0,  : 1
+66, 52, 33, 60, 90,  : 1
+63, 96, 79, 16, 66,  : 1
+63, 1, 10, 36, 76,  : 1
+59, 30, 23, 83, 24,  : 1
+57, 78, 26, 3, 97,  : 1
+56, 48, 5, 54, 94,  : 1
+56, 20, 53, 28, 54,  : 1
+54, 28, 2, 61, 55,  : 1
+53, 98, 30, 34, 43,  : 1
+53, 25, 78, 16, 42,  : 1
+51, 27, 90, 24, 35,  : 1
+47, 27, 35, 58, 83,  : 1
+46, 19, 28, 71, 7,  : 1
+43, 29, 15, 89, 9,  : 1
+42, 14, 67, 28, 6,  : 1
+37, 95, 56, 63, 11,  : 1
+32, 72, 13, 90, 9,  : 1
+31, 58, 86, 19, 0,  : 1
+31, 14, 47, 64, 97,  : 1
+30, 77, 48, 20, 4,  : 1
+30, 27, 26, 43, 34,  : 1
+26, 45, 12, 72, 95,  : 1
+23, 49, 92, 64, 69,  : 1
+19, 97, 24, 96, 49,  : 1
+18, 68, 75, 79, 19,  : 1
+17, 81, 80, 91, 75,  : 1
+17, 52, 24, 95, 71,  : 1
+16, 64, 77, 12, 5,  : 1
+16, 3, 93, 55, 28,  : 1
+14, 10, 19, 25, 98,  : 1
+11, 12, 82, 92, 23,  : 1
+10, 5, 10, 0, 96,  : 1
+8, 52, 56, 56, 19,  : 1
+7, 17, 55, 87, 73,  : 1
+6, 57, 29, 80, 41,  : 1
+6, 2, 68, 65, 70,  : 1
+4, 60, 49, 20, 56,  : 1
+2, 67, 45, 63, 40,  : 1
+1, 10, 80, 58, 71,  : 1
+Centroid
+46, 46.8491, 46.8679, 50, 46.2075, 
+CLUSTER REPORT
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 2
+Centroid
+7.54167, 9.33333, 8.75, 8.95833, 9.45833, 
+CLUSTER REPORT
+Cluster is empty. 
+CLUSTER REPORT
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251,  : 4
+Centroid
+0.443575, 2.10698, 0.776256, 1.88519, 1.55251, 
+CLUSTER REPORT
+Cluster is empty. 
+.74303e-322, at count 5
 591:Working on inner Cluster 0
 592:Working on inner Cluster 1
 593:Working on inner Cluster 2

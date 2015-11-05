@@ -36,6 +36,14 @@ void kmeansLogMovePerform(std::fstream &file, Point &p, int outer, int inner)
 
 }
 
+void kmeansReport(std::fstream &file, Clustering::Cluster* list, int k)
+{
+    for (int i = 0; i < k; i++)
+    {
+        file << "CLUSTER REPORT" << std::endl;
+        file << list[i];
+    }
+}
 
 void KMeans::setK(int num)
 {
@@ -182,6 +190,7 @@ void KMeans::clusterizeData()
                 {
                     //***note innerCluster in log
                     kmeansLogInner(Klog, innerCluster);
+                    //Klog << cList[innerCluster];
 
                     // if point from iterate is farther from outerCLuster centroid than innerCluster centroid
                     // move point to innerCluster
@@ -239,8 +248,16 @@ void KMeans::clusterizeData()
 
     } // while scoreDiff > threshold
 
-    Klog.close();
+    kmeansReport(Klog, cList, k);
 
+    Klog.close();
+/*
+    std::fstream output("C:\\Users\\Folio\\Desktop\\School\\intPA2\\ucd-csi2312-pa2\\output.csv");
+    for (int i = 0; i < k; i++)
+    {
+        output << cList[i];
+    }
+*/
 } // end clusterizeData
 
 void KMeans::printClusters()

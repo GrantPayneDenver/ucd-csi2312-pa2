@@ -77,7 +77,7 @@ int main()
 
     csv.open("C:\\Users\\Folio\\Desktop\\School\\intPA2\\ucd-csi2312-pa2\\numbers.csv", std::ifstream::in);
 
-    KMeans kOne(5, 5);  // 3 clusters, dimensionality of 5, as of now file has 10 points
+    KMeans kOne(5, 5);  // 5 clusters, dimensionality of 5, as of now file has 10 points
 
 
     kOne.createClusters(csv);
