@@ -264,7 +264,7 @@ void KMeans::printClusters()
 {
     for (int i = 0; i < k; i++)
     {
-        std::cout << cList[i];
+        std::cout << ++line << cList[i];
     }
 }
 
