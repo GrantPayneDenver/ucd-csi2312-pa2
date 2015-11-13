@@ -1,6 +1,4 @@
 
-#include "Cluster.h"
-#include "Point.h"
 #include <iostream>
 #include <cstdlib>
 #include <string>
@@ -8,12 +6,16 @@
 #include <sstream>
 #include <cassert>
 
+#include "Point.h"
+#include "Cluster.h"
+#include "Exceptions.h"
 
 using namespace std;
 
 namespace Clustering {
 
-// Cluster.cpp
+
+    //int Clustering::Cluster::ID2 = 0;
 
 
     Cluster &Cluster::operator=(const Cluster &rhs)
@@ -84,7 +86,7 @@ namespace Clustering {
 
         this->dimensionality = rhs.dimensionality;
 
-        ID = GenerateID();
+        ID = GenerateID(true);
 
         this->size = rhs.size;
 
@@ -175,7 +177,7 @@ Cluster::~Cluster() {
 
         if (this->points == nullptr)
         {
-            std::cout << "points was null in c.add" << std::endl;
+            //std::cout << "points was null in c.add" << std::endl;
 
             newNode->next = nullptr;
             this->points = newNode;
@@ -191,9 +193,9 @@ Cluster::~Cluster() {
 
             while(curr != NULL && looking)
             {
-            std::cout << "entered list, comparing new node to current nodes" << std::endl;
+            //std::cout << "entered list, comparing new node to current nodes" << std::endl;
 
-               if(*newNode->p > *curr->p && count == 1)
+               if(*newNode->p > *curr->p && count == 1)                        // TODO  new node p > curr p try block... = += -= < >
                 {
                     newNode->next = curr;      // this line works
                     //prev = newNode;
@@ -204,7 +206,7 @@ Cluster::~Cluster() {
                     break;
                 }
 
-                 else if (*newNode->p > *curr->p) {                                                                  // not first
+                 else if (*newNode->p > *curr->p) {                           // TODO  new node p > curr p try block... = += -= < >                             // not first
                     newNode->next = curr;
                     prev->next = newNode;
                     this->size++;
@@ -214,7 +216,7 @@ Cluster::~Cluster() {
                 } //else if
                 else if (curr->next == nullptr) // we reach end of list and find no placement                         // reached end of list
                 {
-                    std::cout << "reached end of list" << std::endl;
+                    //std::cout << "reached end of list" << std::endl;
                     newNode->next = nullptr;
                     curr->next = newNode;
                     this->size++;
@@ -381,8 +383,6 @@ Cluster::~Cluster() {
         int counter = 0;
         pointArray[counter] = *points->p;
 
-        while (counter < size +1)
-        {
 
             for (int i = 0; i < k - 1; i++)                  // divide linked list by intervals, // maybe just - 1 iterval.
             {
@@ -395,7 +395,7 @@ Cluster::~Cluster() {
                     pointArray[counter] = *traverse->p;
             }
 
-        }
+
 
 
     }// pick points end
@@ -585,7 +585,7 @@ void Cluster::calcCent()
        else
        {
            // p1/3 + p2/3 + p3/3, 3 = size of linked list, or size member of cluster
-
+//                                                                                             TODO try bloc, cent point += curr->point
            centroid = new Point(points->p->getDims());
 
            *centroid = *points->p / size;            // hp = p1 / 3, if there are 3 nodes
@@ -719,14 +719,25 @@ void Cluster::calcCent()
                 std::cout << "Line: " << line << std::endl;
                 std::stringstream lineStream(line);
                 Point p(c.dimensionality);
+                try
+                {  //////////////////// Ensure point data meets expectations before it's added to c, roll back point ID if not.
+                    lineStream >> p;
 
-                // point created with dimensionality five, from here
-                // can use point >> operator and read in dims, then can
-                // come back here and add point to cluster
+                    c += p;
+                }  ////////////////////
+                catch(DimensionalityMismatchEx e)
+                {
+                    std::cout << e.getName() << ":";
+                   // std::cout << e;
 
-                lineStream >> p;
+                    //                                           TODO roll back id gen, find out why cout << e wont work.
 
-                c+=p;
+                    //roll back point ID generator.
+
+                    Point::GenerateID(false);         // decrements static id
+
+                }
+
             }
         }
 

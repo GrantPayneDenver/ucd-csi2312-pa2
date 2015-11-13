@@ -4,6 +4,7 @@
 #include <cassert>
 #include <limits>
 #include <cmath>
+
 #include "KMeans.h"
 using namespace Clustering;
 
@@ -91,6 +92,9 @@ void KMeans::createClusters(std::ifstream & file) {
 
     file >> points_space;
 
+    std::cout << points_space;
+
+
     cList = new Cluster[k];                                // need a Cluster constructor that default builds Clusters...
     cList[0] = points_space;
 
@@ -173,7 +177,7 @@ void KMeans::clusterizeData()
         for(int outerCluster = 0; outerCluster < k; outerCluster++)
         {
             // ***note outer cluster in log
-            kmeansLogOuter(Klog, outerCluster);
+            //kmeansLogOuter(Klog, outerCluster);
 
             //LNodePtr iterate = cList[outerCluster].getPoints();              // set iterate to head of outerCluster
             //int index = 0;
@@ -183,13 +187,13 @@ void KMeans::clusterizeData()
             {
                 //***note count, as well as iterate->p in log
 
-                kmeansLogOuterP(Klog, count, *cList[outerCluster].operator[](count)->p);
+                //kmeansLogOuterP(Klog, count, *cList[outerCluster].operator[](count)->p);
 
                 // compare each each point of outerCluster to each centroid of inner clusters.
                 for (int innerCluster = 0; innerCluster < k; innerCluster++)
                 {
                     //***note innerCluster in log
-                    kmeansLogInner(Klog, innerCluster);
+                    //kmeansLogInner(Klog, innerCluster);
                     //Klog << cList[innerCluster];
 
                     // if point from iterate is farther from outerCLuster centroid than innerCluster centroid
@@ -229,8 +233,6 @@ void KMeans::clusterizeData()
 
 
             }//while(iterate && count < cList[outerCluster].getSize()
-
-
 
         }// for(int outerCluster = 0; outerCluster < k; outerCluster++)
 

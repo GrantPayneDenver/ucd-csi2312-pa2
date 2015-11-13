@@ -1,4 +1,4 @@
-#include "Point.h"
+
 #include <iostream>
 #include <cmath>
 #include <cstdlib>
@@ -6,6 +6,9 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+
+#include "Point.h"
+#include "Exceptions.h"
 
 using namespace std;
 
@@ -17,9 +20,10 @@ const int DIMS = 3;
 
 Point::Point(int num) {
 
+    _id = GenerateID(true);
     dim = num;
     coor = new double[dim];
-
+/*
     for (int i = 0; i < dim; i++)
     {
         double input;
@@ -28,29 +32,7 @@ Point::Point(int num) {
         input = rand() % 20;
         coor[i] = input;
     }
-}
-
-// custom points constructor
-Point::Point(int num, double a, double b, double c)
-{
-    dim = num;
-    coor = new double[dim];
-    coor[0] = a;
-    coor[1] = b;
-    coor[2] = c;
-}
-
-// flesh out point's dimensions,
-//
-Point::Point(double points[], int len)
-{
-    dim = len;
-    coor = new double[dim];        // will this case a mem leak?
-
-    for (int i = 0; i < len; i++)
-    {
-        this->coor[i] = points[i];
-    }
+*/
 }
 
 // assignment operator overloaded
@@ -58,7 +40,7 @@ Point::Point(double points[], int len)
 // p1 = p2.
 Point& Point::operator=(const Point &rhs)
 {
-    //delete []coor;  // delete current array      incase dims isn't equal??? shouldn't happen tho.
+    //delete []coor;  // delete current array      in case dims isn't equal??? shouldn't happen tho.
 
     //coor = new double[rhs.dim];
 
@@ -283,6 +265,8 @@ std::ostream &operator<<(std::ostream &out, const Point &p)
 {
     cout<< std::fixed <<std::setw(2) << std::setprecision(1);
 
+    out << p._id << ": ";
+
     for (int i = 0; i < p.dim; i++)
     {
         out << p.coor[i] << ", ";
@@ -356,28 +340,42 @@ std::istream& operator>>(std::istream& lineStream, Point &p)
     int i = 0;
     double d;
     string value;
+    double numFromLine;
+    int pointDims = p.getDims();
+    int lineSegments = 0;  // keeps track of distinct numbers in linesStream; Ex: "___,___,___,___"
 
     //point>>
 
-    while (getline(lineStream, value, ','))
-    {
-        string text = value;
+        while (getline(lineStream, value, ',')) {
+            lineSegments++;                              // for every iteration while segments of lineStream last, increment.
 
-        double num;
+                if(lineSegments > pointDims)
+                {
+                    throw Clustering::DimensionalityMismatchEx(lineSegments, pointDims);        // create and throw an exception obj
+                }
 
-        std::stringstream thing(text);
+            string text = value;
 
-        if(!(thing >> num)) // if this doesn't work, num = 0;
-            num = 0;
+            std::stringstream thing(text);
 
-        d = num;
+            if (!(thing >> numFromLine)) // if this doesn't work, num = 0;
+                numFromLine = 0;
 
-        std::cout << "Value: " << d << std::endl;
+            d = numFromLine;
 
-        p.setValue(i++, d);
-    }
+            std::cout << "Value: " << d << std::endl;
 
-}
+            p.setValue(i++, d);
+        }
+
+        if (lineSegments < pointDims)
+            throw Clustering::DimensionalityMismatchEx(lineSegments, pointDims);
+
+
+
+    //All Point exceptions should be "external" relative to the class code but "internal" relative to the Clustering codebase.
+
+} // end >> operator
 
 //********************************************************
 //End overloaded operators

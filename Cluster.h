@@ -29,7 +29,10 @@ namespace Clustering {
         LNodePtr points;            // head, head is the start of a linked list of LNodes, not a Node its self
         bool centValid;
 
+
     public:
+
+
         class Move
         {
         public:
@@ -37,8 +40,8 @@ namespace Clustering {
         };
 
     public:
-        Cluster():dimensionality(0), size(0), points(nullptr), centroid(nullptr){ID = GenerateID();};          // default
-        Cluster(unsigned d) : dimensionality(d), size(0), points(nullptr), centroid(nullptr){ID = GenerateID();};
+        Cluster():dimensionality(0), size(0), points(nullptr), centroid(nullptr){ID = GenerateID(true);};          // default
+        Cluster(unsigned d) : dimensionality(d), size(0), points(nullptr), centroid(nullptr){ID = GenerateID(true);};
         // The big three: cpy ctor, overloaded operator=, dtor
         Cluster(const Cluster &);                                                  // done
         Cluster &operator=(const Cluster &);                                       // implement
@@ -51,11 +54,18 @@ namespace Clustering {
         bool getCentValid(){return centValid;};
         void setDimensionality(unsigned d) {dimensionality = d;};
 
-        static unsigned int GenerateID()
+        static unsigned int GenerateID(bool inc)
         {
             static unsigned int num = 0;
+                if(!inc)
+                {
+                    --num;
+                    return num;
+                }
             return num++;
         }
+
+        //void decrementID(){num--;}
 
         // Set functions: They allow calling c1.add(c2.remove(p));
         // take point out of c2 and give to c1
@@ -106,6 +116,10 @@ namespace Clustering {
         void setCent(Point &);
 
     };
+
+
+
+
 }// clustering
 
 #endif // UCD_CSCI2312_PA1_CLUSTER_H

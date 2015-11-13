@@ -1,10 +1,9 @@
 #include <iostream>
+#include <cstdlib>
+
 #include "Point.h"
 #include "Cluster.h"
 #include "KMeans.h"
-#include <cstdlib>
-
-
 
 using namespace std;
 
@@ -27,6 +26,9 @@ using namespace Clustering;
 
     make sure move:Invalidates the centroids of both cluster from and to.
    //////// probably better done with just lines in add and remove that invalidate the centroid.
+
+   Reimplement __values as a std::vector<double>. Use vector methods and iterators to
+   manipulate the point values. You should be able to do that without changing the interface.
  */
 
 int main()
@@ -34,12 +36,6 @@ int main()
 {
 
 
-   // Cluster* cPtr;
-   // cPtr = new Cluster(5);
-
-    //Point pointArray[10];
-    //int foo[3];
-    //Cluster cList[10];
 
 
     std::fstream seed;
@@ -48,7 +44,7 @@ int main()
 
     seed.clear();
 
-    for(int i = 0; i < 100; i++)
+    for(int i = 0; i < 6; i++)
     {
         double num = rand() % 100;
         seed << num;
@@ -77,7 +73,7 @@ int main()
 
     csv.open("C:\\Users\\Folio\\Desktop\\School\\intPA2\\ucd-csi2312-pa2\\numbers.csv", std::ifstream::in);
 
-    KMeans kOne(5, 5);  // 5 clusters, dimensionality of 5, as of now file has 10 points
+    KMeans kOne(2, 5);  // 2 clusters, dimensionality of 5, as of now file has 10 points
 
 
     kOne.createClusters(csv);
@@ -89,120 +85,5 @@ int main()
     csv.close();
 
 
-/*
-    Cluster universe(5);
-
-    std::ifstream csv;
-
-    csv.open("C:\\Users\\Folio\\Desktop\\School\\intPA2\\ucd-csi2312-pa2\\numbers.csv", std::ifstream::in);
-
-    csv >> universe; // call overloaded cluster extraction operator
-
-    csv.close();
-
-    cout << universe;
-
-    //double icd = universe.intraClusterDistance();
-//*/
-
-// !!!!!!!!!!!!
-//    PointPtr pointArray[universe.getSize()]; // could fill this thing with universe's size
-
-
-    /*
-    Point p1(DIMS, 1, 2, 3);
-    Point p2(DIMS, 4, 5, 6);
-    Point p3(DIMS, 1, 1, 1);
-    Point p4(DIMS, 7, 8, 9);
-    Point p5(DIMS, 0, 0, 0);
-    Point z (DIMS, 3, 3, 3);
-    Point z2(DIMS, 3, 3, 3);
-/*
-
-    z += p1;
-
-    z-=p2;                // error again!!!
-
-    z *= 5;
-    cout << z << endl;
-    z /= 3;
-    cout << z << endl;
-    p1 = z*5;
-    cout << p1 << endl;
-    p1 = z / 5;
-    cout << p1 << endl;
-    if (z > p3){cout << "true" << endl;}
-    if (z >= p2) {cout << "trye " << endl;}
-    if (z >= p3) {cout << "trye " << endl;}
-    z+=p1;                 // error
-    cout << z<< endl;
-    p5 = z + 3;
-    cout << z << endl;
-    if (z == z2) {cout << "true" << endl;}
-    if (z != p4) {cout << "true " << endl;}
-    if (z < p4)  {cout << "true" << endl;}
-    if (z <= p4) {cout << "true" << endl;}
-    cout << z << endl;
-    p2 = z - 1;           // this may not work, need ot override -= function for doubles too.
-    cout << z << endl;
-
-*/
-
-
-    // p4, p2, p1, p3, p5
-
-    //Point p5(DIMS, 9, 10, 8);
-    //Point p6(DIMS, 9, 9, 10);
-
-
-/*
-    int DIMS = 5;
-
-    Point p1(DIMS);
-    Point p2(DIMS);
-    Point p3(DIMS);
-    Point p4(DIMS);
-    Point p5(DIMS);
-    Point z (DIMS);
-    Point z2(DIMS);
-
-
-   Cluster c1(5);
-
-    c1+=p1;
-    c1+=p2;
-    c1+=p3;
-
-    Cluster c2(5);
-    c2+= p1;
-    c2 +=p2;
-    c2 +=p3;
-    c2+=p4;
-
-    c1-=c2;
-    c1.calcCent();
-
-    PointPtr ptr = &p4;
-
-    //c1 = c2 - ptr;
-
-    cout << c1 << endl;
-
-    Cluster::Move m;
-
-    Cluster *pc1 = &c1;
-    Cluster *pc2 = &c2;
-
-    m.perform(ptr, pc1, pc2);
-
-    universe += c1;
-    universe += c2;
-    universe += c1;
-
-    cout << universe;
-
-    cout <<"end";
-
-*/
     return 0;
 }

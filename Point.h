@@ -1,6 +1,3 @@
-// A multi-dimensional point class!
-// Number of dimensions is user input
-// Coordinates are floating point double
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -15,16 +12,29 @@
 
     private:
         int dim;                               // dim will be used to initialize the dynamic array
-        double *coor;                          // coor (short for coordinates) will be used to point to the dynamic array
-                                                // of dimensions
+        double *coor;
+        unsigned int _id;
 
     public:
+
+
+
         // Constructors
 
-        Point(): dim(0), coor(nullptr){};   // default
-        Point(int);                         // one argument constructor
-        Point(int, double, double, double); // 4 argument for custom coordinates
-        Point(double [], int);              //
+        Point(): dim(0), coor(nullptr){_id = GenerateID(true);};   // default        // ID generated
+        Point(int);                         // one argument constructor              // ID generated
+
+        static unsigned int GenerateID(bool inc)
+        {
+            static unsigned int num = 0;
+           //std::cout<<"Point ID gen: " << num << std::endl;
+            if(!inc)
+            {
+                --num;
+                return num;
+            }
+            return num++;
+        }
 
         // Big 3, overloaded=, dstr, copy
         Point &operator=(const Point &);         // overloaded assignment operator
