@@ -2,7 +2,6 @@
 #include <iostream>
 #include <cmath>
 #include <cstdlib>
-#include <string>
 #include <fstream>
 #include <sstream>
 #include <iomanip>
@@ -18,11 +17,14 @@ const int DIMS = 3;
 // takes in dim, creates dynamic array size of dim, coor then points to it
 
 
+unsigned int Point::IDgenerator = 0;
+/*
 Point::Point(int num) {
 
-    _id = GenerateID(true);
+    //_id = GenerateID(true);
+    _id(++IDgenerator);
     dim = num;
-    coor = new double[dim];
+    coor = std::vector<double>(num);
 /*
     for (int i = 0; i < dim; i++)
     {
@@ -33,7 +35,7 @@ Point::Point(int num) {
         coor[i] = input;
     }
 */
-}
+//}
 
 // assignment operator overloaded
 // this pointer used for left hand side, calling obj. rhs is right hand side, copied from, object
@@ -58,8 +60,7 @@ Point& Point::operator=(const Point &rhs)
 Point::~Point() {
 
     //std::cout << "Point dtr" << std::endl;
-
-    delete[] coor;
+    //delete[] coor;
 }
 
 // copy constructor
@@ -67,7 +68,7 @@ Point::Point(const Point &copied)
 
 {
     dim = copied.dim;
-    coor = new double[dim];
+    coor = std::vector<double>(dim);
     for (int i = 0; i < dim; i++)
     {
         coor[i] = copied.coor[i];

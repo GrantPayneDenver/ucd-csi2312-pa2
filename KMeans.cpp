@@ -1,6 +1,7 @@
 //
 // Created by Folio on 10/17/2015.
 //
+/*
 #include <cassert>
 #include <limits>
 #include <cmath>
@@ -39,9 +40,11 @@ void kmeansLogMovePerform(std::fstream &file, Point &p, int outer, int inner)
 
 void kmeansReport(std::fstream &file, Clustering::Cluster* list, int k)
 {
+    file << "CLUSTER REPORT" << std::endl;
+
     for (int i = 0; i < k; i++)
     {
-        file << "CLUSTER REPORT" << std::endl;
+
         file << list[i];
     }
 }
@@ -111,6 +114,7 @@ void KMeans::createClusters(std::ifstream & file) {
                                                            // can't create an array of Points bc no default constructor. I BET
                                                            // undefined reference to `Point::Point()' when trying to make point[]
     pointsArray = new Point[k];
+    //std::vector<Point> pointsArray(k);
 
     for (int j = 0; j < k; j++)
     {
@@ -134,34 +138,23 @@ void KMeans::createClusters(std::ifstream & file) {
 
 }// end createClusters
 
-/*
- * clusterizeData
- * in: Cluster array cList, with centroids set
- * out: clusters filled out with adjacent points
- */
+
 void KMeans::clusterizeData()
 {
-/*
-    loop until scoreDiff < SCORE_DIFF_THRESHOLD
-            loop through all clusters
-            loop through all points
-    find the min distance(point, centroid)
-    if centroid not of current cluster
-    perform move(point, current, other)
-    loop through all clusters
-    if centroid invalid
-        compute and set valid to true
-    compute new clustering score
-    compute absolute difference and set scoreDiff
-*/
-    assert(cList != nullptr && pointsArray != nullptr);
+
+    assert(cList != nullptr);
 // have points array
 // have cList with centroids
     //need a max number,
     // old score = max number
     //scoreDiff = SCOREDIFFTHRESHOLD + 1
 
-    //***open kLog
+    //open kLog
+
+/*
+
+
+
     std::fstream Klog;
     Klog.open("C:\\Users\\Folio\\Desktop\\School\\intPA2\\ucd-csi2312-pa2\\klog.csv");
     Klog.clear();
@@ -183,11 +176,11 @@ void KMeans::clusterizeData()
             //int index = 0;
             int count = 0;
 
-            while(/*iterate && */count < cList[outerCluster].getSize())
+            while(count < cList[outerCluster].getSize())
             {
-                //***note count, as well as iterate->p in log
+                //note count, as well as iterate->p in log
 
-                //kmeansLogOuterP(Klog, count, *cList[outerCluster].operator[](count)->p);
+                kmeansLogOuterP(Klog, count, *cList[outerCluster].operator[](count)->p);
 
                 // compare each each point of outerCluster to each centroid of inner clusters.
                 for (int innerCluster = 0; innerCluster < k; innerCluster++)
@@ -253,13 +246,9 @@ void KMeans::clusterizeData()
     kmeansReport(Klog, cList, k);
 
     Klog.close();
-/*
-    std::fstream output("C:\\Users\\Folio\\Desktop\\School\\intPA2\\ucd-csi2312-pa2\\output.csv");
-    for (int i = 0; i < k; i++)
-    {
-        output << cList[i];
-    }
-*/
+
+
+
 } // end clusterizeData
 
 void KMeans::printClusters()
@@ -271,7 +260,7 @@ void KMeans::printClusters()
 }
 
 
-
+*/
 
 
 

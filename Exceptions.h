@@ -23,7 +23,7 @@ namespace Clustering {
         int getDimsRecieved()const {return dimsRecieved;};
         int getDimsExpected()const {return dimsExpected;};
         std::string getName(){return name;};
-        friend std::ostream &operator<<(std::ostream &, const DimensionalityMismatchEx &);
+        friend std::ostream &operator<<(std::ostream &, const DimensionalityMismatchEx &); // do this inline
         //friend std::ostream &operator<<(std::ostream &, const Cluster &);
 
 

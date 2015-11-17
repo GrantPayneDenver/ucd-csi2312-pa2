@@ -13,22 +13,13 @@ using namespace Clustering;
  *
  * update the point <, <=, >=
  *
- * retest all cluster funcs, now that I've changed the constructor and initialization
+ * point ID generation doesn't work. Has something to do with the way they're being initialized in operator>> of Cluster, I think.
  *
- *
- * MAKE SURE THAT ALL MUTATOR FUNCS THAT CHANGE A CLUSTER INVALIDATE THE CENTROID
-
    - and + functions create a new cluster, which increments the cluster ID generator...
 
-   assignment and copy ctr need to handle centroids. Can't simply have
-   pointPtrs point to same point. That'll be a quick path to segfault.
+Cluster
+    doing: add, remove, operator=
 
-
-    make sure move:Invalidates the centroids of both cluster from and to.
-   //////// probably better done with just lines in add and remove that invalidate the centroid.
-
-   Reimplement __values as a std::vector<double>. Use vector methods and iterators to
-   manipulate the point values. You should be able to do that without changing the interface.
  */
 
 int main()
@@ -73,16 +64,7 @@ int main()
 
     csv.open("C:\\Users\\Folio\\Desktop\\School\\intPA2\\ucd-csi2312-pa2\\numbers.csv", std::ifstream::in);
 
-    KMeans kOne(2, 5);  // 2 clusters, dimensionality of 5, as of now file has 10 points
 
-
-    kOne.createClusters(csv);
-
-    kOne.clusterizeData();
-
-    kOne.printClusters();
-
-    csv.close();
 
 
     return 0;

@@ -13,6 +13,7 @@
 
 class KMeans
 {
+    /*
 private:
 
     int k;                                // clusters in program
@@ -27,17 +28,14 @@ public:
    KMeans( int kay, unsigned d) : dimensions(d), k(kay), cList(nullptr) { };
 
    void setK(int);
-
    double computeClusteringScore();
-
    void createClusters(std::ifstream &);
-
    void clusterizeData();
-
    void printClusters();
 
-
+    */
 };
 
 
 #endif //UCD_CSI2312_PA2_KMEANS_H
+

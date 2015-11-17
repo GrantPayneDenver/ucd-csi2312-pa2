@@ -15,17 +15,31 @@ using namespace std;
 namespace Clustering {
 
 
-    //int Clustering::Cluster::ID2 = 0;
+    unsigned int Clustering::Cluster::IDgenerator = 0;
 
 
     Cluster &Cluster::operator=(const Cluster &rhs)
     {
 
+        // clear out this->points, size = 0
+        points.clear();
+
+        auto it = rhs.points.begin();
+
+        while(it != points.end())
+        {
+            this->add(*it);
+            it++;
+        }
+
+
+
+        /*
         // FIRST, clear out calling cluster if need be.
         // assign size of calling obj to parameter obj
         // handle parameter obj being 0 or 1 in size first
 
-        if(points != nullptr)                       // do work if cluster isn't empty
+        if(!points.empty())                       // do work if cluster isn't empty
         {
             if (size == 1)
             {
@@ -77,9 +91,12 @@ namespace Clustering {
         }
 
       return *this;
+
+         */
     }// end = operator
 
 // copy ctor
+                                                                                                    /*
     Cluster::Cluster(const Cluster &rhs)
     {
         std::cout << "copy constructor entered" << std::endl;
@@ -122,23 +139,11 @@ namespace Clustering {
         //if size is 0, then nothing will happen
 
     } //cpy ctr
-
+                                                                                  */
 // dtor
 Cluster::~Cluster() {
-    // delete PointPtrs and nodes
 
-    /*
-     * use two pointers, but one is head, so only need to create one pointer
-     * this pointer will continually be a step ahead of head
-     * head is the pointer through which deletions happen
-     *  delete head->p   // deletes the pointPtr
-     *  delete head      // deletes the node
-     *  then you set head to next pointer, and move pointer up the chain
-     *  need to account for a situation where cluster is empty or only has one node
-     *  use the size member to help.
-     */
-
-
+/*
     if(points != nullptr)                       // do work if cluster isn't empty
     {
         if (size == 1)
@@ -163,13 +168,71 @@ Cluster::~Cluster() {
 
         if(centroid != nullptr)
             delete centroid;
-
+*/
 } // end ~Cluster
 
 
-    void Cluster::add(const PointPtr &pnt)
+    void Cluster::add(const Point &pnt)
     {
-        //if (pnt == nullptr)
+
+        // if points is empty
+
+        if(points.empty()) {
+            this->points.push_front(pnt);
+            size++;
+            return;
+        }
+
+        if(size == 1)
+        {
+            auto it = points.begin();
+
+            if(pnt < *it)
+                points.insert_after(it, pnt);
+            else{
+                points.push_front(pnt);
+            }
+        }
+
+        //if size > 1
+        if(size > 1)
+        {
+            auto it = points.begin();    // start it at front
+            it++;                        // move it to 2nd element
+            auto it2nd = points.begin(); // start it2nd at first element
+            int count = 0;
+            bool notPlaced = true;
+
+            while (it != points.end()) {
+                // if, immediately, pnt is greater than first element.
+                if (pnt > *it2nd && count == 0) {
+                    points.push_front(pnt);
+                    notPlaced = false;
+                    break;
+                }
+
+                if (pnt > *it) {
+                    points.insert_after(it2nd, pnt);
+                    notPlaced = false;
+                    break;
+                }
+                it2nd = it;
+                it++;
+                count++;
+            }
+
+            if(it == points.end() && notPlaced)
+            {
+                points.insert_after(it2nd, pnt);
+            }
+        }
+
+        // if not placed == true, iterate to back. insert at end.
+        // OR, if it == points.end(), insert after it2nd
+        // in if size > 1.
+
+
+/*        //if (pnt == nullptr)
         //    return;
         // assert(pnt);
         LNodePtr newNode = new LNode();
@@ -232,21 +295,57 @@ Cluster::~Cluster() {
 
         } // else
 
-
-    }//+++++ end add
+*/
+    }                                          //+++++ end add
 
     // Remove()
-    const PointPtr& Cluster::remove(const PointPtr &pd)
+    const Point& Cluster::remove(const Point &pd)
     {
-        //during debugging, if you click pd, it say in red "attempt to take address
-        // of value not located in memory"
-        // pd is const PointPtr passed by reference.
-        // it seems that it MUST be passed by reference. (at least in this program. Due to the dynamic data in Points?)
-        // It makes intuitive sense
-        // what is a pointer if not a reference? What good would passing a pointer
-        // by value do? You make a copy of it, but it STILL must point to something
-        // thus it is still referencing.
 
+
+        if(points.empty())
+        {
+            return NULL;
+        }
+
+        if(size == 1)
+        {
+            auto it = points.begin();
+            if(pd == *it)
+            {
+                points.clear();
+                size--;
+                return pd;
+            }
+        }
+
+        auto it = points.begin();
+        auto it2n = it;
+        it++;
+
+        while(it!= points.end())
+        {
+            if(pd == *it)
+            {
+                points.erase_after(it2n);
+                size--;
+                return pd;
+            }
+
+            it2n = it;
+            it++;
+
+        }
+
+
+
+
+
+
+
+
+
+/*
 
         if(!points)
             return pd;             // just return the point to be deleted, the list was empty....
@@ -295,10 +394,14 @@ Cluster::~Cluster() {
             }
         }
 
-    }// end remove
 
 
-    LNodePtr Cluster::operator[](int index)
+
+ */
+    }                                        // end remove
+
+                                                                                    /*
+    Point& Cluster::operator[](int index)
     {
         if(index < this->size)
         {
@@ -313,17 +416,20 @@ Cluster::~Cluster() {
            return ptr;
         }
     }
-
+                                                                                    */
 //++++++++++++++++++++++++ MEMBERS +++++++++++++++++++++++++++++++++++++\\\
-
+//
+/*
     Cluster& Cluster::operator+=(const Cluster &rhs)
     {
         Cluster c = *this;             // calls cpy ctr
         *this = c + rhs;
         c.centroid = nullptr;          // for some reason c has a centroid pointing to something, so set to nullptr
         return *this;
-    }// end += for clusters
+    }// end += for cluster
 
+   */
+    /*
     Cluster& Cluster::operator-=(const Cluster &rhs)
     {
         Cluster c = *this;              // calls cpy ctr
@@ -366,7 +472,7 @@ Cluster::~Cluster() {
     }
 
 
-    void Cluster::pickPoints(int &k, PointPtr &pointArray)
+    void Cluster::pickPoints(int &k, Point* &pointArray)
     {
         // length of cluster linked list / k assigned to an int
         // the int is size of the interval between linked list elements we
@@ -719,6 +825,9 @@ void Cluster::calcCent()
                 std::cout << "Line: " << line << std::endl;
                 std::stringstream lineStream(line);
                 Point p(c.dimensionality);
+
+                std::cout <<" POINT ID IS : " << p.getID() << "{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{" << std::endl;
+
                 try
                 {  //////////////////// Ensure point data meets expectations before it's added to c, roll back point ID if not.
                     lineStream >> p;
@@ -753,5 +862,8 @@ void Cluster::calcCent()
         to->add(from->remove(pt));
         //Invalidates the centroids of both cluster from and to.
     }// end perform
+
+
+     */
 
 } // clustering

@@ -1,15 +1,16 @@
-//
-// Created by Folio on 9/19/2015.
-//
+
 
 #ifndef UCD_CSCI2312_PA1_CLUSTER_H
 #define UCD_CSCI2312_PA1_CLUSTER_H
+
+#include <forward_list>
+
 #include "Point.h"
 
 namespace Clustering {
 
     typedef Point *PointPtr;
-    typedef struct LNode *LNodePtr;
+/*   typedef struct LNode *LNodePtr;
 
 //    struct LNode;
 //    typedef LNode *LNodePtr;
@@ -18,7 +19,7 @@ namespace Clustering {
         PointPtr p;
         LNodePtr next;
     };
-
+*/
     class Cluster {
 
     private:
@@ -26,8 +27,11 @@ namespace Clustering {
         unsigned int ID;            // static int that increments when each new C made
         PointPtr centroid;          // Pointer to a dynamic point, centroid.
         int size;                   // length of linked list
-        LNodePtr points;            // head, head is the start of a linked list of LNodes, not a Node its self
+        //LNodePtr points;            // head, head is the start of a linked list of LNodes, not a Node its self
         bool centValid;
+        static unsigned int IDgenerator;
+        std::forward_list<Point> points;
+
 
 
     public:
@@ -40,8 +44,8 @@ namespace Clustering {
         };
 
     public:
-        Cluster():dimensionality(0), size(0), points(nullptr), centroid(nullptr){ID = GenerateID(true);};          // default
-        Cluster(unsigned d) : dimensionality(d), size(0), points(nullptr), centroid(nullptr){ID = GenerateID(true);};
+        Cluster():dimensionality(0), size(0),/* points(nullptr),*/ centroid(nullptr){ID = GenerateID(true);};                // default
+        Cluster(unsigned d) : dimensionality(d), size(0), /* points(nullptr),*/ centroid(nullptr){ID = GenerateID(true);};
         // The big three: cpy ctor, overloaded operator=, dtor
         Cluster(const Cluster &);                                                  // done
         Cluster &operator=(const Cluster &);                                       // implement
@@ -49,7 +53,7 @@ namespace Clustering {
 
         //getters, setters
         PointPtr getCentroid(){return centroid;};
-        LNodePtr getPoints(){return points;};
+        std::forward_list<Point>::iterator getPoints(){return points.begin();};
         int getSize(){return size;}
         bool getCentValid(){return centValid;};
         void setDimensionality(unsigned d) {dimensionality = d;};
@@ -69,9 +73,9 @@ namespace Clustering {
 
         // Set functions: They allow calling c1.add(c2.remove(p));
         // take point out of c2 and give to c1
-        void add(const PointPtr &pnt);                                             // done
-        const PointPtr &remove(const PointPtr &);                                  // done
-        LNodePtr operator[](int);
+        void add(const Point &pnt);                                             // done
+        const Point& remove(const Point &);                                  // done
+        Point& operator[](int);
         // Overloaded operators
 
         // IO
@@ -91,7 +95,7 @@ namespace Clustering {
         Cluster &operator+=(const Point &rhs);   // add point */                // done
         Cluster &operator-=(const Point &rhs);   // remove point                // done
         double intraClusterDistance();           // inner distance of a single cluster
-        void pickPoints(int &, PointPtr& );      // selects points from point_space cluster
+        void pickPoints(int &, Point*&);      // selects points from point_space cluster
         double getClusterEdges();                // cluster edges of one cluster, the calling obj
 
 
