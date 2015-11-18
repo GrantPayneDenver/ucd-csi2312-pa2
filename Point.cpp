@@ -54,13 +54,22 @@ Point& Point::operator=(const Point &rhs)
     }
     return *this;
 } // end overloaded assignment operator
-// calls dtr first time
+
+unsigned int Point::GenerateID(bool inc)
+{
+    static unsigned int num = 1;
+    std::cout << "Point ID gen: " << num << std::endl;
+    if (!inc)
+    {
+        --num;
+        return num;
+    }
+    return num++;
+}
+
 
 // Destructor
 Point::~Point() {
-
-    //std::cout << "Point dtr" << std::endl;
-    //delete[] coor;
 }
 
 // copy constructor
@@ -214,7 +223,12 @@ bool operator<=(const Point &a, const Point &b)
 
     for (int i = 0; i < a.dim; i ++)
     {
-        if (a.coor[i] > b.coor[i])            // if any a point > any b point
+        if (a.coor[i] > b.coor[i])                  // if any a point > any b point
+        {
+            lessOrEqual = false;                     // less is false, break
+            break;
+        }
+        if (b.coor[i] < a.coor[i])
         {
             lessOrEqual = false;                     // less is false, break
             break;
@@ -223,9 +237,8 @@ bool operator<=(const Point &a, const Point &b)
     return lessOrEqual;
 }
 
-bool operator>(const Point &a, const Point &b)          // greater than operator
+bool operator>(const Point &a, const Point &b)          // greater than operator. if p1 > p2 means if a(,,,) < b(,,,), a = p1, b = p2
 {
-//    std::cout << " > operator accessed " << std::endl;
 
     bool greater = true;
                                                         // a is larger until proven otherwise
@@ -237,7 +250,7 @@ bool operator>(const Point &a, const Point &b)          // greater than operator
             greater = false;
             return greater;
         }
-        if(a.coor[i] > b.coor[i])
+        if(a.coor[i] > b.coor[i])                       //  if any a coor is larger than any b coor we have a true situation
         {
             greater = true;
             return greater;
@@ -247,7 +260,7 @@ bool operator>(const Point &a, const Point &b)          // greater than operator
     return greater;
 }
 
-bool operator>=(const Point &a, const Point &b)
+bool operator>=(const Point &a, const Point &b) // if p1 >= p2, a >= b
 {
     bool greaterOrEqual = true;
     // a is greater or equal until proven otherwise
@@ -255,8 +268,14 @@ bool operator>=(const Point &a, const Point &b)
     {
         if (b.coor[i] > a.coor[i]) {                   // if any b coor is larger then any a coor we have a false situation
             greaterOrEqual = false;
-            break;
+            return greaterOrEqual;
         }
+        if (a.coor[i] >= b.coor[i])
+        {
+            greaterOrEqual = true;
+            return greaterOrEqual;
+        }
+
     }
 
     return greaterOrEqual;

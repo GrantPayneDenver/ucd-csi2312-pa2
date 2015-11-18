@@ -24,26 +24,23 @@
 
         // Constructors
 
-        Point(): dim(0), coor(0){_id = IDgenerator;};   // default        // ID generated
-        Point(int num): dim(0), _id(IDgenerator++)
+        Point(): dim(0), coor(0){_id = GenerateID(true);};   // default        // ID generated
+        Point(int num): dim(0)                               // single var constructor
         {
+            _id = GenerateID(true);
             dim = num;
             coor = std::vector<double>(num);
+            for (int i = 0; i < dim; i++)
+            {
+                double input;
+                //std::cout << "Enter coordinate for dimension " << i << std::endl;
+                //std::cin >> input;
+                input = rand() % 20;
+                coor[i] = input;
+            }
         };                         // one argument constructor              // ID generated
 
-
-
-        static unsigned int GenerateID(bool inc)
-        {
-            static unsigned int num = 0;
-            std::cout<<"Point ID gen: " << num << std::endl;
-            if(!inc)
-            {
-                --num;
-                return num;
-            }
-            return num++;
-        }
+        static unsigned int GenerateID(bool inc);
 
         // Big 3, overloaded=, dstr, copy
         Point &operator=(const Point &);         // overloaded assignment operator
@@ -58,7 +55,8 @@
         int getDims();
         void setValue(int, double);
         double getValue(int) const;
-        int getID(){return _id;};
+        unsigned int getID() const {return _id;};
+        void setID(unsigned int num) {_id = num;};
 
         double &operator[](int index) { return coor[index - 1]; }
 

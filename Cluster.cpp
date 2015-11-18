@@ -14,8 +14,16 @@ using namespace std;
 
 namespace Clustering {
 
-
-    unsigned int Clustering::Cluster::IDgenerator = 0;
+   unsigned int Cluster::GenerateID(bool inc)
+    {
+        static unsigned int num = 1;
+        if(!inc)
+        {
+            --num;
+            return num;
+        }
+        return num++;
+    }
 
 
     Cluster &Cluster::operator=(const Cluster &rhs)
@@ -32,67 +40,6 @@ namespace Clustering {
             it++;
         }
 
-
-
-        /*
-        // FIRST, clear out calling cluster if need be.
-        // assign size of calling obj to parameter obj
-        // handle parameter obj being 0 or 1 in size first
-
-        if(!points.empty())                       // do work if cluster isn't empty
-        {
-            if (size == 1)
-            {
-                delete points;
-            }
-            else
-            {
-                LNodePtr next = points->next;      // get node after points node
-
-                for(int i = 0; i < size -1; i++)   // delete nodes up until you have one left
-                {
-                    delete points;
-                    points = next;
-                    next = next->next;
-                }
-                delete points;                      // delete last node
-            }
-        }
-
-        this->size = rhs.size;                // copy size of rhs into calling obj
-
-        if(this->size == 0)                   // if it turns out that calling obj was empty return this.
-        {
-            return *this;
-        }
-        if(this->size == 1)
-        {
-            LNodePtr onlyNode = new LNode();  // take care of first and only node;
-            onlyNode->p = rhs.points->p;      // copy the one point
-            this->points = onlyNode;          // link head to onlyNode
-            return *this;
-        }
-
-        LNodePtr copy = rhs.points;
-
-        LNodePtr firstNode = new LNode();  // take care of first node;
-        firstNode->p = copy->p;
-        this->points = firstNode;
-        LNodePtr prev = firstNode;
-        copy = copy->next;
-
-        while(copy)//should work even if size is zero
-        {
-            LNodePtr newNode = new LNode();
-            newNode->p = copy->p;
-            prev->next = newNode;
-            prev = newNode;
-            copy = copy->next;
-        }
-
-      return *this;
-
-         */
     }// end = operator
 
 // copy ctor
@@ -177,9 +124,14 @@ Cluster::~Cluster() {
 
         // if points is empty
 
-        if(points.empty()) {
+        if(points.empty())
+        {
             this->points.push_front(pnt);
             size++;
+            //
+            auto it = points.begin();
+            it->setID(pnt.getID());
+            //
             return;
         }
 
@@ -187,11 +139,22 @@ Cluster::~Cluster() {
         {
             auto it = points.begin();
 
-            if(pnt < *it)
+            if(pnt < *it) {
                 points.insert_after(it, pnt);
+                //
+                it++;
+                it->setID(pnt.getID());
+                //
+            }
             else{
                 points.push_front(pnt);
+                //
+                auto it = points.begin();
+                it->setID(pnt.getID());
+                //
             }
+            size++;
+            return;
         }
 
         //if size > 1
@@ -207,12 +170,20 @@ Cluster::~Cluster() {
                 // if, immediately, pnt is greater than first element.
                 if (pnt > *it2nd && count == 0) {
                     points.push_front(pnt);
+                    //
+                    auto it_again = points.begin();
+                    it_again->setID(pnt.getID());
+                    //
                     notPlaced = false;
                     break;
                 }
 
                 if (pnt > *it) {
                     points.insert_after(it2nd, pnt);
+                    //
+                    it2nd++;
+                    it2nd->setID(pnt.getID());
+                    //
                     notPlaced = false;
                     break;
                 }
@@ -224,78 +195,18 @@ Cluster::~Cluster() {
             if(it == points.end() && notPlaced)
             {
                 points.insert_after(it2nd, pnt);
+                //
+                it2nd++;
+                it2nd->setID(pnt.getID());
+                //
             }
+            size++;
         }
 
-        // if not placed == true, iterate to back. insert at end.
-        // OR, if it == points.end(), insert after it2nd
-        // in if size > 1.
+ //              if(*newNode->p > *curr->p && count == 1)                        // TODO  new node p > curr p try block... = += -= < >
+ //               else if (*newNode->p > *curr->p) {                           // TODO  new node p > curr p try block... = += -= < >                             // not first
 
 
-/*        //if (pnt == nullptr)
-        //    return;
-        // assert(pnt);
-        LNodePtr newNode = new LNode();
-        newNode->p = pnt;
-
-        if (this->points == nullptr)
-        {
-            //std::cout << "points was null in c.add" << std::endl;
-
-            newNode->next = nullptr;
-            this->points = newNode;
-            this->size++;
-            centValid = false;
-        }
-        else
-        {
-            LNodePtr curr = this->points;                // curr points to first node
-            LNodePtr prev = curr;                        // prev points to curr
-            bool looking = true;
-            int count = 1;
-
-            while(curr != NULL && looking)
-            {
-            //std::cout << "entered list, comparing new node to current nodes" << std::endl;
-
-               if(*newNode->p > *curr->p && count == 1)                        // TODO  new node p > curr p try block... = += -= < >
-                {
-                    newNode->next = curr;      // this line works
-                    //prev = newNode;
-                    this->points = newNode;
-                    this->size++;
-                    centValid = false;
-                    looking = false;
-                    break;
-                }
-
-                 else if (*newNode->p > *curr->p) {                           // TODO  new node p > curr p try block... = += -= < >                             // not first
-                    newNode->next = curr;
-                    prev->next = newNode;
-                    this->size++;
-                    centValid = false;
-                    looking = false;
-                    break;
-                } //else if
-                else if (curr->next == nullptr) // we reach end of list and find no placement                         // reached end of list
-                {
-                    //std::cout << "reached end of list" << std::endl;
-                    newNode->next = nullptr;
-                    curr->next = newNode;
-                    this->size++;
-                    centValid = false;
-                    looking = false;
-                    break;
-                }// last else if
-
-            prev = curr;
-            curr = curr->next;
-            count++;
-            } // while
-
-        } // else
-
-*/
     }                                          //+++++ end add
 
     // Remove()
@@ -325,6 +236,13 @@ Cluster::~Cluster() {
 
         while(it!= points.end())
         {
+            if(*it2n == pd)
+            {
+                points.pop_front();
+                size--;
+                return pd;
+            }
+
             if(pd == *it)
             {
                 points.erase_after(it2n);

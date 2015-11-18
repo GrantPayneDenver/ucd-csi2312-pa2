@@ -27,9 +27,7 @@ namespace Clustering {
         unsigned int ID;            // static int that increments when each new C made
         PointPtr centroid;          // Pointer to a dynamic point, centroid.
         int size;                   // length of linked list
-        //LNodePtr points;            // head, head is the start of a linked list of LNodes, not a Node its self
         bool centValid;
-        static unsigned int IDgenerator;
         std::forward_list<Point> points;
 
 
@@ -58,23 +56,12 @@ namespace Clustering {
         bool getCentValid(){return centValid;};
         void setDimensionality(unsigned d) {dimensionality = d;};
 
-        static unsigned int GenerateID(bool inc)
-        {
-            static unsigned int num = 0;
-                if(!inc)
-                {
-                    --num;
-                    return num;
-                }
-            return num++;
-        }
-
-        //void decrementID(){num--;}
+        static unsigned int GenerateID(bool inc);
 
         // Set functions: They allow calling c1.add(c2.remove(p));
         // take point out of c2 and give to c1
         void add(const Point &pnt);                                             // done
-        const Point& remove(const Point &);                                  // done
+        const Point& remove(const Point &);                                     // done
         Point& operator[](int);
         // Overloaded operators
 
