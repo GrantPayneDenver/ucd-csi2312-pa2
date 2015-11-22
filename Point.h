@@ -8,6 +8,7 @@
 
 
 //namespace Clustering {
+//template <typename T>
 
     class Point {
 
@@ -25,22 +26,10 @@
         // Constructors
 
         Point(): dim(0), coor(0){_id = GenerateID(true);};   // default        // ID generated
-        Point(int num): dim(0)                               // single var constructor
-        {
-            _id = GenerateID(true);
-            dim = num;
-            coor = std::vector<double>(num);
-            for (int i = 0; i < dim; i++)
-            {
-                double input;
-                //std::cout << "Enter coordinate for dimension " << i << std::endl;
-                //std::cin >> input;
-                input = rand() % 20;
-                coor[i] = input;
-            }
-        };                         // one argument constructor              // ID generated
+        Point(int num);                                      // one argument constructor              // ID generated
 
         static unsigned int GenerateID(bool inc);
+        void rewindIdGen(){GenerateID(false);};
 
         // Big 3, overloaded=, dstr, copy
         Point &operator=(const Point &);         // overloaded assignment operator
@@ -49,7 +38,7 @@
 
 
         // distanceTo
-        double distanceTo(const Point &);
+        double distanceTo(const Point &)const;
         void setDim(unsigned dimFromKmeans){dim = dimFromKmeans;};
         void setCoor(int num){coor = std::vector<double>(dim);};
         int getDims();

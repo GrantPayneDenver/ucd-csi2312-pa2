@@ -13,7 +13,7 @@
 
 class KMeans
 {
-    /*
+
 private:
 
     int k;                                // clusters in program
@@ -33,7 +33,7 @@ public:
    void clusterizeData();
    void printClusters();
 
-    */
+
 };
 
 

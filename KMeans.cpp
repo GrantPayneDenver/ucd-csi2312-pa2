@@ -1,7 +1,7 @@
 //
 // Created by Folio on 10/17/2015.
 //
-/*
+
 #include <cassert>
 #include <limits>
 #include <cmath>
@@ -57,7 +57,7 @@ void KMeans::setK(int num)
 //computes clustering score for use in score diff
 //in: cList full of clusters
 //out: Clustering Score
-
+/*
 double KMeans::computeClusteringScore()
 {
     assert(cList != nullptr);

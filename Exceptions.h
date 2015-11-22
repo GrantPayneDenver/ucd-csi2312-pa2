@@ -23,8 +23,12 @@ namespace Clustering {
         int getDimsRecieved()const {return dimsRecieved;};
         int getDimsExpected()const {return dimsExpected;};
         std::string getName(){return name;};
-        friend std::ostream &operator<<(std::ostream &, const DimensionalityMismatchEx &); // do this inline
-        //friend std::ostream &operator<<(std::ostream &, const Cluster &);
+        friend std::ostream &operator<<(std::ostream &out, const DimensionalityMismatchEx &e) // do this inline
+        {
+            out << "Expected dimensions: " << e.getDimsExpected() << "Recieved dimensions: " << e.getDimsRecieved() <<
+            ". Point not created." << std::endl;
+            return out;
+        }        //friend std::ostream &operator<<(std::ostream &, const Cluster &);
 
 
 

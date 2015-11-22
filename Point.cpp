@@ -18,23 +18,19 @@ const int DIMS = 3;
 
 
 unsigned int Point::IDgenerator = 0;
-/*
-Point::Point(int num) {
 
-    //_id = GenerateID(true);
-    _id(++IDgenerator);
-    dim = num;
-    coor = std::vector<double>(num);
-/*
-    for (int i = 0; i < dim; i++)
-    {
-        double input;
-        //std::cout << "Enter coordinate for dimension " << i << std::endl;
-        //std::cin >> input;
-        input = rand() % 20;
-        coor[i] = input;
+Point::Point(int num) {
+     _id = GenerateID(true);
+     dim = num;
+     coor = std::vector<double>(num);
+     for (int i = 0; i < dim; i++)
+        {
+            double input;
+            input = rand() % 20;
+            coor[i] = input;
+        }
     }
-*/
+
 //}
 
 // assignment operator overloaded
@@ -42,10 +38,6 @@ Point::Point(int num) {
 // p1 = p2.
 Point& Point::operator=(const Point &rhs)
 {
-    //delete []coor;  // delete current array      in case dims isn't equal??? shouldn't happen tho.
-
-    //coor = new double[rhs.dim];
-
     dim = rhs.dim;
 
     for (int i = 0; i < dim; i++)
@@ -76,6 +68,7 @@ Point::~Point() {
 Point::Point(const Point &copied)
 
 {
+    _id = copied._id;
     dim = copied.dim;
     coor = std::vector<double>(dim);
     for (int i = 0; i < dim; i++)
@@ -103,7 +96,7 @@ double Point::getValue(int index) const
 
 //functions
 
-double Point::distanceTo(const Point& pointIn){
+double Point::distanceTo(const Point& pointIn)const{
     double distance;          // the end distance to be returned
     double sum = 0;
     double delta =0;
@@ -168,6 +161,10 @@ const Point Point::operator/(double num) const
 //*********************************
 bool operator==(const Point &a, const Point &b)
 {
+
+    if(a._id != b._id)
+        return false;
+
     bool equal = true;                 // equal is true until proven otherwise
 
     for (int i = 0; i < a.dim; i++)
@@ -175,7 +172,7 @@ bool operator==(const Point &a, const Point &b)
         if (a.coor[i] != b.coor[i])
         {
             equal = false;             // found a coor pair that isn't the same
-            break;                     // false
+            return equal;                     // false
         }
     }
     return equal;
@@ -183,13 +180,15 @@ bool operator==(const Point &a, const Point &b)
 
 bool operator!=(const Point &a, const Point &b)
 {
-    bool different = false;                    // different is false until proven otherwise
+    if(a._id != b._id)
+        return true;
 
+    bool different = false;                    // different is false until proven otherwise
 
         for (int i = 0; i < a.dim; i++) {
             if (a.coor[i] != b.coor[i]) {      // if any coor pair is found different
                 different = true;
-                break;
+                return different;
             }
         }
 

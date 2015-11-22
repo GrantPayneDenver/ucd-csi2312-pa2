@@ -31,14 +31,12 @@ namespace Clustering {
         std::forward_list<Point> points;
 
 
-
     public:
-
 
         class Move
         {
         public:
-            void perform(const PointPtr &, Cluster *, Cluster *);
+            void perform(const Point &, Cluster *, Cluster *);
         };
 
     public:
@@ -46,7 +44,7 @@ namespace Clustering {
         Cluster(unsigned d) : dimensionality(d), size(0), /* points(nullptr),*/ centroid(nullptr){ID = GenerateID(true);};
         // The big three: cpy ctor, overloaded operator=, dtor
         Cluster(const Cluster &);                                                  // done
-        Cluster &operator=(const Cluster &);                                       // implement
+        Cluster &operator=(const Cluster &);                                       // done
         ~Cluster();
 
         //getters, setters
@@ -62,44 +60,36 @@ namespace Clustering {
         // take point out of c2 and give to c1
         void add(const Point &pnt);                                             // done
         const Point& remove(const Point &);                                     // done
-        Point& operator[](int);
+        Point& operator[](int);                                                 // done
         // Overloaded operators
 
         // IO
         friend std::ostream &operator<<(std::ostream &, const Cluster &);
-        friend std::istream &operator>>(std::ifstream &, Cluster &);             // done
+        friend std::istream &operator>>(std::ifstream &, Cluster &);
 
         // Set-preserving operators (do not duplicate points in the space)
         // - Friends
-        friend bool operator==(const Cluster &lhs, const Cluster &rhs);          // done
+        friend bool operator==(const Cluster &lhs, const Cluster &rhs);
         friend double interClusterDistance(const Cluster &lhs, const Cluster &rhs);
 
 
         // - Members
-
-        Cluster &operator-=(const Cluster &rhs); // (asymmetric) difference     // done
-        Cluster &operator+=(const Cluster &rhs); // union                       // done
-        Cluster &operator+=(const Point &rhs);   // add point */                // done
-        Cluster &operator-=(const Point &rhs);   // remove point                // done
         double intraClusterDistance();           // inner distance of a single cluster
-        void pickPoints(int &, Point*&);      // selects points from point_space cluster
+        void pickPoints(int &, Point*&);         // selects points from point_space cluster
         double getClusterEdges();                // cluster edges of one cluster, the calling obj
+        Cluster &operator-=(const Cluster &rhs); // (asymmetric) difference
+        Cluster &operator+=(const Cluster &rhs); // union
+        Cluster &operator+=(const Point &rhs);   // add point
+        Cluster &operator-=(const Point &rhs);   // remove point
 
 
         // Set-destructive operators (duplicate points in the space)
         // - Friends
         friend const Cluster operator+(const Cluster &lhs, const Cluster &rhs);     //done
-        friend const Cluster operator-(const Cluster &lhs, const Cluster &rhs);     // will have same issue I'm sure..
-        friend const Cluster operator+(const Cluster &lhs, const PointPtr &rhs);    // c2 = c1 + p1 // done
-        friend const Cluster operator-(const Cluster &lhs, const PointPtr &rhs);    // c2 = c1 - p1 // done
+        friend const Cluster operator-(const Cluster &lhs, const Cluster &rhs);
+        friend const Cluster operator+(const Cluster &lhs, const Point &rhs);    // c2 = c1 + p1 // done
+        friend const Cluster operator-(const Cluster &lhs, const Point &rhs);    // c2 = c1 - p1 // done
         friend double interClusterEdges(const Cluster &, const Cluster &);
-
-
-        /*
-         * need a void pickPoints func
-         *
-         * also think about private moves class
-         */
 
         //CENTROID
 
