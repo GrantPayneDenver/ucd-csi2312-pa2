@@ -14,7 +14,18 @@ using namespace std;
 
 namespace Clustering {
 
-   unsigned int Cluster::GenerateID(bool inc)
+    template <typename T, int dimensionality>
+    Cluster<T, dimensionality>::Cluster() : centroid(dimensionality)
+    {
+        size = 0;
+        //centroid(dimensionality);
+        ID = GenerateID(true);
+    }
+
+
+
+   template <typename T, int dimensionality>
+   unsigned int Cluster<T, dimensionality>::GenerateID(bool inc)
     {
         static unsigned int num = 1;
         if(!inc)
@@ -25,14 +36,14 @@ namespace Clustering {
         return num++;
     }
 
-
-    Cluster &Cluster::operator=(const Cluster &rhs)
+    template <typename T, int dimensionality>
+    Cluster<T, dimensionality> &Cluster<T, dimensionality>::operator=(const Cluster &rhs)
     {
 
         // clear out this->points, size = 0
         points.clear();
 
-        this->dimensionality = rhs.dimensionality;
+        //      this->dimensionality = rhs.dimensionality;
 
         auto it = rhs.points.begin();
 
@@ -45,6 +56,9 @@ namespace Clustering {
         return *this;
     }// end = operator
 
+/*
+
+
 // copy ctor
     Cluster::Cluster(const Cluster &c)
     {
@@ -56,16 +70,17 @@ namespace Clustering {
 
     } //cpy ctr
 
+ */
 // dtor
-Cluster::~Cluster() {
-        if (this != nullptr) {
-        if (centroid != nullptr && centValid == true)
-            delete centroid;
-    }
+template <typename T, int dimensionality>
+Cluster<T, dimensionality>::~Cluster()
+{
 } // end ~Cluster
 
+    //add
 
-    void Cluster::add(const Point &pnt)
+    template <typename T, int dimensionality>
+    void Cluster<T, dimensionality>::add(const Point<T> &pnt)
     {
 
         // if points is empty
@@ -155,57 +170,53 @@ Cluster::~Cluster() {
 
     }                                          //+++++ end add
 
+
     // Remove()
-    const Point& Cluster::remove(const Point &pd)
+    template <typename T, int dimensionality>
+    const Point<T>& Cluster<T, dimensionality>::remove(const Point<T> &pd)
     {
 
 
-        if(points.empty())
-        {
-            return NULL;
-        }
+        if(!points.empty()) {
 
-        if(size == 1)
-        {
+
+            if (size == 1) {
+                auto it = points.begin();
+                if (pd == *it) {
+                    points.clear();
+                    size--;
+                    return pd;
+                }
+            }
+
             auto it = points.begin();
-            if(pd == *it)
-            {
-                points.clear();
-                size--;
-                return pd;
-            }
-        }
-
-        auto it = points.begin();
-        auto it2n = it;
-        it++;
-
-        while(it!= points.end())
-        {
-            if(*it2n == pd)
-            {
-                points.pop_front();
-                size--;
-                return pd;
-            }
-
-            if(pd == *it)
-            {
-                points.erase_after(it2n);
-                size--;
-                return pd;
-            }
-
-            it2n = it;
+            auto it2n = it;
             it++;
 
-        }
+            while (it != points.end()) {
+                if (*it2n == pd) {
+                    points.pop_front();
+                    size--;
+                    return pd;
+                }
 
+                if (pd == *it) {
+                    points.erase_after(it2n);
+                    size--;
+                    return pd;
+                }
+
+                it2n = it;
+                it++;
+
+            }
+        }
     }                                        // end remove
 
-
-    Point& Cluster::operator[](int index)
+    template <typename T, int dimensionality>
+    Point<T>& Cluster<T, dimensionality>::operator[](int index)
     {
+        index -=1;
         auto it = points.begin();
         if(!points.empty())
         {
@@ -218,7 +229,7 @@ Cluster::~Cluster() {
 
         return *it;
     }
-
+/*
 //++++++++++++++++++++++++ MEMBERS +++++++++++++++++++++++++++++++++++++\\\
 //
 /*
@@ -241,7 +252,7 @@ Cluster::~Cluster() {
         c.centroid = nullptr;
         return *this;
     }// end -= for clusters
-*/
+*/ /*
     Cluster& Cluster::operator+=(const Point &rhs)
     {
         this->add(rhs);
@@ -255,8 +266,10 @@ Cluster::~Cluster() {
         return *this;
     }//end -= for points
 
-
-    double Cluster::intraClusterDistance()
+*/
+///*
+    template <typename T, int dimensionality>
+    double Cluster<T, dimensionality>::intraClusterDistance()
     {
         double sum = 0;
         auto firstNode = points.begin();
@@ -276,8 +289,10 @@ Cluster::~Cluster() {
         return sum / 2;
     }
 
+ //*/
 
-    void Cluster::pickPoints(int &k, Point* &pointArray)
+    template <typename T, int dimensionality>
+    void Cluster<T, dimensionality>::pickPoints(int &k, Point<T>* &pointArray)
     {
         // length of cluster linked list / k assigned to an int
         // the int is size of the interval between linked list elements we
@@ -308,12 +323,14 @@ Cluster::~Cluster() {
 
     }// pick points end
 
-    double Cluster::getClusterEdges()
+    template <typename T, int dimensionality>
+    double Cluster<T, dimensionality>::getClusterEdges()
     {
         double edges;
         edges = ((size -1 ) * size)/2;
         return edges;
     }
+
 
     //get edges end
 
@@ -322,7 +339,10 @@ Cluster::~Cluster() {
 // precondition: Cluster obj isn;t empty
 // postcondition: Print out of all of cluster's Linked List, to display each point and it's coordinates
 
-    std::ostream &operator<<(std::ostream &out, const Cluster &c) {
+///*
+
+    template <typename T, int dimensionality>
+    std::ostream &operator<<(std::ostream &out, const Cluster<T, dimensionality> &c) {
         // start at front of list, points
         // create a LNodePtr to iterate through list
 
@@ -337,12 +357,13 @@ Cluster::~Cluster() {
                 out << *it << " : " << c.ID <<  std::endl;
                 it++;
             }
-
-            if(c.centroid)
-            out << "Centroid" << std::endl << *c.centroid << std::endl;
+/*
+            if(c.getCentValid())
+            out << "Centroid" << std::endl << c.centroid << std::endl;
             else{
                 out << "Centroid not yet calculated" << std::endl;
             }
+ */
         }
 
         else{
@@ -350,7 +371,8 @@ Cluster::~Cluster() {
         }
         return out;
     } // end overloaded <<
-
+//*/
+//*/
 
 
 //SET DESTRUCTIVE OPERATORS
@@ -477,35 +499,37 @@ Cluster::~Cluster() {
 
 */
 
-// CENTRIOD
 
-void Cluster::calcCent()
+// CENTRIOD
+///*
+template <typename T, int dimensionality>
+void Cluster<T, dimensionality>::calcCent()
 {
-    if(size == 0)
-        centroid = nullptr;
 
     if (!points.empty()) // if linked list not empty.
     {
 
        if (size == 1)                                               // centroid has a dynamic point
        {
-           centroid = new Point(dimensionality);
+           //Point<T> centroid(dimensionality);
+
            auto it = points.begin();
-           *centroid = *it;                                  // centroid PointPtr = LNodePtr's LNode's PointPtr
+           centroid = *it;                                  // centroid PointPtr = LNodePtr's LNode's PointPtr
 
        }
        else
        {
            // p1/3 + p2/3 + p3/3, 3 = size of linked list, or size member of cluster
 //                                                                                             TODO try bloc, cent point += curr->point
-           centroid = new Point(dimensionality);
+
+
 
            auto itr = points.begin();
 
 
            while (itr != points.end())
            {
-               *centroid += *itr / size;         // hp = p1 /3
+               centroid += *itr / size;         // hp = p1 /3
 
                itr++;                    // iterate to next node
            }//while
@@ -515,6 +539,8 @@ void Cluster::calcCent()
     centValid = true;
 
 } // calcCent
+
+   /*
 
     void Cluster::setCent(Point &p)
     {
@@ -567,7 +593,9 @@ void Cluster::calcCent()
 
     }// end == operator
 
-    double interClusterDistance(const Cluster &lhs,const Cluster &rhs)
+    */
+   template <typename T, int dimensionality>
+    double interClusterDistance(const Cluster<T, dimensionality> &lhs,const Cluster<T, dimensionality> &rhs)
     {
         double sum = 0;
         auto firstNode = lhs.points.begin();
@@ -589,7 +617,7 @@ void Cluster::calcCent()
     }
 
 // end set preserving
-
+/*
 
     // friend +
     const Cluster operator+(const Cluster &lhs, const Point &rhs)    // c2 = c1 + p1
@@ -608,8 +636,9 @@ void Cluster::calcCent()
         c.remove(rhs);
         return c;
     }// end friend -
-
-    double interClusterEdges(const Cluster &lhs, const Cluster &rhs)
+*/
+   template <typename T, int dimensionality>
+    double interClusterEdges(const Cluster<T, dimensionality> &lhs, const Cluster<T, dimensionality> &rhs)
     {
         double edges;
         edges = ((lhs.size - 1) * (lhs.size)) / 2;
@@ -619,7 +648,8 @@ void Cluster::calcCent()
 
 
     //friend >>
-    std::istream &operator>>(std::ifstream &csv, Cluster &c)
+    template <typename T, int dimensionality>
+    std::istream &operator>>(std::ifstream &csv, Cluster<T, dimensionality> &c)
     {
         // dimensionality known to user, it's 5
 
@@ -631,19 +661,19 @@ void Cluster::calcCent()
             {
                 std::cout << "Line: " << line << std::endl;
                 std::stringstream lineStream(line);
-                Point p(c.dimensionality);
+                Point<T> p(c.dimensionality);
 
                 try
                 {  //////////////////// Ensure point data meets expectations before it's added to c, roll back point ID if not.
                     lineStream >> p;
 
-                    c += p;
+                    c.add(p);
                 }  ////////////////////
                 catch(DimensionalityMismatchEx e)
                 {
                     std::cout << e.getName() << ":";
                     std::cout << e;
-                    Point::GenerateID(false);           // decrements static id
+                    Point<T>::GenerateID(false);           // decrements static id
                 }
 
             }
@@ -655,14 +685,16 @@ void Cluster::calcCent()
 
 
 //=========================== MOVE CLASS ===================================\\
-
-    void Cluster::Move::perform(const Point &pt, Cluster *to, Cluster *from)
+*/
+    template <typename T, int dimensionality>
+    void Cluster<T, dimensionality>::Move::perform(const Point<T> &pt,
+                                                   Cluster<T, dimensionality> &to,
+                                                   Cluster<T, dimensionality> &from)
     {
-        to->add(from->remove(pt));
+        to.add(from.remove(pt));
         //Invalidates the centroids of both cluster from and to.
     }// end perform
 
-
-
-
 } // clustering
+
+ 

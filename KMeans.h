@@ -2,6 +2,7 @@
 // Created by Folio on 10/17/2015.
 //
 
+
 #include "Cluster.h"
 #include "Point.h"
 #include <vector>
@@ -9,7 +10,7 @@
 #ifndef UCD_CSI2312_PA2_KMEANS_H
 #define UCD_CSI2312_PA2_KMEANS_H
 
-
+template <typename T, int dimensionality>
 
 class KMeans
 {
@@ -18,10 +19,11 @@ private:
 
     int k;                                // clusters in program
     unsigned dimensions;                  // dimensionality of the points of the clusters
-    Point* pointsArray;                   // array of points
+    Point<T>* pointsArray;                   // array of points
 
     double SCORE_DIFF_THRESHOLD = .0005;          // score differential threshold that determines the stopping point of the clustering process
-    Clustering::Cluster* cList;
+
+    Clustering::Cluster<T, dimensionality>* cList;
 
 public:
 
@@ -39,3 +41,4 @@ public:
 
 #endif //UCD_CSI2312_PA2_KMEANS_H
 
+//*/

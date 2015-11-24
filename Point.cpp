@@ -17,13 +17,14 @@ const int DIMS = 3;
 // takes in dim, creates dynamic array size of dim, coor then points to it
 
 
-unsigned int Point::IDgenerator = 0;
 
-Point::Point(int num) {
+
+template<typename T>
+Point<T>::Point(int num) {
      _id = GenerateID(true);
-     dim = num;
-     coor = std::vector<double>(num);
-     for (int i = 0; i < dim; i++)
+     dims = num;
+     coor = std::vector<T>(num);
+     for (int i = 0; i < dims; i++)
         {
             double input;
             input = rand() % 20;
@@ -36,7 +37,10 @@ Point::Point(int num) {
 // assignment operator overloaded
 // this pointer used for left hand side, calling obj. rhs is right hand side, copied from, object
 // p1 = p2.
-Point& Point::operator=(const Point &rhs)
+
+/*
+template<typename T>
+Point<T>& Point<T>::operator=(const Point<T> &rhs)
 {
     dim = rhs.dim;
 
@@ -46,8 +50,9 @@ Point& Point::operator=(const Point &rhs)
     }
     return *this;
 } // end overloaded assignment operator
-
-unsigned int Point::GenerateID(bool inc)
+*/
+template<typename T>
+unsigned int Point<T>::GenerateID(bool inc)
 {
     static unsigned int num = 1;
     std::cout << "Point ID gen: " << num << std::endl;
@@ -61,48 +66,54 @@ unsigned int Point::GenerateID(bool inc)
 
 
 // Destructor
-Point::~Point() {
+
+template<typename T>
+Point<T>::~Point() {
 }
 
 // copy constructor
-Point::Point(const Point &copied)
+template<typename T>
+Point<T>::Point(const Point<T> &copied)
 
 {
     _id = copied._id;
-    dim = copied.dim;
-    coor = std::vector<double>(dim);
-    for (int i = 0; i < dim; i++)
+    dims = copied.dims;
+    coor = std::vector<T>(dims);
+    for (int i = 0; i < dims; i++)
     {
         coor[i] = copied.coor[i];
     }
 }
 
 // Accessing
-
-int Point::getDims()
+template<typename T>
+int Point<T>::getDims()
 {
-   return dim;
+   return dims;
 } // end getDim
 
-void Point::setValue(int index, double value)
+template<typename T>
+void Point<T>::setValue(int index, T value)
 {
     coor[index] = value;
 }
 
-double Point::getValue(int index) const
+template<typename T>
+T Point<T>::getValue(int index) const
 {
     return coor[index];
 }
 
 //functions
 
-double Point::distanceTo(const Point& pointIn)const{
+template<typename T>
+double Point<T>::distanceTo(const Point<T>& pointIn)const{
     double distance;          // the end distance to be returned
     double sum = 0;
     double delta =0;
 
     //if(this == pointIn) must overload == operator
-    for(int i = 0; i < dim; i ++)
+    for(int i = 0; i < dims; i ++)
     {
         delta = this->coor[i] - pointIn.coor[i];
         sum += pow(delta, 2);
@@ -114,29 +125,33 @@ double Point::distanceTo(const Point& pointIn)const{
 } // end distanceTo
 
 //MEMBERS
-Point& Point::operator*=(double num)
+template<typename T>
+Point<T>& Point<T>::operator*=(double num)
 {
-    for (int i = 0; i < dim; i ++)
+    for (int i = 0; i < dims; i ++)
     {
         coor[i] *= num;
     }
     return *this;
 }
 
-Point& Point::operator/=(double num)
+template<typename T>
+Point<T>& Point<T>::operator/=(double num)
 {
-    for (int i = 0; i < dim; i ++)
+    for (int i = 0; i < dims; i ++)
     {
         coor[i] /= num;
     }
     return *this;
 }
 
-const Point Point::operator*(double num) const
+template<typename T>
+const Point<T> Point<T>::operator*(double num) const
 {
-    Point p(dim);
+    Point<T> p(dims);
+    GenerateID(false);
 
-    for (int i = 0; i < dim; i++)
+    for (int i = 0; i < dims; i++)
     {
         p.coor[i] = coor[i] * num;
     }
@@ -145,21 +160,26 @@ const Point Point::operator*(double num) const
     // p2 = p3 * 5;
 }
 
-const Point Point::operator/(double num) const
+template<typename T>
+const Point<T> Point<T>::operator/(double num) const
 {
-    Point p(dim);
+Point<T> p(dims);
+GenerateID(false);
 
-    for (int i = 0; i < dim; i++)
-    {
-        p.coor[i] = coor[i] / num;
-    }
 
-    return p;
+for (int i = 0; i < dims; i++)
+{
+p.coor[i] = coor[i] / num;
+}
+
+return p;
 }
 
 // Overloaded operators
 //*********************************
-bool operator==(const Point &a, const Point &b)
+/*
+template<typename T>
+bool operator==(const Point<T> &a, const Point<T> &b)
 {
 
     if(a._id != b._id)
@@ -177,8 +197,10 @@ bool operator==(const Point &a, const Point &b)
     }
     return equal;
 }
-
-bool operator!=(const Point &a, const Point &b)
+*/
+/*
+template<typename T>
+bool operator!=(const Point<T> &a, const Point<T> &b)
 {
     if(a._id != b._id)
         return true;
@@ -194,8 +216,10 @@ bool operator!=(const Point &a, const Point &b)
 
     return different;
 }
-
-bool operator<(const Point &a, const Point &b) // if p1 < p2 means if a(,,,) < b(,,,)
+*/
+/*
+template <typename T>
+bool operator<(const Point<T> &a, const Point<T> &b) // if p1 < p2 means if a(,,,) < b(,,,)
 {
     bool less = true;                         // a point is less than until proven otherwise
 
@@ -215,8 +239,10 @@ bool operator<(const Point &a, const Point &b) // if p1 < p2 means if a(,,,) < b
 
     return less;
 }
-
-bool operator<=(const Point &a, const Point &b)
+*/
+/*
+template<typename T>
+bool operator<=(const Point<T> &a, const Point<T> &b)
 {
     bool lessOrEqual = true;                         // a point is <= than until proven otherwise
 
@@ -235,8 +261,10 @@ bool operator<=(const Point &a, const Point &b)
     }
     return lessOrEqual;
 }
-
-bool operator>(const Point &a, const Point &b)          // greater than operator. if p1 > p2 means if a(,,,) < b(,,,), a = p1, b = p2
+ */
+/*
+template<typename T>
+bool operator>(const Point<T> &a, const Point<T> &b)          // greater than operator. if p1 > p2 means if a(,,,) < b(,,,), a = p1, b = p2
 {
 
     bool greater = true;
@@ -258,8 +286,10 @@ bool operator>(const Point &a, const Point &b)          // greater than operator
 
     return greater;
 }
-
-bool operator>=(const Point &a, const Point &b) // if p1 >= p2, a >= b
+*/
+/*
+template<typename T>
+bool operator>=(const Point<T> &a, const Point<T> &b) // if p1 >= p2, a >= b
 {
     bool greaterOrEqual = true;
     // a is greater or equal until proven otherwise
@@ -279,8 +309,10 @@ bool operator>=(const Point &a, const Point &b) // if p1 >= p2, a >= b
 
     return greaterOrEqual;
 }
-
-std::ostream &operator<<(std::ostream &out, const Point &p)
+*/
+/*
+template<typename T>
+std::ostream &operator<<(std::ostream &out, const Point<T> &p)
 {
     cout<< std::fixed <<std::setw(2) << std::setprecision(1);
 
@@ -294,27 +326,32 @@ std::ostream &operator<<(std::ostream &out, const Point &p)
     return out;
 
 } // end <<
+*/
+
 
 //+= operator
-Point operator+=(Point &lhs, const Point &rhs)
+/*
+template<typename T>
+Point<T> operator+=(Point<T> &lhs, const Point<T> &rhs)
 {
     // overload += first, have
-    Point temp(lhs + rhs);
+    Point<T> temp(lhs + rhs);
     lhs = temp;
 
-    // or could rewrite machinery used in +
-    //return rhs;
     return lhs;
 
 }//end +=
-//calls dtr after =
+ */
 
+
+/*
 // + operator
-const Point operator+(const Point &a, const Point &b)
+template<typename S>
+const Point<S> operator+(const Point<S> &a, const Point<S> &b)
 {
     // create a point from argument point information
     // get point dimensions
-    Point p(a.dim);
+    Point<S> p(a.dim);
 
     // get information
     double sum = 0;
@@ -327,20 +364,30 @@ const Point operator+(const Point &a, const Point &b)
     return p;                                           // returns p, exits function, goes to = op
 }// end + operator
 
+ */
+
 //-= operator
-Point operator-=(Point &lhs, const Point &rhs)
+
+/*
+template<typename T>
+Point<T> operator-=(Point<T> &lhs, const Point<T> &rhs)
 {
-    Point temp(lhs - rhs);
+
+    Point<T> temp(lhs - rhs);
+    GenerateID(false);
     lhs = temp;
 
     return lhs;
 }
+ */
 
 // operator -
-const Point operator-(const Point &a, const Point &b) // just make sure its like + op
+/*
+template<typename T>
+const Point<T> operator-(const Point<T> &a, const Point<T> &b) // just make sure its like + op
 {
     // create a point from arguemnt point information
-    Point p(a.dim);
+    Point<T> p(a.dim);
 
     double dif = 0;
     for (int i = 0; i < a.dim; i ++)
@@ -352,9 +399,10 @@ const Point operator-(const Point &a, const Point &b) // just make sure its like
     return p;
 }
 // end - operator
+*/
 
-
-std::istream& operator>>(std::istream& lineStream, Point &p)
+template<typename T>
+std::istream& operator>>(std::istream& lineStream, Point<T> &p)
 {
     int i = 0;
     double d;

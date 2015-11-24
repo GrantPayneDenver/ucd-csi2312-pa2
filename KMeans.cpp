@@ -25,20 +25,23 @@ void kmeansLogInner(std::fstream &file, int inner)
 }
 
 //***note count, as well as iterate-> in log
-void kmeansLogOuterP(std::fstream &file, int count, Point& p)
+template <typename T>
+void kmeansLogOuterP(std::fstream &file, int count, Point<T>& p)
 {
     file << ++line << ":";
     file <<"Working on outer Cluster's Point " << p << "at count " << count << std::endl;
 }
 
-void kmeansLogMovePerform(std::fstream &file, Point &p, int outer, int inner)
+template <typename T>
+void kmeansLogMovePerform(std::fstream &file, Point<T> &p, int outer, int inner)
 {
     file << ++line << ":";
     file <<"Moving point " << p << " from outer cluster " << outer << " to inner cluster " << inner << std::endl;
 
 }
 
-void kmeansReport(std::fstream &file, Clustering::Cluster* list, int k)
+template <typename T, int dimensionality>
+void kmeansReport(std::fstream &file, Clustering::Cluster<T, dimensionality>* list, int k)
 {
     file << "CLUSTER REPORT" << std::endl;
 
@@ -49,10 +52,6 @@ void kmeansReport(std::fstream &file, Clustering::Cluster* list, int k)
     }
 }
 
-void KMeans::setK(int num)
-{
-    k = num;
-}
 
 //computes clustering score for use in score diff
 //in: cList full of clusters

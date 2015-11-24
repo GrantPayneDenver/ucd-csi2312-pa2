@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 
+
 #include "Point.h"
 #include "Cluster.h"
 #include "KMeans.h"
@@ -44,13 +45,6 @@ Reuse already implemented operators to get a very short and straightforward impl
 
 
 
- */
-
-int main()
-
-{
-
-
 
 
     std::fstream seed;
@@ -88,77 +82,80 @@ int main()
 
     csv.open("C:\\Users\\Folio\\Desktop\\School\\intPA2\\ucd-csi2312-pa2\\numbers.csv", std::ifstream::in);
 
-    Point p1(3);
-    Point p2(3);
-    Point p3(3);
-    Point p4(3);
-    Point p5(3);
+
+    Point >> operator
+
+    Point<T>& operator[](int);                                                 // done
+
+        // Overloaded operators
+
+ CLUSTER
+
+        // IO
+        friend std::ostream &operator<<(std::ostream &, const Cluster &);
+        friend std::istream &operator>>(std::ifstream &, Cluster &);
 
 
-    Cluster a(3);
-    Cluster b(3);
-
-    a.add(p1);
-    a.add(p2);
-    a.add(p3);
-    a.add(p4);
+        friend double interClusterDistance(const Cluster &lhs, const Cluster &rhs);
 
 
-    b.add(p5);
-    b.add(p4);
-
-    Cluster c(b);
-
-    if (c == b) cout << " c == b true " << endl;
-
-    Point p6(3);
-    Point p7(3);
-
-    b.add(p3);
-
-    b.add(p7);
-
-    cout << "cluster a" << a;
-    cout << "cluster b" << b;
-
-    c = b;
-
-    Cluster z(3);
-
-    z.add(p4);
-
-//    a = z - b;
-
-    cout << "cluster a" << endl;
-    cout << endl << a;
-
-//    a-=b;
-
-    cout << "cluster a before -= p5" << endl;
-    cout << a;
-
-    a-=p5;
-
-    cout << "cluster a after -= p5 " << endl;
-    cout << a;
-
-    a+=p5;
-
-    cout << "cluster a" << endl;
-    cout << a;
-
-    a-=p5;
-
-    cout << "cluster a" << endl;
-    cout << a;
+        double intraClusterDistance();           // inner distance of a single cluster
+        void pickPoints(int &, Point<T>*&);         // selects points from point_space cluster
+        double getClusterEdges();                // cluster edges of one cluster, the calling obj
 
 
-    p4 += p1;
 
-    double v = a.intraClusterDistance();
-    double vv = interClusterDistance(a, b);
 
+        // do last
+
+        Cluster &operator-=(const Cluster &rhs); // (asymmetric) difference
+        Cluster &operator+=(const Cluster &rhs); // union
+        Cluster &operator+=(const Point<T> &rhs);   // add point
+        Cluster &operator-=(const Point<T> &rhs);   // remove point
+
+
+        // Set-destructive operators (duplicate points in the space)
+        // - Friends
+        friend const Cluster operator+(const Cluster &lhs, const Cluster &rhs);     //done
+        friend const Cluster operator-(const Cluster &lhs, const Cluster &rhs);
+        friend const Cluster operator+(const Cluster &lhs, const Point<T> &rhs);    // c2 = c1 + p1 // done
+        friend const Cluster operator-(const Cluster &lhs, const Point<T> &rhs);    // c2 = c1 - p1 // done
+
+        //end do last
+
+        friend double interClusterEdges(const Cluster &, const Cluster &);
+
+        //CENTROID
+
+        void calcCent();
+        void setCent(Point<T> &);
+
+
+
+
+ */
+int main (){
+
+    Cluster<double, 5> c;
+    Point<double> p(5);
+    Cluster<double, 5> d;
+    Cluster<double, 5>::Move m;
+
+    c.add(p);
+    c.remove(p);
+    c.add(p);
+    cout << c[0] << endl;
+    cout << p;
+
+    //(const Point<T> &pt, Cluster *to, Cluster *from)
+    m.perform(p, d, c);
+
+    d.calcCent();
+
+    cout << d;
 
 
     return 0;
+
 }
+
